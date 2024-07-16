@@ -1,0 +1,182 @@
+@mixin formStyle($radius, $padding: 16px 30px) {
+    width: 100%;
+    border: none;
+    border-radius: $radius;
+    padding: $padding;
+    box-shadow: 0 0 24px 2px rgba(223, 223, 223, 0.3);
+    background-color: #fff;
+}
+
+@mixin scrollStyle {
+    &::-webkit-scrollbar {
+        width: 4px; /* 스크롤바의 너비 */
+    }
+
+    &::-webkit-scrollbar-thumb {
+        height: 20%; /* 스크롤바의 길이 */
+        border-radius: 2px;
+        background: #e4e4e4;
+    }
+}
+
+/** Input */
+.input {
+    @include formStyle(60px);
+
+    &::placeholder {
+        color: #c6c6c6;
+    }
+}
+
+/** Button */
+.button {
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    border-radius: 60px;
+    padding: 16px 30px;
+    background-color: #ffd84f;
+
+    /** 체커 버튼 */
+    &.checker {
+        background-color: #ffeeb4;
+
+        &.active {
+            background-color: #ffd84f;
+            font-weight: 500;
+            border: 1px solid #000;
+        }
+
+        .checker-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            &-checkbox {
+                width: 23px;
+                height: 23px;
+                background: url("../../assets/images/check_inactive.png") no-repeat;
+
+                &.active {
+                    background: url("../../assets/images/check_active.png") no-repeat;
+                }
+            }
+        }
+    }
+}
+
+/** Selectbox */
+.selectbox {
+    position: relative;
+    width: 100%;
+
+    &__opener {
+        @include formStyle(60px);
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &-arrow {
+            width: 15px;
+            height: 15px;
+            //opacity: 0.3;
+            background: url("../../assets/images/arrow-up.png");
+            transform: rotate(0);
+
+            &.active {
+                transform: rotate(180deg);
+            }
+        }
+
+        // 새 대화 셀렉터
+        &--newchat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            border-radius: 60px;
+            padding: 16px 30px;
+            background-color: #ffd84f;
+        }
+    }
+
+    &__item {
+        position: absolute;
+        top: 68px;
+        width: 100%;
+
+        @include formStyle(26px, 16px 20px);
+
+        &-list {
+            overflow-y: scroll;
+            @include scrollStyle;
+
+            > li {
+                padding: 12px;
+            }
+        }
+
+        // 새 대화 셀렉터
+        &--newchat {
+            top: 14px;
+
+            > li {
+                padding: 12px;
+            }
+        }
+    }
+}
+
+/** Radio */
+.radio {
+    &-list {
+        display: grid;
+        grid-template-columns: 1fr 5fr;
+        align-items: center;
+    }
+
+    &-button {
+        label {
+            display: flex;
+            align-items: center;
+            gap: 26px;
+        }
+
+        input[type="radio"] {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid #e0e0e0;
+            appearance: none;
+
+            &:checked {
+                border: none;
+                background: #000 url("../../assets/images/check.png") no-repeat center center;
+            }
+        }
+    }
+}
+
+/** Checkbox */
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+
+    > label {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #e0e0e0;
+        border-radius: 4px;
+
+        &.checked {
+            border: none;
+            background: #000 url("../../assets/images/check.png") no-repeat center center;
+        }
+    }
+
+    > input[type="checkbox"] {
+        display: none;
+    }
+}

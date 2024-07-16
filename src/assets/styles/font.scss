@@ -1,0 +1,100 @@
+:root {
+    --mainKor-font: "Pretendard";
+    --mainEng-font: "Roboto";
+    --mainNum-font: "Roboto";
+
+    /* 기본 폰트 설정 */
+    font-family: var(--mainEng-font), var(--mainKor-font), var(--mainNum-font);
+}
+
+@font-face {
+    font-family: Pretendard;
+    font-weight: 700;
+    font-display: swap;
+    src: local("Pretendard Bold"), url("/fonts/Pretendard/woff2/Pretendard-Bold.woff2") format("woff2"),
+        url("/fonts/Pretendard/woff/Pretendard-Bold.woff") format("woff");
+}
+
+@font-face {
+    font-family: Pretendard;
+    font-weight: 600;
+    font-display: swap;
+    src: local("Pretendard SemiBold"), url("/fonts/Pretendard/woff2/Pretendard-SemiBold.woff2") format("woff2"),
+        url("/fonts/Pretendard/woff/Pretendard-SemiBold.woff") format("woff");
+}
+
+@font-face {
+    font-family: Pretendard;
+    font-weight: 500;
+    font-display: swap;
+    src: local("Pretendard Medium"), url("/fonts/Pretendard/woff2/Pretendard-Medium.woff2") format("woff2"),
+        url("/fonts/Pretendard/woff/Pretendard-Medium.woff") format("woff");
+}
+
+@font-face {
+    font-family: Pretendard;
+    font-weight: 400;
+    font-display: swap;
+    src: local("Pretendard Regular"), url("/fonts/Pretendard/woff2/Pretendard-Regular.woff2") format("woff2"),
+        url("/fonts/Pretendard/woff/Pretendard-Regular.woff") format("woff");
+}
+
+/* 폰트 공통 스타일 */
+
+h1 {
+    font-size: 62px;
+    font-weight: 600;
+    line-height: 86px;
+}
+
+h3 {
+    font-size: 36px;
+    font-weight: 500;
+    line-height: 60px;
+}
+
+/** 폰트 스타일 */
+
+.typo {
+    &.yello-100 {
+        color: #ffeeb4;
+    }
+
+    &.yello-200 {
+        color: #ffc700;
+    }
+
+    @for $i from 18 through 50 {
+        &.t#{$i} {
+            font-size: #{$i}px;
+
+            @media (max-width: 1600px) {
+                font-size: #{calc(#{$i}px - 4px)};
+            }
+        }
+    }
+
+    @for $i from 500 through 700 {
+        &.w#{$i} {
+            font-weight: $i;
+        }
+    }
+
+    @for $i from 1 through 200 {
+        &.mt#{$i} {
+            margin-top: #{$i}px;
+        }
+
+        &.mb#{$i} {
+            margin-bottom: #{$i}px;
+        }
+
+        &.ml#{$i} {
+            margin-left: #{$i}px;
+        }
+
+        &.mr#{$i} {
+            margin-right: #{$i}px;
+        }
+    }
+}
