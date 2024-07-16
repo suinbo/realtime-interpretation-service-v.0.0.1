@@ -1,27 +1,32 @@
 {
-  "name": "realtime-interpretation-service-v.0.0.1",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "classnames": "^2.5.1",
-    "next": "14.2.5",
-    "react": "^18",
-    "react-dom": "^18",
-    "recoil": "^0.7.7",
-    "sass": "^1.77.8"
-  },
-  "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.5",
-    "typescript": "^5"
-  }
+    "name": "realtime-interpretation-service-v.0.0.1",
+    "version": "0.1.0",
+    "private": true,
+    "main": "./main/main.mjs",
+    "scripts": {
+        "start": "next start",
+        "lint": "next lint",
+        "dev": "concurrently -n \"NEXT,ELECTRON\" -c \"yellow,blue\" --kill-others \"next dev\" \"electron .\"",
+        "build": "next build && electron-builder"
+    },
+    "dependencies": {
+        "classnames": "^2.5.1",
+        "electron-serve": "^2.0.0",
+        "next": "14.2.5",
+        "react": "^18",
+        "react-dom": "^18",
+        "recoil": "^0.7.7",
+        "sass": "^1.77.8"
+    },
+    "devDependencies": {
+        "@types/node": "^20",
+        "@types/react": "^18",
+        "@types/react-dom": "^18",
+        "concurrently": "^8.2.2",
+        "electron": "^31.2.1",
+        "electron-builder": "^24.13.3",
+        "eslint": "^8",
+        "eslint-config-next": "14.2.5",
+        "typescript": "^5"
+    }
 }
