@@ -1,7 +1,7 @@
 import { useRef, useState } from "react"
 import cx from "classnames"
-import useClickOutside from "../../../hooks/useClickOutside"
-import { SelectboxItemProp } from "../../../types/types"
+import useClickOutside from "@hooks/useClickOutside"
+import { SelectboxItemProp } from "../types"
 
 const ChatSetter = ({ items = [] }: { items: SelectboxItemProp[] }) => {
     const selectBoxRef = useRef<HTMLDivElement>(null)
@@ -13,7 +13,14 @@ const ChatSetter = ({ items = [] }: { items: SelectboxItemProp[] }) => {
         <div className="selectbox__item">
             <ul className="selectbox__item--newchat typo t18">
                 {items.map(item => (
-                    <li id={item.id} key={item.id} onClick={() => setActive(false)}>
+                    <li
+                        id={item.id}
+                        key={item.id}
+                        onClick={() => {
+                            setActive(false)
+                            //TODO 새 대화 버튼 UI 수정
+                            window.open("/chat", "_blank", "noopener,noreferrer")
+                        }}>
                         {item.name}
                     </li>
                 ))}

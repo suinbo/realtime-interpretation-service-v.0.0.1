@@ -1,9 +1,9 @@
 import { SetStateAction, useState } from "react"
 import { useRecoilValue } from "recoil"
-import { FormItemProp, SelectboxItemProp } from "../../../../../types/types"
-import { optionAtom } from "../../../../../atoms/Atom"
-import { Input, Selectbox } from "../../../../../components/form"
-import { languages } from "../../../../../resources/data"
+import { FormItemProp, SelectboxItemProp } from "@app/setting/types"
+import { optionAtom } from "@atoms/Atom"
+import { languages } from "@resources/data"
+import { Input, Selectbox } from "@components/form"
 
 const SingleSettingForm = ({
     formItem: { chat_nm, chat_lang },

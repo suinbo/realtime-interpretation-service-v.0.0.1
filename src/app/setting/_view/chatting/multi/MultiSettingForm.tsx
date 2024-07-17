@@ -1,6 +1,6 @@
+import { Checkbox, Input, RadioGroup } from "@components/form"
 import { SetStateAction, useState } from "react"
-import { FormItemProp } from "../../../../../types/types"
-import { Checkbox, Input, RadioGroup } from "../../../../../components/form"
+import { FormItemProp } from "src/app/(dashboard)/types"
 
 const MultiSettingForm = ({
     formItem: { chat_nm, chat_pw, host_auth },

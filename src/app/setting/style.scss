@@ -15,7 +15,7 @@
 
     &__inner {
         height: 100%;
-        padding: 30px 56px;
+        padding: 20px 56px;
 
         .header {
             display: flex;
@@ -71,7 +71,7 @@
             &__body {
                 /* 언어 옵션 */
                 &--language {
-                    height: 400px;
+                    height: 410px;
                     padding-right: 40px;
                     overflow-y: scroll;
                     @include scrollStyle;
@@ -128,20 +128,20 @@
 
                                 &__item {
                                     display: grid;
-                                    grid-template-columns: 1fr 7fr;
+                                    grid-template-columns: 1fr 5fr;
                                     grid-template-rows: 72px;
                                     align-items: center;
 
                                     &--name {
                                         display: grid;
-                                        grid-template-columns: 1fr 7fr;
+                                        grid-template-columns: 1fr 5fr;
                                         grid-template-rows: 72px;
                                         align-items: center;
                                     }
 
                                     &--language {
                                         display: grid;
-                                        grid-template-columns: 1fr 7fr;
+                                        grid-template-columns: 1fr 5fr;
                                         grid-template-rows: 72px;
                                         align-items: center;
 
@@ -159,7 +159,7 @@
 
                                     &--password {
                                         display: grid;
-                                        grid-template-columns: 1fr 7fr;
+                                        grid-template-columns: 1fr 5fr;
                                         grid-template-rows: 72px;
                                         align-items: center;
 
@@ -171,7 +171,7 @@
 
                                         &-group {
                                             display: grid;
-                                            grid-template-columns: 1fr 6fr;
+                                            grid-template-columns: 1fr 5fr;
                                             align-items: center;
 
                                             > span {
@@ -191,14 +191,21 @@
 
                                     &--auth {
                                         display: grid;
-                                        grid-template-columns: 1fr 7fr;
+                                        grid-template-columns: 1fr 5fr;
                                         grid-template-rows: 72px;
                                         align-items: center;
                                     }
 
                                     &--microphone {
                                         display: grid;
-                                        grid-template-columns: 1fr 7fr;
+                                        grid-template-columns: 1fr 5fr;
+                                        grid-template-rows: 72px;
+                                        align-items: center;
+                                    }
+
+                                    &--test {
+                                        display: grid;
+                                        grid-template-columns: 1fr 5fr;
                                         grid-template-rows: 72px;
                                         align-items: center;
                                     }
@@ -207,7 +214,7 @@
                                 &__nav {
                                     display: flex;
                                     align-items: center;
-                                    justify-content: end;
+                                    justify-content: flex-end;
 
                                     &-icon {
                                         width: 52px;

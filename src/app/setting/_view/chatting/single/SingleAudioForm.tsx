@@ -1,11 +1,18 @@
 import { useEffect, useRef, useState } from "react"
-import { SelectboxItemProp } from "../../../../../types/types"
-import { getAudioList } from "../../../../../utils/common"
-import { Selectbox } from "../../../../../components/form"
+import { SelectboxItemProp } from "../../../types"
+import { getAudioList } from "@utils/common"
+import { Selectbox } from "@components/form"
+import { VolumeTester } from "@app/setting/_component"
+import { useControlVolume } from "@hooks/useControlVolume"
+import "../style.scss"
 
 const SingleAudioForm = () => {
     const [selectedItem, setSelectedItem] = useState<SelectboxItemProp>({ id: "", name: "" })
     const [audioList, setAudioList] = useState<SelectboxItemProp[]>([])
+
+    const volumeBarsRef = Array.from({ length: 30 }, () => useRef<HTMLDivElement>(null))
+
+    const data = useControlVolume(volumeBarsRef)
 
     useEffect(() => {
         const fetchAudioList = async () => {
@@ -28,23 +35,23 @@ const SingleAudioForm = () => {
         }
     }, [])
 
+    console.log("selectedItem:: ", selectedItem)
+
     return (
         <div className="form__content">
             <div className="form__item--microphone">
                 <span className="typo t20 w500">마이크</span>
                 <div>
-                    <Selectbox items={audioList} selectedId={selectedItem.id} setSelectedItem={setSelectedItem} />
+                    <Selectbox
+                        items={audioList}
+                        selectedId={audioList[0]?.id}
+                        // selectedId={audioList.find(audio => audio.id == data.currentDevice?.id)?.id}
+                        setSelectedItem={setSelectedItem}
+                    />
                 </div>
             </div>
             <div className="form__item--test">
-                {/* <div className="volumebar">
-                            {volumeBarsRef.map((ref, index) => (
-                                <div key={index} ref={ref} className="volumebar__item" />
-                            ))}
-                        </div>
-                        <button onClick={startRecording}>Start Recording</button>
-                        <button onClick={stopRecording}>Stop Recording</button>
- */}
+                <VolumeTester data={data} volumeBarsRef={volumeBarsRef} />
             </div>
         </div>
     )

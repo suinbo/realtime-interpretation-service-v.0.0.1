@@ -1,4 +1,10 @@
-import { LabelOfStepProp } from "../types/types"
+import { LabelOfStepProp } from "@app/setting/types"
+
+export const VIEW = {
+    LANGUAGE: "language" as const,
+    DISPLAY: "display" as const,
+    CAHTTING: "chatting" as const,
+}
 
 export const NAV = {
     NEXT: "Next" as const,

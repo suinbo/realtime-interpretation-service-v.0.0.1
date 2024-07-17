@@ -1,14 +1,13 @@
 "use client"
 
-import ButtonList from "../_component/ButtonList"
-import Navigation from "../_component/Navigation"
-import "../style.scss"
+import ButtonList from "../../_component/ButtonList"
+import Navigation from "../../_component/Navigation"
 
-const DisplayOption = () => {
+const DisplayView = () => {
     return (
         <div className="content">
             <div className="content__wrapper-nav">
-                <Navigation target="/language" position="left" />
+                <Navigation view="language" position="left" />
             </div>
             <div className="content__wrapper">
                 <div className="content__title">
@@ -32,10 +31,10 @@ const DisplayOption = () => {
                 </div>
             </div>
             <div className="content__wrapper-nav">
-                <Navigation target="/setting" position="right" />
+                <Navigation view="chatting" position="right" />
             </div>
         </div>
     )
 }
 
-export default DisplayOption
+export default DisplayView

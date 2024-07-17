@@ -1,4 +1,10 @@
-const Layout = ({ children }: { children: React.ReactNode }) => {
+import "./style.scss"
+
+const Layout = ({
+    children,
+}: Readonly<{
+    children: React.ReactNode
+}>) => {
     return (
         <div className="dashboard">
             <div className="dashboard__inner">

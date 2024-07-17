@@ -1,11 +1,8 @@
-"use client"
+import { languages } from "@resources/data"
+import Navigation from "../../_component/Navigation"
+import ButtonList from "../../_component/ButtonList"
 
-import { languages } from "../../../resources/data"
-import ButtonList from "../_component/ButtonList"
-import Navigation from "../_component/Navigation"
-import "../style.scss"
-
-const LanguageOption = () => {
+const LanguageView = () => {
     return (
         <div className="content">
             <div className="content__wrapper-nav" />
@@ -25,10 +22,10 @@ const LanguageOption = () => {
                 </div>
             </div>
             <div className="content__wrapper-nav">
-                <Navigation target="/display" position="right" />
+                <Navigation view="display" position="right" />
             </div>
         </div>
     )
 }
 
-export default LanguageOption
+export default LanguageView

@@ -1,7 +1,9 @@
+"use client"
+
 import { useRecoilState } from "recoil"
 import cx from "classnames"
-import { optionAtom } from "../../../atoms/Atom"
-import { Button } from "../../../components/form"
+import { Button } from "@components/form"
+import { optionAtom } from "@atoms/Atom"
 
 const ButtonList = ({ items, content }: { items: { id: number | string; value: string }[]; content: string }) => {
     const [option, setOption] = useRecoilState(optionAtom)

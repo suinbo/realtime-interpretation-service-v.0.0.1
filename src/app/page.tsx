@@ -1,8 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import { Button, Input } from "../components/form"
 import { useRouter } from "next/navigation"
+import { Button, Input } from "@components/form"
 import "./style.scss"
 
 /**
@@ -30,7 +30,7 @@ const Login = () => {
                     <div className="login__form__item">
                         <Input placeholder="Password" type="password" />
                     </div>
-                    <Button classname="typo t20 w500" text="Sign In" onClick={() => router.push("/language")} />
+                    <Button classname="typo t20 w500" text="Sign In" onClick={() => router.push("/setting")} />
                 </div>
             </div>
         </div>

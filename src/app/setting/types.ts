@@ -1,16 +1,27 @@
+import { NAV, STEP, VIEW } from "@resources/constant"
 import { RefObject } from "react"
-import { NAV, STEP } from "../resources/constant"
+
+export type StepProp = (typeof STEP)[keyof typeof STEP]
+export type NavProp = (typeof NAV)[keyof typeof NAV]
+export type ViewProp = (typeof VIEW)[keyof typeof VIEW]
+
+/** 설정 옵션 */
+export type OptionProp = {
+    [key: string]: string | number | FormItemProp
+    view: ViewProp
+    language: string
+    display: number
+    chatting: FormItemProp
+}
 
 export type InputRefs = {
     nameRef: RefObject<HTMLInputElement | null>
     passwordRef: RefObject<HTMLInputElement | null>
 }
 
-export type StepProp = (typeof STEP)[keyof typeof STEP]
-
 export type LabelOfStepProp = {
     [key: string]: {
-        nav: (typeof NAV)[keyof typeof NAV]
+        nav: NavProp
         title: string
     }
 }
