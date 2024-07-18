@@ -8,6 +8,7 @@ import { optionAtom } from "@atoms/Atom"
 import { labelOfStep, STEP } from "@resources/constant"
 import { ChatSetter, Navigation } from "@app/setting/_component"
 import { FormItemProp, SettingContentProp, StepProp } from "@app/setting/types"
+import cx from "classnames"
 import "./style.scss"
 
 const ChattingView = () => {
@@ -37,13 +38,15 @@ const ChattingView = () => {
 
     const Navigator = () => (
         <div className="form__nav">
-            <span className="typo t24 w500 mr10">{labelOfStep[step].nav}</span>
-            <span
-                className="form__nav-icon"
-                onClick={() => {
-                    setStep(step == STEP[1] ? STEP[2] : STEP[1])
-                    setOption(prev => ({ ...prev, chatting: formItem }))
-                }}></span>
+            <div className={cx("form__nav__inner", step)}>
+                <span className="typo t24 w500">{labelOfStep[step].nav}</span>
+                <span
+                    className={cx("form__nav__item-icon", step)}
+                    onClick={() => {
+                        setStep(step == STEP[1] ? STEP[2] : STEP[1])
+                        setOption(prev => ({ ...prev, chatting: formItem }))
+                    }}></span>
+            </div>
         </div>
     )
 

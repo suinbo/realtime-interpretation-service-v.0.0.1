@@ -1,3 +1,10 @@
+@mixin formGridStyle {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    grid-template-rows: 72px;
+    align-items: center;
+}
+
 .setting-board {
     &__button {
         width: 20%;
@@ -22,24 +29,9 @@
             }
 
             &__item {
-                display: grid;
-                grid-template-columns: 1fr 5fr;
-                grid-template-rows: 72px;
-                align-items: center;
-
-                &--name {
-                    display: grid;
-                    grid-template-columns: 1fr 5fr;
-                    grid-template-rows: 72px;
-                    align-items: center;
-                }
+                @include formGridStyle;
 
                 &--language {
-                    display: grid;
-                    grid-template-columns: 1fr 5fr;
-                    grid-template-rows: 72px;
-                    align-items: center;
-
                     > div {
                         display: flex;
                         gap: 20px;
@@ -53,11 +45,6 @@
                 }
 
                 &--password {
-                    display: grid;
-                    grid-template-columns: 1fr 5fr;
-                    grid-template-rows: 72px;
-                    align-items: center;
-
                     > div {
                         display: grid;
                         grid-template-columns: 1fr 5fr;
@@ -84,25 +71,13 @@
                     }
                 }
 
-                &--auth {
-                    display: grid;
-                    grid-template-columns: 1fr 5fr;
-                    grid-template-rows: 72px;
-                    align-items: center;
-                }
-
-                &--microphone {
-                    display: grid;
-                    grid-template-columns: 1fr 5fr;
-                    grid-template-rows: 72px;
-                    align-items: center;
-                }
-
+                &--name,
+                &--language,
+                &--password,
+                &--auth,
+                &--microphone,
                 &--tester {
-                    display: grid;
-                    grid-template-columns: 1fr 5fr;
-                    grid-template-rows: 72px;
-                    align-items: center;
+                    @include formGridStyle;
                 }
             }
 
@@ -111,10 +86,26 @@
                 align-items: center;
                 justify-content: flex-end;
 
-                &-icon {
-                    width: 52px;
-                    height: 52px;
-                    background: url("../../../../assets/images/arrow-next.png") no-repeat;
+                &__inner {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+
+                    &.step-2 {
+                        flex-direction: row-reverse;
+                    }
+                }
+
+                &__item {
+                    &-icon {
+                        width: 52px;
+                        height: 52px;
+                        background: url("../../../../assets/images/arrow-next.png") no-repeat;
+
+                        &.step-2 {
+                            transform: rotateY(180deg);
+                        }
+                    }
                 }
             }
         }

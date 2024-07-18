@@ -12,8 +12,8 @@ export const NAV = {
 }
 
 export const STEP = {
-    1: "STEP 1" as const,
-    2: "STEP 2" as const,
+    1: "step-1" as const,
+    2: "step-2" as const,
 }
 
 // 스텝 별 라벨
