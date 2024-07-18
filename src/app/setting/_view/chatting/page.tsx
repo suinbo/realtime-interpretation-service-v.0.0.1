@@ -1,23 +1,24 @@
 import SingleSettingForm from "./single/SingleSettingForm"
-import { useRecoilValue } from "recoil"
+import { useRecoilState } from "recoil"
 import { useState } from "react"
 import SingleAudioForm from "./single/SingleAudioForm"
 import MultiAudioForm from "./multi/MultiAudioForm"
 import MultiSettingForm from "./multi/MultiSettingForm"
 import { optionAtom } from "@atoms/Atom"
-import { FormItemProp, SettingContentProp, StepProp } from "../../types"
 import { labelOfStep, STEP } from "@resources/constant"
 import { ChatSetter, Navigation } from "@app/setting/_component"
+import { FormItemProp, SettingContentProp, StepProp } from "@app/setting/types"
 import "../../style.scss"
 
 const ChattingView = () => {
-    const { language, display } = useRecoilValue(optionAtom)
+    const [{ language, display }, setOption] = useRecoilState(optionAtom)
 
     const [step, setStep] = useState<StepProp>(STEP[1])
 
     const [formItem, setFormItem] = useState<FormItemProp>({
         chat_nm: "",
         chat_pw: "",
+        has_chat_pw: false,
         chat_lang: [language],
         host_auth: 1,
     })
@@ -41,6 +42,7 @@ const ChattingView = () => {
                 className="form__nav-icon"
                 onClick={() => {
                     setStep(step == STEP[1] ? STEP[2] : STEP[1])
+                    setOption(prev => ({ ...prev, chatting: formItem }))
                 }}></span>
         </div>
     )

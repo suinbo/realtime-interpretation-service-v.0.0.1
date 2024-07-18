@@ -1,20 +1,14 @@
+import { FormItemProp } from "@app/setting/types"
 import { Checkbox, Input, RadioGroup } from "@components/form"
-import { SetStateAction, useState } from "react"
-import { FormItemProp } from "src/app/(dashboard)/types"
+import { SetStateAction } from "react"
 
 const MultiSettingForm = ({
-    formItem: { chat_nm, chat_pw, host_auth },
+    formItem: { chat_nm, has_chat_pw, chat_pw, host_auth },
     setFormItem,
 }: {
     formItem: FormItemProp
     setFormItem: React.Dispatch<SetStateAction<FormItemProp>>
 }) => {
-    const [settings, setSettings] = useState<{ chat_nm: string; has_password: boolean; has_auth: boolean }>({
-        chat_nm: "",
-        has_password: false,
-        has_auth: false,
-    })
-
     return (
         <>
             <div className="form__content">
@@ -24,26 +18,26 @@ const MultiSettingForm = ({
                         type="text"
                         value={chat_nm}
                         placeholder="대화 명을 입력하세요."
-                        onChange={value => setFormItem(prev => ({ ...prev, chat_nm: value }))}
+                        onChange={chat_nm => setFormItem(prev => ({ ...prev, chat_nm }))}
                     />
                 </div>
                 <div className="form__item--password">
                     <span className="typo t20 w500">암호 설정</span>
-
                     <div>
                         <Checkbox
                             id="password-check"
                             label="설정"
-                            onChange={isChecked => setSettings(prev => ({ ...prev, has_password: isChecked }))}
+                            isCheck={has_chat_pw}
+                            onChange={has_chat_pw => setFormItem(prev => ({ ...prev, has_chat_pw }))}
                         />
-                        {settings.has_password && (
+                        {has_chat_pw && (
                             <div className="form__item--password-group">
                                 <span className="typo t18">암호</span>
                                 <Input
                                     type="password"
                                     value={chat_pw}
                                     placeholder="암호를 입력하세요."
-                                    onChange={value => setFormItem(prev => ({ ...prev, chat_pw: value }))}
+                                    onChange={chat_pw => setFormItem(prev => ({ ...prev, chat_pw }))}
                                 />
                             </div>
                         )}
@@ -59,7 +53,7 @@ const MultiSettingForm = ({
                                 { id: "0", value: "비활성" },
                             ]}
                             selectedId={String(host_auth)}
-                            onChange={selectedId => setSettings(prev => ({ ...prev, auth: Number(selectedId) }))}
+                            onChange={selectedId => setFormItem(prev => ({ ...prev, host_auth: Number(selectedId) }))}
                         />
                     </div>
                 </div>
