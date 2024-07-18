@@ -1,26 +1,16 @@
-import { useControlVolume } from "@hooks/useControlVolume"
-import { useEffect, useRef, useState } from "react"
-import "./style.scss"
+import { RefObject, useState } from "react"
 import { Button } from "@components/form"
+import "./style.scss"
 
 const VolumeTester = ({
     volumeBarsRef,
-    data: { currentDevice, startRecording, stopRecording },
+    startRecording,
+    stopRecording,
 }: {
-    volumeBarsRef: any[]
-    data: {
-        currentDevice: any
-        startRecording: () => void
-        stopRecording: () => void
-    }
+    volumeBarsRef: RefObject<HTMLDivElement>[]
+    startRecording: () => void
+    stopRecording: () => void
 }) => {
-    const [active, setActive] = useState<boolean>(false)
-    //const volumeBarsRef = Array.from({ length: 30 }, () => useRef<HTMLDivElement>(null))
-
-    //const { currentDevice, startRecording, stopRecording } = useControlVolume(volumeBarsRef)
-
-    //console.log("currentDevice:: ", currentDevice)
-
     //TODO 버튼이 없을때 화면 이동시 자동으로 오디오 감지 종료
     // useEffect(() => {
     //     startRecording()
@@ -39,19 +29,22 @@ const VolumeTester = ({
     }
     return (
         <>
-            <div className="volumebar-tester">
-                <Button
-                    text={`테스트 ${recording ? "종료" : "시작"}`}
-                    classname="test-button"
-                    onClick={handleToggleRecording}
-                />
-            </div>
-            <div className="volumebar-tester__item">
-                <span className="volumebar-tester__item--icon" />
-                <div className="volumebar-tester__item--bar">
-                    {volumeBarsRef.map((ref, index) => (
-                        <div key={index} ref={ref} />
-                    ))}
+            <div />
+            <div className="volume-tester">
+                <div className="volume-tester__button">
+                    <Button
+                        text={`테스트 ${recording ? "종료" : "시작"}`}
+                        classname="audio-test"
+                        onClick={handleToggleRecording}
+                    />
+                </div>
+                <div className="volume-tester__bar">
+                    <span className="volume-tester__bar--icon" />
+                    <div className="volume-tester__bar--stream">
+                        {volumeBarsRef.map((ref, index) => (
+                            <div key={index} ref={ref} />
+                        ))}
+                    </div>
                 </div>
             </div>
         </>
