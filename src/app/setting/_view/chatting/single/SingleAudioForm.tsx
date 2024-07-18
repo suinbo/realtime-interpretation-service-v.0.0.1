@@ -3,7 +3,6 @@ import { SelectboxItemProp } from "../../../types"
 import { Selectbox } from "@components/form"
 import { VolumeTester } from "@app/setting/_component"
 import { useControlVolume } from "@hooks/useControlVolume"
-import "../style.scss"
 
 const SingleAudioForm = () => {
     const [selectedItem, setSelectedItem] = useState<SelectboxItemProp>({ id: "", name: "" })

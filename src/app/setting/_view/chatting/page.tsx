@@ -8,7 +8,7 @@ import { optionAtom } from "@atoms/Atom"
 import { labelOfStep, STEP } from "@resources/constant"
 import { ChatSetter, Navigation } from "@app/setting/_component"
 import { FormItemProp, SettingContentProp, StepProp } from "@app/setting/types"
-import "../../style.scss"
+import "./style.scss"
 
 const ChattingView = () => {
     const [{ language, display }, setOption] = useRecoilState(optionAtom)
