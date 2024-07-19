@@ -1,6 +1,5 @@
+import { ButtonList, Navigation } from "@app/setting/_component"
 import { languages } from "@resources/data"
-import Navigation from "../../_component/Navigation"
-import ButtonList from "../../_component/ButtonList"
 
 const LanguageView = () => {
     return (

@@ -1,11 +1,16 @@
 import { useRef, useState } from "react"
-import cx from "classnames"
 import useClickOutside from "@hooks/useClickOutside"
 import { SelectboxItemProp } from "../types"
+import { useRecoilValue } from "recoil"
+import { optionAtom } from "@atoms/Atom"
+import cx from "classnames"
 
 const ChatSetter = ({ items = [] }: { items: SelectboxItemProp[] }) => {
     const selectBoxRef = useRef<HTMLDivElement>(null)
     const [active, setActive] = useState<boolean>(false)
+
+    const options = useRecoilValue(optionAtom)
+    const params = new URLSearchParams(options as { [key: string]: any })
 
     useClickOutside(selectBoxRef, () => setActive(false))
 
@@ -19,7 +24,7 @@ const ChatSetter = ({ items = [] }: { items: SelectboxItemProp[] }) => {
                         onClick={() => {
                             setActive(false)
                             //TODO 새 대화 버튼 UI 수정
-                            window.open("/chat", "_blank", "noopener,noreferrer")
+                            window.open(`/chat?${params.toString()}`, "_blank", "noopener,noreferrer")
                         }}>
                         {item.name}
                     </li>

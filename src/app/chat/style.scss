@@ -1,0 +1,141 @@
+@mixin iconStyle($url) {
+    background: url($url) no-repeat;
+    width: 25px;
+    height: 25px;
+    opacity: 0.7;
+}
+
+@mixin scrollStyle {
+    &::-webkit-scrollbar {
+        width: 4px; /* 스크롤바의 너비 */
+    }
+
+    &::-webkit-scrollbar-thumb {
+        height: 20%; /* 스크롤바의 길이 */
+        border-radius: 2px;
+        background: #e4e4e4;
+    }
+}
+
+.chatboard {
+    height: 100vh;
+
+    &__inner {
+        height: 100%;
+        padding: 20px 56px;
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            &__toolbar {
+                display: flex;
+                align-items: center;
+                gap: 36px;
+
+                &--user {
+                    display: flex;
+                }
+
+                &--menu {
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 36px;
+
+                    &::before {
+                        content: "";
+                        height: 20px;
+                        width: 3px;
+                        background-color: rgb(230, 230, 230);
+                    }
+
+                    .menu-share {
+                        @include iconStyle("../../assets/images/share.png");
+                    }
+
+                    .menu-setting {
+                        @include iconStyle("../../assets/images/setting.png");
+                    }
+
+                    .menu-close {
+                        @include iconStyle("../../assets/images/close.png");
+                    }
+                }
+            }
+        }
+
+        .content {
+            height: calc(100% - 40px);
+
+            &__wrapper {
+                height: 100%;
+            }
+
+            &__body {
+                &--chat {
+                    display: flex;
+                    height: 100%;
+                    padding-right: 40px;
+                    overflow-y: scroll;
+                    @include scrollStyle;
+
+                    > ul {
+                        width: 100%;
+                        margin-top: 60px;
+                        margin-top: 60px;
+
+                        .chatting__item {
+                            &--user {
+                                width: 60px;
+                                height: 60px;
+                                background: url("../../assets/images/profile.png") no-repeat #ffd12b;
+                                background-position: center;
+                                border-radius: 50%;
+                            }
+
+                            &--text {
+                                position: relative;
+                                display: flex;
+
+                                &::before {
+                                    content: "";
+                                    position: absolute;
+                                    top: 50%;
+                                    left: -20px;
+                                    transform: translate(0, -50%);
+                                    width: 0;
+                                    height: 0;
+                                    border-top: 14px solid transparent;
+                                    border-bottom: 14px solid transparent;
+                                    border-right: 20px solid #fff;
+                                }
+
+                                > span {
+                                    width: 100%;
+                                    padding: 30px 50px;
+                                    background-color: #fff;
+                                    border-radius: 20px;
+                                    box-shadow: 0 0 30px 10px rgba(199, 199, 199, 0.1);
+                                }
+                            }
+
+                            display: grid;
+                            grid-template-columns: 1fr 9fr;
+                            grid-template-rows: auto;
+                            align-items: center;
+                        }
+                    }
+                }
+            }
+        }
+
+        &__title {
+        }
+
+        &__body {
+        }
+    }
+}
