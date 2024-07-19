@@ -1,5 +1,4 @@
 import HeaderToolbar from "./HeaderToolbar"
-import "./style.scss"
 
 const Layout = ({
     children,

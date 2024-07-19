@@ -27,3 +27,7 @@ export const labelOfStep: LabelOfStepProp = {
         title: "오디오 설정",
     },
 }
+
+export const API = {
+    WHISPER_API: "https://api.lemonfox.ai/v1/audio/transcriptions",
+}

@@ -99,6 +99,13 @@
                             &--text {
                                 position: relative;
                                 display: flex;
+                                flex-direction: row;
+                                gap: 16px;
+
+                                padding: 30px 50px;
+                                background-color: #fff;
+                                border-radius: 20px;
+                                box-shadow: 0 0 30px 10px rgba(199, 199, 199, 0.1);
 
                                 &::before {
                                     content: "";
@@ -113,17 +120,15 @@
                                     border-right: 20px solid #fff;
                                 }
 
-                                > span {
-                                    width: 100%;
-                                    padding: 30px 50px;
-                                    background-color: #fff;
-                                    border-radius: 20px;
-                                    box-shadow: 0 0 30px 10px rgba(199, 199, 199, 0.1);
+                                .starter {
+                                    width: auto;
+                                    background-color: #e4e4e4;
+                                    padding: 5px 20px;
                                 }
                             }
 
                             display: grid;
-                            grid-template-columns: 1fr 9fr;
+                            grid-template-columns: 1fr 14fr;
                             grid-template-rows: auto;
                             align-items: center;
                         }
