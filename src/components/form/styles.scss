@@ -37,6 +37,15 @@
     padding: 16px 30px;
     background-color: #ffd84f;
 
+    /** 라인 버튼 */
+    &.lined {
+        @for $i from 1 through 3 {
+            &--#{$i} {
+                border: #{$i}px solid #000;
+            }
+        }
+    }
+
     /** 체커 버튼 */
     &.checker {
         background-color: #ffeeb4;

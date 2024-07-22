@@ -72,6 +72,7 @@
 
             &__wrapper {
                 height: 100%;
+                padding: 40px;
             }
 
             &__body {
@@ -83,28 +84,33 @@
                     @include scrollStyle;
 
                     > ul {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 30px;
                         width: 100%;
-                        margin-top: 60px;
-                        margin-top: 60px;
 
                         .chatting__item {
                             display: flex;
-                            gap: 50px;
                             align-items: center;
+                            gap: 50px;
 
                             &--user {
-                                width: 60px;
-                                height: 60px;
-                                background: url("../../assets/images/profile.png") no-repeat #ffd12b;
-                                background-position: center;
-                                border-radius: 50%;
+                                display: flex;
+
+                                .profile {
+                                    width: 54px;
+                                    height: 54px;
+                                    background: url("../../assets/images/profile.png") no-repeat #ffd12b;
+                                    background-position: center;
+                                    border-radius: 50%;
+                                }
                             }
 
                             &--text {
                                 position: relative;
                                 display: flex;
                                 flex-direction: row;
-                                gap: 16px;
+                                gap: 26px;
 
                                 padding: 30px 50px;
                                 background-color: #fff;
@@ -124,6 +130,7 @@
                                     border-right: 20px solid #fff;
                                 }
 
+                                // 음성 인식 시작 버튼
                                 .starter {
                                     width: auto;
                                     background-color: #e4e4e4;
@@ -132,6 +139,13 @@
                             }
                         }
                     }
+                }
+
+                &--button {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
                 }
             }
         }

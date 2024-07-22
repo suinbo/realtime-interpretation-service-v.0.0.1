@@ -1,0 +1,47 @@
+.loading-wrap {
+    .loading {
+        display: flex;
+        align-items: center;
+        width: 96px;
+        height: 20px;
+        margin: 0 auto;
+        text-align: center;
+
+        &.dot {
+            div {
+                width: 20px;
+                height: 20px;
+                margin: auto;
+                border-radius: 10px;
+                background-color: #ffd84f;
+                transform: scale(0);
+                animation: dot 1.5s linear infinite;
+                text-indent: -9999em;
+
+                &:nth-child(1) {
+                    left: -50px;
+                    animation-delay: -0.1s;
+                }
+                &:nth-child(3) {
+                    right: -50px;
+                    animation-delay: 0.1s;
+                }
+            }
+        }
+    }
+}
+
+@keyframes dot {
+    0% {
+        transform: scale(0);
+    }
+    35% {
+        transform: scale(0.5);
+    }
+    70% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(0);
+    }
+}
