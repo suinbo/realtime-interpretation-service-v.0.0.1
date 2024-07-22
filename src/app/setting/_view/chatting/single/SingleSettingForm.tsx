@@ -1,7 +1,5 @@
-import { SetStateAction, useState } from "react"
-import { useRecoilValue } from "recoil"
+import { SetStateAction } from "react"
 import { FormItemProp, SelectboxItemProp } from "@app/setting/types"
-import { optionAtom } from "@atoms/Atom"
 import { languages } from "@resources/data"
 import { Input, Selectbox } from "@components/form"
 
@@ -12,11 +10,17 @@ const SingleSettingForm = ({
     formItem: FormItemProp
     setFormItem: React.Dispatch<SetStateAction<FormItemProp>>
 }) => {
-    const { language } = useRecoilValue(optionAtom)
-    const selectboxItems = languages.map(({ value }) => ({ id: value, name: value }))
+    const selectboxItems = languages.map(({ id, name }) => ({ id, name }))
 
-    const [transLang1, setTransLang1] = useState<SelectboxItemProp>({ id: language, name: language })
-    const [transLang2, setTransLang2] = useState<SelectboxItemProp>({ id: "", name: "" })
+    const onSelect = (index: number, item: SelectboxItemProp) => {
+        setFormItem(prev => {
+            const newFormItem = { ...prev }
+            newFormItem.chat_lang = [...prev.chat_lang]
+            newFormItem.chat_lang[index] = item.id
+
+            return newFormItem
+        })
+    }
 
     return (
         <div className="form__content">
@@ -34,16 +38,16 @@ const SingleSettingForm = ({
                 <div>
                     <Selectbox
                         items={selectboxItems}
-                        selectedId={transLang1.id}
+                        selectedId={chat_lang[0]}
                         innerElement={<span className="sub-text typo t18">언어 1</span>}
-                        setSelectedItem={setTransLang1}
+                        onSelect={selectedItem => onSelect(0, selectedItem)}
                         style={{ height: 214 }}
                     />
                     <Selectbox
                         items={selectboxItems}
-                        selectedId={transLang2.id}
+                        selectedId={chat_lang[1]}
                         innerElement={<span className="sub-text typo t18">언어 2</span>}
-                        setSelectedItem={setTransLang2}
+                        onSelect={selectedItem => onSelect(1, selectedItem)}
                         style={{ height: 214 }}
                     />
                 </div>

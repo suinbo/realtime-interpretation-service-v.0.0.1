@@ -1,7 +1,6 @@
 "use client"
 
-import ButtonList from "../../_component/ButtonList"
-import Navigation from "../../_component/Navigation"
+import { ButtonList, Navigation } from "@app/setting/_component"
 
 const DisplayView = () => {
     return (
@@ -23,8 +22,8 @@ const DisplayView = () => {
                         <ButtonList
                             content="display"
                             items={[
-                                { id: 0, value: "1대" },
-                                { id: 1, value: "2대" },
+                                { id: 0, name: "1대" },
+                                { id: 1, name: "2대" },
                             ]}
                         />
                     </ul>

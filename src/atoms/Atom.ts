@@ -11,7 +11,7 @@ export const optionAtom = atom({
         display: 0,
         chatting: {
             chat_nm: "",
-            chat_lang: [],
+            chat_lang: [""],
             has_chat_pw: false,
             chat_pw: "",
             host_auth: 0,

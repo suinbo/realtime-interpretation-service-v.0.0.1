@@ -1,8 +1,8 @@
 "use client"
 
-import { SetStateAction, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import cx from "classnames"
-import useClickOutside from "../../hooks/useClickOutside"
+import useClickOutside from "@hooks/useClickOutside"
 
 export type SelectboxItem = {
     id: string
@@ -13,17 +13,18 @@ export default function Selectbox({
     items = [],
     selectedId,
     innerElement,
-    setSelectedItem,
+    onSelect,
     style,
 }: {
     items: SelectboxItem[]
     selectedId?: string
     innerElement?: React.ReactNode
-    setSelectedItem: React.Dispatch<SetStateAction<SelectboxItem>>
+    onSelect: (selectedId: SelectboxItem) => void
     style?: React.CSSProperties
 }) {
     const selectBoxRef = useRef<HTMLDivElement>(null)
     const [active, setActive] = useState<boolean>(false)
+    const [selectedItem, setSelectedItem] = useState<SelectboxItem>()
 
     useClickOutside(selectBoxRef, () => setActive(false))
 
@@ -36,6 +37,7 @@ export default function Selectbox({
                         key={item.id}
                         onClick={() => {
                             setSelectedItem(item)
+                            onSelect(item)
                             setActive(false)
                         }}>
                         {item.name}

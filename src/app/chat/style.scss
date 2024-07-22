@@ -88,6 +88,10 @@
                         margin-top: 60px;
 
                         .chatting__item {
+                            display: flex;
+                            gap: 50px;
+                            align-items: center;
+
                             &--user {
                                 width: 60px;
                                 height: 60px;
@@ -126,11 +130,6 @@
                                     padding: 5px 20px;
                                 }
                             }
-
-                            display: grid;
-                            grid-template-columns: 1fr 14fr;
-                            grid-template-rows: auto;
-                            align-items: center;
                         }
                     }
                 }

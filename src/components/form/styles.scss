@@ -53,12 +53,17 @@
             align-items: center;
 
             &-checkbox {
-                width: 23px;
-                height: 23px;
-                background: url("../../assets/images/check_inactive.png") no-repeat;
+                width: 18px;
+                height: 18px;
+                border: 1px solid #000;
+                border-radius: 50%;
+                background: url("../../assets/images/check.png") no-repeat center center;
+                filter: invert(100%) brightness(0%);
 
                 &.active {
-                    background: url("../../assets/images/check_active.png") no-repeat;
+                    border: none;
+                    filter: none;
+                    background: #000 url("../../assets/images/check.png") no-repeat center center;
                 }
             }
         }
@@ -71,6 +76,7 @@
     width: 100%;
 
     &__opener {
+        cursor: pointer;
         @include formStyle(60px);
 
         display: flex;
@@ -91,6 +97,7 @@
 
         // 새 대화 셀렉터
         &--newchat {
+            cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -113,6 +120,7 @@
             @include scrollStyle;
 
             > li {
+                cursor: pointer;
                 padding: 12px;
             }
         }
@@ -122,6 +130,7 @@
             top: 14px;
 
             > li {
+                cursor: pointer;
                 padding: 12px;
             }
         }
@@ -144,8 +153,8 @@
         }
 
         input[type="radio"] {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
             border: 2px solid #e0e0e0;
             appearance: none;
