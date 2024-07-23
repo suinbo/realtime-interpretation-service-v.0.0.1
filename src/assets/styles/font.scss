@@ -39,8 +39,6 @@
         url("/fonts/Pretendard/woff/Pretendard-Regular.woff") format("woff");
 }
 
-/* 폰트 공통 스타일 */
-
 /** 폰트 스타일 */
 
 .typo {
@@ -52,12 +50,12 @@
         color: #ffc700;
     }
 
-    @for $i from 18 through 50 {
+    @for $i from 15 through 80 {
         &.t#{$i} {
             font-size: #{$i}px;
 
             @media (max-width: 1600px) {
-                font-size: #{calc(#{$i}px - 4px)};
+                font-size: #{calc(#{$i}px - 2px)};
             }
         }
     }

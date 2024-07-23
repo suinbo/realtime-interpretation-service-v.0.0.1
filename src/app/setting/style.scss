@@ -29,10 +29,10 @@
             }
 
             &__profile-image {
-                width: 60px;
-                height: 60px;
+                width: 40px;
+                height: 40px;
                 background: url("../../assets/images/profile.png") no-repeat #ffd12b;
-                background-position: center;
+                background-position: center 45%;
                 border-radius: 50%;
             }
         }
