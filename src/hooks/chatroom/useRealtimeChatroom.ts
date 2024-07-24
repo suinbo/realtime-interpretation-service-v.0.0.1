@@ -4,7 +4,7 @@ import { supabase } from "@utils/superbase"
 import { useEffect, useState } from "react"
 import { useRecoilValue } from "recoil"
 
-interface ChatroomProp {
+export interface ChatroomProp {
     id: string
     room_id: string
     creator_id: string
@@ -24,7 +24,60 @@ interface ChatroomProp {
  */
 const useRealtimeChatroom = (roomId: string, user: User) => {
     const [chatrooms, setChatrooms] = useState<ChatroomProp[]>([])
-    //const [isApproved, setIsApproved] = useState<boolean>(false)
+
+    // 초기 데이터 로드
+    // TODO 에러 예외 처리
+    const fetchChatrooms = async () => {
+        const { data, error } = await supabase.from("chatroom").select("*").eq("room_id", roomId)
+
+        if (data && data.length > 0) {
+            // 참여자가 있을 때
+            if (data[0].member_id) {
+                console.log("참여자 있음")
+                const { data: joinData, error: joinError } = await supabase.rpc("get_chatroom_with_email", {
+                    roomid: roomId,
+                })
+                console.log("joinData:: ", joinData)
+                setChatrooms(joinData || [])
+
+                // 참여자가 없을 때
+            } else {
+                console.log("참여자 없음")
+                // 입장한 계정이 생성자 일때
+                if (user.id == data[0].creator_id) {
+                    console.log("입장한 계정이 생성자")
+                }
+                // 입장한 계정이 참여자 일때
+                else {
+                    console.log("입장한 계정이 참여자", user, roomId)
+
+                    const { data: updateData } = await supabase
+                        .from("chatroom")
+                        .update({
+                            member_id: user.id,
+                        })
+                        .eq("room_id", roomId)
+                        .select("*")
+
+                    if (updateData) {
+                        const { data: joinData, error: joinError } = await supabase.rpc("get_chatroom_with_email", {
+                            roomid: roomId,
+                        })
+                        setChatrooms(joinData)
+                    }
+
+                    // 암호방인지 판단
+                    // if (data[0].room_password) {
+                    //     setRequiresPassword(true)
+                    // }
+                }
+            }
+        }
+    }
+
+    const refetchChatroom = async () => {
+        await fetchChatrooms()
+    }
 
     useEffect(() => {
         // 채널 생성
@@ -35,58 +88,7 @@ const useRealtimeChatroom = (roomId: string, user: User) => {
             })
             .subscribe()
 
-        // 초기 데이터 로드
-        // TODO 에러 예외 처리
-        const validUser = Object.keys(user).length === 0
-        const fetchMessages = async () => {
-            const { data, error } = await supabase.from("chatroom").select("*").eq("room_id", roomId)
-
-            if (data && data.length > 0) {
-                // 참여자가 있을 때
-                if (data[0].member_id) {
-                    console.log("참여자 있음")
-                    const { data: joinData, error: joinError } = await supabase.rpc("get_chatroom_with_email", {
-                        roomid: roomId,
-                    })
-                    console.log("joinData:: ", joinData)
-                    setChatrooms(joinData || [])
-
-                    // 참여자가 없을 때
-                } else {
-                    console.log("참여자 없음")
-                    // 입장한 계정이 생성자 일때
-                    if (user.id == data[0].creator_id) {
-                        console.log("입장한 계정이 생성자")
-                    }
-                    // 입장한 계정이 참여자 일때
-                    else {
-                        console.log("입장한 계정이 참여자", user, roomId)
-
-                        const { data: updateData } = await supabase
-                            .from("chatroom")
-                            .update({
-                                member_id: user.id,
-                            })
-                            .eq("room_id", roomId)
-                            .select("*")
-
-                        if (updateData) {
-                            const { data: joinData, error: joinError } = await supabase.rpc("get_chatroom_with_email", {
-                                roomid: roomId,
-                            })
-                            setChatrooms(joinData)
-                        }
-
-                        // 암호방인지 판단
-                        // if (data[0].room_password) {
-                        //     setRequiresPassword(true)
-                        // }
-                    }
-                }
-            }
-        }
-
-        user && fetchMessages()
+        fetchChatrooms()
 
         // 컴포넌트가 언마운트될 때 구독 해제
         return () => {
@@ -96,11 +98,7 @@ const useRealtimeChatroom = (roomId: string, user: User) => {
 
     return {
         chatroom: chatrooms ? chatrooms[0] : null,
-        //setIsApproved,
-        // requiresPassword,
-        // setRequiresPassword,
-        // requestApproval,
-        // setRequestApproval,
+        refetchChatroom,
     }
 }
 

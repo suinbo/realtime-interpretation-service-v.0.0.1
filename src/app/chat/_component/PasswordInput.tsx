@@ -1,27 +1,11 @@
-import { SetStateAction, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import cx from "classnames"
 import "./style.scss"
 import { supabase } from "@utils/superbase"
-import useRealtimeChatroom from "@hooks/chatroom/useRealtimeChatroom"
-import useRealtimeApproval from "@hooks/chatroom/useRealtimeApproval"
 
-const PasswordInput = ({
-    roomId,
-}: // onSubmit,
-//onKeyDown,
-//setIsApproved,
-{
-    roomId: string
-    //type?: string
-    // onSubmit?: () => void
-    //onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
-    //setIsApproved: React.Dispatch<SetStateAction<boolean>>
-}) => {
+const PasswordInput = ({ roomId, refetchChatroom }: { roomId: string; refetchChatroom: () => {} }) => {
     const ref = useRef<HTMLInputElement>(null)
     const [alertMessage, setAlertMessage] = useState<string>("")
-    // const { chatroom } = useRealtimeChatroom(roomId, {} as any)
-
-    // console.log("chatroom:: ", chatroom)
 
     const onSubmit = async () => {
         const current = ref.current
@@ -36,12 +20,15 @@ const PasswordInput = ({
             if (!equalPassword?.length) {
                 setAlertMessage("암호 코드가 일치하지 않습니다.")
             } else {
+                // 자동 승인
                 await supabase
                     .from("chatroom")
                     .update({
                         is_approved: 1,
                     })
                     .eq("room_id", roomId)
+
+                refetchChatroom()
             }
         } else {
             setAlertMessage("암호 코드를 입력해주세요.")
