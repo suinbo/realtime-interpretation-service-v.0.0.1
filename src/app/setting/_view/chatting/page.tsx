@@ -51,31 +51,33 @@ const ChattingView = () => {
     )
 
     return (
-        <div className="content">
-            <div className="content__wrapper-nav">
-                <Navigation view="display" position="left" />
-            </div>
-            <div className="content__wrapper">
-                <div className="content__body--setting">
-                    <div className="setting-board__button">
-                        <ChatSetter
-                            items={[
-                                { id: "setting", name: "대화 설정" },
-                                { id: "new", name: "새 대화 생성" },
-                            ]}
-                        />
-                    </div>
-                    <div className="setting-board__form">
-                        <div className="form__title">
-                            <span className="typo t28 w600 yello-200">{step.toUpperCase()}</span>
-                            <span className="typo t30 w500">{labelOfStep[step].title}</span>
+        <>
+            <div className="content">
+                <div className="content__wrapper-nav">
+                    <Navigation view="display" position="left" />
+                </div>
+                <div className="content__wrapper">
+                    <div className="content__body--setting">
+                        <div className="setting-board__button">
+                            <ChatSetter
+                                items={[
+                                    { id: "setting", name: "대화 설정" },
+                                    { id: "new", name: "새 대화 생성" },
+                                ]}
+                            />
                         </div>
-                        {settingContent[display][step]}
-                        <Navigator />
+                        <div className="setting-board__form">
+                            <div className="form__title">
+                                <span className="typo t28 w600 yello-200">{step.toUpperCase()}</span>
+                                <span className="typo t30 w500">{labelOfStep[step].title}</span>
+                            </div>
+                            {settingContent[display][step]}
+                            <Navigator />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 

@@ -12,7 +12,7 @@ const Input = ({
 }: {
     type?: string
     value?: string
-    placeholder: string
+    placeholder?: string
     disabled?: boolean
     onChange?: (value: string) => void
     onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void

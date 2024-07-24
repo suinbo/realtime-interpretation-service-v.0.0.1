@@ -1,3 +1,4 @@
+// 로딩 표시
 .loading-wrap {
     .loading {
         display: flex;
@@ -43,5 +44,51 @@
     }
     100% {
         transform: scale(0);
+    }
+}
+
+// 암호 입력 폼
+.password-input {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    &__wrapper {
+        display: grid;
+        grid-template-columns: 1fr 7fr 1fr;
+        align-items: center;
+        border-bottom: 1px solid #ffd84f;
+        padding-bottom: 9px;
+
+        &.reject {
+            border-bottom: 1px solid #000;
+        }
+
+        input {
+            border: none;
+        }
+
+        &::before {
+            content: "";
+            width: 25px;
+            height: 25px;
+            background: url("../../../assets/images/locker.png") no-repeat;
+        }
+    }
+
+    &--btn {
+        cursor: pointer;
+        width: 35px;
+        height: 35px;
+        background: url("../../../assets/images/arrow-next.png") no-repeat;
+        background-size: 35px 35px;
+    }
+
+    &--alert {
+        display: flex;
+        align-items: center;
+
+        // global.scss import 하지 못하는 문제 수정 필요
+        font-size: 14px;
     }
 }

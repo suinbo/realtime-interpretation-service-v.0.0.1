@@ -76,6 +76,11 @@
             }
 
             &__body {
+                &--no-member {
+                    text-align: center;
+                    color: #c7c7c7;
+                }
+
                 &--chat {
                     display: flex;
                     height: 100%;

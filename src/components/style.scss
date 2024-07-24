@@ -1,0 +1,57 @@
+.popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    box-shadow: 0 0 30px 4px rgba(175, 175, 175, 0.3);
+    border-radius: 20px;
+    padding: 40px;
+
+    &__icon {
+        > span {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 76px;
+            height: 76px;
+            background: url("../assets//images/notice.png");
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    &__inner {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__button {
+        display: flex;
+        justify-content: flex-end;
+
+        .close-btn {
+            cursor: pointer;
+            display: block;
+            background: url("../assets/images/close.png") no-repeat center;
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+
+        padding: 8px;
+
+        &--title {
+        }
+
+        &--btn {
+            display: flex;
+            flex-direction: row;
+            gap: 14px;
+        }
+    }
+}

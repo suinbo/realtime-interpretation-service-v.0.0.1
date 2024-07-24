@@ -43,3 +43,8 @@ export type SelectboxItemProp = {
     id: string
     name: string
 }
+
+export type LoginProp = {
+    email: string
+    password: string
+}

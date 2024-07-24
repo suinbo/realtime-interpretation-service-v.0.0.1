@@ -1,6 +1,7 @@
 import { atom } from "recoil"
 import { VIEW } from "../resources/constant"
-import { OptionProp } from "src/app/setting/types"
+import { LoginProp, OptionProp } from "src/app/setting/types"
+import { User } from "@supabase/supabase-js"
 
 /** 화면 옵션 */
 export const optionAtom = atom({
@@ -17,4 +18,9 @@ export const optionAtom = atom({
             host_auth: 0,
         },
     } as OptionProp,
+})
+
+export const UserAtom = atom({
+    key: "userAtom",
+    default: {} as User,
 })

@@ -10,7 +10,7 @@ const Layout = ({
             <div className="chatboard__inner">
                 <div className="header">
                     <div className="header__title">
-                        <span className="typo t18">[민원 상담] 대화 1</span>
+                        <span className="typo t16">[민원 상담] 대화 1</span>
                     </div>
                     <HeaderToolbar />
                 </div>
