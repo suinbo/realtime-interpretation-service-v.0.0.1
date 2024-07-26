@@ -1,5 +1,5 @@
 import { Button } from "@components/form"
-import Loading from "./_component/Loading"
+import Loading from "./_component/LoadingDot"
 
 const Chatting = ({
     messages,

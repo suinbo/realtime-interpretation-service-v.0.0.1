@@ -1,7 +1,7 @@
 import cx from "classnames"
 import "./style.scss"
 
-const Loading = ({ whiteMode = false }: { whiteMode?: boolean }) => {
+const LoadingDot = ({ whiteMode = false }: { whiteMode?: boolean }) => {
     return (
         <div className={cx("loading-wrap", { whiteMode })}>
             <div className="loading dot">
@@ -13,4 +13,4 @@ const Loading = ({ whiteMode = false }: { whiteMode?: boolean }) => {
     )
 }
 
-export default Loading
+export default LoadingDot

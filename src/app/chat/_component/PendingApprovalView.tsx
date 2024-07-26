@@ -1,3 +1,6 @@
+/**
+ * 승인 요청 수락 대기 화면
+ */
 const PendintApproval = () => {
     return (
         <div className="spinner">

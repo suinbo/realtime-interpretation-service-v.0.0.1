@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import useClickOutside from "@hooks/useClickOutside"
 import { SelectboxItemProp } from "../types"
 import { useRecoilValue } from "recoil"
@@ -11,24 +11,9 @@ const ChatSetter = ({ items = [] }: { items: SelectboxItemProp[] }) => {
     const [active, setActive] = useState<boolean>(false)
 
     const options = useRecoilValue(optionAtom)
-    const { id } = useRecoilValue(UserAtom)
+    const { id, email } = useRecoilValue(UserAtom)
 
     useClickOutside(selectBoxRef, () => setActive(false))
-
-    useEffect(() => {
-        // 채널 생성
-        const channel = supabase
-            .channel("realtime:chatroom")
-            .on("postgres_changes", { event: "*", schema: "public", table: "chatroom" }, payload => {
-                console.log("Change received!", payload)
-            })
-            .subscribe()
-
-        // 컴포넌트가 언마운트될 때 구독 해제
-        return () => {
-            supabase.removeChannel(channel)
-        }
-    }, [])
 
     const fetchMessages = async () => {
         // 방 생성
@@ -37,7 +22,7 @@ const ChatSetter = ({ items = [] }: { items: SelectboxItemProp[] }) => {
             .insert([
                 {
                     creator_id: id,
-                    member_id: null,
+                    creator_email: email,
                 },
             ])
             .select()
