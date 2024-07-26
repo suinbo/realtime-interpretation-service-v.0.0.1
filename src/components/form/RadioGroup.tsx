@@ -26,7 +26,7 @@ const RadioGroup = ({
             <ul className="radio-list">
                 {items.map(item => (
                     <li key={item.id} className="radio-button">
-                        <label htmlFor={item.id} className="typo t18">
+                        <label htmlFor={item.id}>
                             <input
                                 type="radio"
                                 id={item.id}

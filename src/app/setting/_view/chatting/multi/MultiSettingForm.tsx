@@ -23,7 +23,7 @@ const MultiSettingForm = ({
                 </div>
                 <div className="form__item--password">
                     <span className="typo t20 w500">암호 설정</span>
-                    <div>
+                    <div className="typo t18">
                         <Checkbox
                             id="password-check"
                             label="설정"
@@ -35,7 +35,7 @@ const MultiSettingForm = ({
                                 <span className="typo t18">암호</span>
                                 <Input
                                     type="password"
-                                    value={chat_pw}
+                                    value={chat_pw as string}
                                     placeholder="암호를 입력하세요."
                                     onChange={chat_pw => setFormItem(prev => ({ ...prev, chat_pw }))}
                                 />
@@ -45,7 +45,7 @@ const MultiSettingForm = ({
                 </div>
                 <div className="form__item--auth">
                     <span className="typo t20 w500">호스트 승인</span>
-                    <div>
+                    <div className="typo t18">
                         <RadioGroup
                             name="host_auth"
                             items={[

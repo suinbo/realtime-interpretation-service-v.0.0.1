@@ -1,32 +1,40 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@components/form"
 import { useQueryParams } from "@hooks/useQueryParams"
 import { useTranscriptions } from "@hooks/useTranscriptions"
 import Popup from "@components/Popup"
-import { useRecoilValue } from "recoil"
-import { UserAtom } from "@atoms/Atom"
+import { useRecoilValue, useSetRecoilState } from "recoil"
+import { ChatroomAtom, UserAtom } from "@atoms/Atom"
 import useRealtimeChatroom from "@hooks/chatroom/useRealtimeChatroom"
 import Chatting from "./Chatting"
-import { Modal } from "./_component"
+import { ModalByApproval } from "./_component"
 import "./style.scss"
 
 const Chat = () => {
-    const { language, display, chatting, roomId } = useQueryParams()
+    const { id } = useQueryParams()
     const transcriptions = useTranscriptions()
     const [start, setStart] = useState<boolean>(false)
+
     const user = useRecoilValue(UserAtom)
+    const setChatroom = useSetRecoilState(ChatroomAtom)
 
-    const { chatroom } = useRealtimeChatroom(roomId as string, user)
+    const { chatroom } = useRealtimeChatroom(id as string, user)
 
-    console.log("chatroom:: ", chatroom)
+    useEffect(() => {
+        if (chatroom) {
+            const { room_title, chat_language, room_password, approval_required } = chatroom
 
-    // useEffect(() => {
-    //     if (!isRecording) {
-    //         startRecording()
-    //     }
-    // }, [isRecording, startRecording])
+            setChatroom({
+                chat_nm: room_title,
+                chat_lang: chat_language,
+                chat_pw: room_password,
+                has_chat_pw: !!room_password,
+                host_auth: approval_required,
+            })
+        }
+    }, [chatroom])
 
     // 유효하지 않은 링크 팝업
     const InvalidModal = () => (
@@ -96,7 +104,7 @@ const Chat = () => {
     return (
         <div>
             {shouldShowContent && <Content />}
-            <Modal chatroom={chatroom} roomId={roomId as string} viewOption={viewOption} />
+            <ModalByApproval chatroom={chatroom} roomId={id as string} viewOption={viewOption} />
         </div>
     )
 }

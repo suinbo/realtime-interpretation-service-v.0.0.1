@@ -45,6 +45,7 @@
                 }
 
                 &--password {
+                    @include formGridStyle;
                     > div {
                         display: grid;
                         grid-template-columns: 1fr 5fr;

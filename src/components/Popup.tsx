@@ -1,16 +1,20 @@
-import React, { CSSProperties, useEffect, useRef } from "react"
+import React, { CSSProperties, SetStateAction, useEffect, useRef } from "react"
 import "./style.scss"
 
 const Popup = ({
     children,
     hasClosedBtn = true,
+    title,
     hasTopIcon = false,
     style,
+    onClose,
 }: {
     children: React.ReactNode
+    title?: string
     hasClosedBtn?: boolean
     hasTopIcon?: boolean
     style?: CSSProperties
+    onClose?: () => void
 }) => {
     const popupRef = useRef<HTMLDivElement>(null)
 
@@ -42,8 +46,11 @@ const Popup = ({
             )}
             <div className="popup__inner">
                 {hasClosedBtn && (
-                    <div className="popup__button">
-                        <span className="close-btn"></span>
+                    <div className="popup__header">
+                        {title && <span className="typo t24 w500">{title}</span>}
+                        <div className="popup__header--button" onClick={onClose}>
+                            <span className="close-btn"></span>
+                        </div>
                     </div>
                 )}
                 {children}

@@ -19,7 +19,7 @@ const Checkbox = ({
     const [checked, setChecked] = useState<boolean>(isCheck)
 
     return (
-        <div className="checkbox typo t18">
+        <div className="checkbox">
             <label className={cx("checkbox-label ", { checked })} htmlFor={id} />
             {label}
             <input

@@ -1,12 +1,12 @@
 "use client"
 
 import React from "react"
-import { optionAtom } from "@atoms/Atom"
+import { OptionAtom } from "@atoms/Atom"
 import { useRecoilValue } from "recoil"
 import { Language, Display, Chatting } from "./_view"
 
 const SettingView = () => {
-    const { view } = useRecoilValue(optionAtom)
+    const { view } = useRecoilValue(OptionAtom)
 
     const optionView: { [key: string]: React.ReactNode } = {
         language: <Language />,

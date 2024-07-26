@@ -4,7 +4,7 @@ import { useState } from "react"
 import SingleAudioForm from "./single/SingleAudioForm"
 import MultiAudioForm from "./multi/MultiAudioForm"
 import MultiSettingForm from "./multi/MultiSettingForm"
-import { optionAtom } from "@atoms/Atom"
+import { OptionAtom } from "@atoms/Atom"
 import { labelOfStep, STEP } from "@resources/constant"
 import { ChatSetter, Navigation } from "@app/setting/_component"
 import { FormItemProp, SettingContentProp, StepProp } from "@app/setting/types"
@@ -12,7 +12,7 @@ import cx from "classnames"
 import "./style.scss"
 
 const ChattingView = () => {
-    const [{ language, display }, setOption] = useRecoilState(optionAtom)
+    const [{ language, display }, setOption] = useRecoilState(OptionAtom)
 
     const [step, setStep] = useState<StepProp>(STEP[1])
 
@@ -26,11 +26,11 @@ const ChattingView = () => {
 
     // 디스플레이 옵션-스텝 별 컨텐츠
     const settingContent: SettingContentProp = {
-        [0]: {
+        [1]: {
             [STEP[1]]: <SingleSettingForm formItem={formItem} setFormItem={setFormItem} />,
             [STEP[2]]: <SingleAudioForm />,
         },
-        [1]: {
+        [2]: {
             [STEP[1]]: <MultiSettingForm formItem={formItem} setFormItem={setFormItem} />,
             [STEP[2]]: <MultiAudioForm />,
         },
@@ -64,6 +64,7 @@ const ChattingView = () => {
                                     { id: "setting", name: "대화 설정" },
                                     { id: "new", name: "새 대화 생성" },
                                 ]}
+                                formItem={formItem}
                             />
                         </div>
                         <div className="setting-board__form">

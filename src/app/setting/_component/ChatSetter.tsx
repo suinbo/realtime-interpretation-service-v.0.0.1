@@ -1,16 +1,16 @@
 import { useRef, useState } from "react"
 import useClickOutside from "@hooks/useClickOutside"
-import { SelectboxItemProp } from "../types"
+import { FormItemProp, SelectboxItemProp } from "../types"
 import { useRecoilValue } from "recoil"
-import { optionAtom, UserAtom } from "@atoms/Atom"
+import { OptionAtom, UserAtom } from "@atoms/Atom"
 import cx from "classnames"
 import { supabase } from "@utils/superbase"
 
-const ChatSetter = ({ items = [] }: { items: SelectboxItemProp[] }) => {
+const ChatSetter = ({ items = [], formItem }: { items: SelectboxItemProp[]; formItem: FormItemProp }) => {
     const selectBoxRef = useRef<HTMLDivElement>(null)
     const [active, setActive] = useState<boolean>(false)
 
-    const options = useRecoilValue(optionAtom)
+    const options = useRecoilValue(OptionAtom)
     const { id, email } = useRecoilValue(UserAtom)
 
     useClickOutside(selectBoxRef, () => setActive(false))
@@ -23,13 +23,18 @@ const ChatSetter = ({ items = [] }: { items: SelectboxItemProp[] }) => {
                 {
                     creator_id: id,
                     creator_email: email,
+                    room_title: formItem.chat_nm,
+                    chat_language: formItem.chat_lang.join(","),
+                    room_option: options.display,
+                    room_password: formItem.chat_pw,
+                    approval_required: formItem.host_auth,
                 },
             ])
             .select()
 
         if (data) {
             const roomId = data?.[0]?.room_id
-            const params = new URLSearchParams({ ...options, roomId } as { [key: string]: any })
+            const params = new URLSearchParams({ id: roomId } as { [key: string]: any })
 
             window.open(`/chat?${params.toString()}`, "_blank", "noopener,noreferrer")
         }
@@ -56,7 +61,12 @@ const ChatSetter = ({ items = [] }: { items: SelectboxItemProp[] }) => {
 
     return (
         <div className="selectbox">
-            <div ref={selectBoxRef} className="selectbox__opener--newchat" onClick={() => setActive(!active)}>
+            <div
+                ref={selectBoxRef}
+                className="selectbox__opener--newchat"
+                onClick={() => {
+                    setActive(!active)
+                }}>
                 <div className="typo t18">
                     <div className="selector-item">
                         <span className="typo t20">새 대화</span>

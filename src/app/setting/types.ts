@@ -34,9 +34,10 @@ export type SettingContentProp = {
 export type FormItemProp = {
     chat_nm: string
     chat_lang: string[]
-    has_chat_pw: boolean
-    chat_pw?: string
-    host_auth?: number
+    has_chat_pw?: boolean
+    chat_pw: string | null
+    host_auth: number
+    room_option?: number
 }
 
 export type SelectboxItemProp = {

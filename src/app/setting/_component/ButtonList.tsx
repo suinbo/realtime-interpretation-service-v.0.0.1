@@ -2,11 +2,11 @@
 
 import { useRecoilState } from "recoil"
 import { Button } from "@components/form"
-import { optionAtom } from "@atoms/Atom"
+import { OptionAtom } from "@atoms/Atom"
 import cx from "classnames"
 
 const ButtonList = ({ items, content }: { items: { id: number | string; name: string }[]; content: string }) => {
-    const [option, setOption] = useRecoilState(optionAtom)
+    const [option, setOption] = useRecoilState(OptionAtom)
 
     return items.map(item => {
         const { id, name } = item

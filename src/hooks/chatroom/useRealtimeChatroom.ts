@@ -5,9 +5,11 @@ import { useCallback, useEffect, useState } from "react"
 export interface ChatroomProp {
     id: string
     room_id: string
+    room_title: string
+    chat_language: string[]
     creator_id: string
     member_id: string | null
-    member_email?: string | null
+    member_email: string | null
     created_at: string
     room_password: string | null
     approval_accepted: number // 승인 수락 여부 (1:수락, 0:미수락)

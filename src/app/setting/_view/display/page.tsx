@@ -22,8 +22,8 @@ const DisplayView = () => {
                         <ButtonList
                             content="display"
                             items={[
-                                { id: 0, name: "1대" },
-                                { id: 1, name: "2대" },
+                                { id: "1", name: "1대" },
+                                { id: "2", name: "2대" },
                             ]}
                         />
                     </ul>
