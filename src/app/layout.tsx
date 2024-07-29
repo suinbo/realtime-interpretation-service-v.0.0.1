@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { Roboto, Noto_Sans_KR } from "next/font/google"
 import cx from "classnames"
 import Provider from "./Provider"
-import "@assets/styles/common.scss"
+// TODO: common.scss 로 통합
 import "./globals.scss"
 
 const notoSansKr = Noto_Sans_KR({

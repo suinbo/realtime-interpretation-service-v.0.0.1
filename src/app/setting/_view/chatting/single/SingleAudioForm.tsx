@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { SelectboxItemProp } from "../../../types"
 import { Selectbox } from "@components/form"
 import { VolumeTester } from "@app/setting/_component"
-import { useControlVolume } from "@hooks/useControlVolume"
+import { useControlVolume } from "@hooks/audioSetting/useControlVolume"
 
 const SingleAudioForm = () => {
     const [selectedItem, setSelectedItem] = useState<SelectboxItemProp>({ id: "", name: "" })
@@ -19,7 +19,11 @@ const SingleAudioForm = () => {
             <div className="form__item--microphone">
                 <span className="typo t20 w500">마이크</span>
                 <div>
-                    <Selectbox items={audioDevices} selectedId={selectedItem?.id} setSelectedItem={setSelectedItem} />
+                    <Selectbox
+                        items={audioDevices}
+                        selectedId={selectedItem?.id}
+                        onSelect={selectedItem => setSelectedItem(selectedItem)}
+                    />
                 </div>
             </div>
             <div className="form__item--tester">

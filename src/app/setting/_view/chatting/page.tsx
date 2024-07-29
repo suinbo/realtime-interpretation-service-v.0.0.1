@@ -9,6 +9,7 @@ import { labelOfStep, STEP } from "@resources/constant"
 import { ChatSetter, Navigation } from "@app/setting/_component"
 import { FormItemProp, SettingContentProp, StepProp } from "@app/setting/types"
 import cx from "classnames"
+import "@assets/styles/common.scss"
 import "./style.scss"
 
 const ChattingView = () => {

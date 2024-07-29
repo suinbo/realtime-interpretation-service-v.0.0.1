@@ -9,6 +9,7 @@ import { useSetRecoilState } from "recoil"
 import { LoginProp } from "./setting/types"
 import { UserAtom } from "@atoms/Atom"
 import { User } from "@supabase/supabase-js"
+import "@assets/styles/common.scss"
 import "./style.scss"
 
 /**
@@ -66,11 +67,13 @@ const Login = () => {
                 <div className="login__form">
                     <div className="login__form__item--input">
                         <Input
+                            classname="typo t17"
                             placeholder="Email"
                             value={email}
                             onChange={email => setInput(prev => ({ ...prev, email }))}
                         />
                         <Input
+                            classname="typo t17"
                             placeholder="Password"
                             type="password"
                             value={password}
@@ -79,7 +82,7 @@ const Login = () => {
                     </div>
                     <div className="login__form__item--btn">
                         <Button
-                            classname="typo t20"
+                            classname="typo t18"
                             text="Sign In"
                             onClick={() => {
                                 onSignIn()

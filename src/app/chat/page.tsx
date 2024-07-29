@@ -3,13 +3,15 @@
 import { useEffect, useState } from "react"
 import { Button } from "@components/form"
 import { useQueryParams } from "@hooks/useQueryParams"
-import { useTranscriptions } from "@hooks/useTranscriptions"
 import Popup from "@components/Popup"
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import { ChatroomAtom, UserAtom } from "@atoms/Atom"
 import useRealtimeChatroom from "@hooks/chatroom/useRealtimeChatroom"
 import Chatting from "./Chatting"
 import { ModalByApproval } from "./_component"
+import "@assets/styles/common.scss"
+import "./style.scss"
+import { useTranscriptions } from "@hooks/audioSetting/useTranscriptions"
 
 const Chat = () => {
     const { id } = useQueryParams()

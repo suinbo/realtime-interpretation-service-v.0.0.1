@@ -19,7 +19,7 @@ export default function Selectbox({
     items: SelectboxItem[]
     selectedId?: string
     innerElement?: React.ReactNode
-    onSelect: (selectedId: SelectboxItem) => void
+    onSelect: (selectedItem: SelectboxItem) => void
     style?: React.CSSProperties
 }) {
     const selectBoxRef = useRef<HTMLDivElement>(null)
