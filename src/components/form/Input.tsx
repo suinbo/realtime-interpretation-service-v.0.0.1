@@ -1,7 +1,8 @@
-import React from "react"
+import React, { RefObject } from "react"
 import cx from "classnames"
 
 const Input = ({
+    refs,
     type = "text",
     value,
     placeholder,
@@ -10,6 +11,7 @@ const Input = ({
     onKeyDown,
     classname,
 }: {
+    refs?: RefObject<HTMLInputElement>
     type?: string
     value?: string
     placeholder: string
@@ -22,6 +24,7 @@ const Input = ({
 
     return (
         <input
+            ref={refs}
             type={type}
             className={cx("input", classname)}
             onChange={onInputChange}

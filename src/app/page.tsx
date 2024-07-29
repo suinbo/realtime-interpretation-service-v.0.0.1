@@ -4,7 +4,7 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { Button, Input } from "@components/form"
 import { supabase } from "@utils/superbase"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useSetRecoilState } from "recoil"
 import { LoginProp } from "./setting/types"
 import { UserAtom } from "@atoms/Atom"
@@ -19,19 +19,38 @@ const Login = () => {
     const router = useRouter()
     const setUser = useSetRecoilState<User>(UserAtom)
     const [{ email, password }, setInput] = useState<LoginProp>({ email: "", password: "" })
+    const [errorMessage, setErrorMessage] = useState<string>("")
+
+    const refs = {
+        email: useRef<HTMLInputElement>(null),
+        password: useRef<HTMLInputElement>(null),
+    }
 
     const onSignIn = async () => {
-        //e.preventDefault();
-        const { user, error } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        })
+        const focusOnEmpty = (field: "email" | "password") => {
+            const ref = refs[field]
+            ref.current?.focus()
+        }
 
-        if (error) {
-            console.error("Error signing in:", error.message)
-        } else {
-            setUser(user)
-            router.push("/setting")
+        if (!email) {
+            focusOnEmpty("email")
+            console.log("!!")
+            return
+        }
+        if (!password) focusOnEmpty("password")
+
+        if (email && password) {
+            const { data: user, error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            })
+
+            if (error) {
+                setErrorMessage(error.message)
+            } else {
+                setUser(prev => ({ ...prev, user }))
+                router.push("/setting")
+            }
         }
 
         // // 로그인 없이 채팅방 접속시
@@ -67,28 +86,24 @@ const Login = () => {
                 <div className="login__form">
                     <div className="login__form__item--input">
                         <Input
+                            refs={refs.email}
                             classname="typo t17"
                             placeholder="Email"
                             value={email}
                             onChange={email => setInput(prev => ({ ...prev, email }))}
                         />
                         <Input
+                            refs={refs.password}
                             classname="typo t17"
                             placeholder="Password"
                             type="password"
                             value={password}
                             onChange={password => setInput(prev => ({ ...prev, password }))}
                         />
+                        {errorMessage && <span className="typo t16 w500">※ {errorMessage}</span>}
                     </div>
                     <div className="login__form__item--btn">
-                        <Button
-                            classname="typo t18"
-                            text="Sign In"
-                            onClick={() => {
-                                onSignIn()
-                                // router.push("/setting")
-                            }}
-                        />
+                        <Button classname="typo t18" text="Sign In" onClick={onSignIn} />
                         <Button classname="typo t18 signup" text="Sign Up" onClick={() => {}} />
                     </div>
                     <div className="login__form__item--reset typo w500">
