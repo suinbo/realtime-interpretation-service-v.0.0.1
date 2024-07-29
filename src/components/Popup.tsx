@@ -47,7 +47,7 @@ const Popup = ({
             <div className="popup__inner">
                 {hasClosedBtn && (
                     <div className="popup__header">
-                        {title && <span className="typo t24 w500">{title}</span>}
+                        {title && <span className="typo t23 w500">{title}</span>}
                         <div className="popup__header--button" onClick={onClose}>
                             <span className="close-btn"></span>
                         </div>

@@ -24,7 +24,7 @@ const Chat = () => {
 
     useEffect(() => {
         if (chatroom) {
-            const { room_title, chat_language, room_password, approval_required } = chatroom
+            const { room_title, chat_language, room_password, room_option, approval_required } = chatroom
 
             setChatroom({
                 chat_nm: room_title,
@@ -32,6 +32,7 @@ const Chat = () => {
                 chat_pw: room_password,
                 has_chat_pw: !!room_password,
                 host_auth: approval_required,
+                room_option,
             })
         }
     }, [chatroom])

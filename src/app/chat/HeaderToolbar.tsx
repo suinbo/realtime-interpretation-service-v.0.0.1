@@ -1,6 +1,6 @@
 "use client"
 
-import { UserAtom } from "@atoms/Atom"
+import { ChatroomAtom, UserAtom } from "@atoms/Atom"
 import { useSession } from "@hooks/useSession"
 import { useState } from "react"
 import { useRecoilValue } from "recoil"
@@ -10,10 +10,14 @@ const HeaderToolbar = () => {
     useSession()
 
     const user = useRecoilValue(UserAtom)
+    const { chat_nm } = useRecoilValue(ChatroomAtom)
     const [view, setView] = useState<string>("")
 
     return (
-        <>
+        <div className="header">
+            <div className="header__title">
+                <span className="typo t16">[대화] {chat_nm}</span>
+            </div>
             <div className="header__toolbar">
                 <div className="header__toolbar--user">
                     <span className="user-name typo t16">{user?.email}</span>
@@ -25,7 +29,7 @@ const HeaderToolbar = () => {
                 </div>
             </div>
             <ModalBySetting view={view} setView={setView} />
-        </>
+        </div>
     )
 }
 

@@ -20,18 +20,19 @@ const Checkbox = ({
 
     return (
         <div className="checkbox">
-            <label className={cx("checkbox-label ", { checked })} htmlFor={id} />
-            {label}
-            <input
-                id={id}
-                type="checkbox"
-                disabled={disabled}
-                checked={checked}
-                onChange={() => {
-                    onChange && onChange(!checked)
-                    setChecked(!checked)
-                }}
-            />
+            <label className={cx("checkbox-label ", { checked })} htmlFor={id}>
+                <input
+                    id={id}
+                    type="checkbox"
+                    disabled={disabled}
+                    checked={checked}
+                    onChange={() => {
+                        onChange && onChange(!checked)
+                        setChecked(!checked)
+                    }}
+                />
+                {label}
+            </label>
         </div>
     )
 }

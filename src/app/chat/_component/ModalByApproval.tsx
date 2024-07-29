@@ -3,7 +3,7 @@ import { ChatroomProp } from "@hooks/chatroom/useRealtimeChatroom"
 import PasswordInput from "./PasswordInput"
 import PendintApproval from "./PendingApprovalView"
 import { supabase } from "@utils/superbase"
-import { Layout } from "."
+import { SimpleLayout } from "./PopupLayout"
 
 const Modal = ({
     chatroom,
@@ -17,7 +17,7 @@ const Modal = ({
     // 팝업 레이아웃
     const contentModal = {
         approvalRequest: (
-            <Layout
+            <SimpleLayout
                 text={
                     <>
                         대화 참여를 위해<span className="typo w500"> 호스트 승인</span>이 필요합니다.
@@ -43,7 +43,7 @@ const Modal = ({
             />
         ),
         approvalResponse: (
-            <Layout
+            <SimpleLayout
                 text={
                     <>
                         <span className="typo w500">{chatroom?.member_email}</span> 님이 승인을 요청 합니다.
@@ -70,7 +70,7 @@ const Modal = ({
             />
         ),
         passwordRequest: (
-            <Layout
+            <SimpleLayout
                 text={
                     <>
                         대화 참여를 위해<span className="typo w600"> 암호 코드</span>를 입력하세요.

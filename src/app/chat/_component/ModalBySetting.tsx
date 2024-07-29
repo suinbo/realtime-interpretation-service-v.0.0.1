@@ -1,18 +1,19 @@
-import Popup from "@components/Popup"
 import React, { SetStateAction, useEffect, useState } from "react"
-import { Button, Checkbox, Input, RadioGroup, Selectbox } from "@components/form"
+import { Checkbox, Input, RadioGroup, Selectbox } from "@components/form"
 import { FormItemProp } from "@app/setting/types"
 import { languages } from "@resources/data"
 import { useRecoilValue } from "recoil"
 import { ChatroomAtom } from "@atoms/Atom"
 import { supabase } from "@utils/superbase"
 import { useQueryParams } from "@hooks/useQueryParams"
+import { FormLayout } from "./PopupLayout"
 
 const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispatch<SetStateAction<string>> }) => {
     const { id } = useQueryParams()
     const chatroomInfo = useRecoilValue(ChatroomAtom)
 
-    const [{ chat_nm, chat_lang, has_chat_pw, chat_pw, host_auth }, setFormItem] = useState<FormItemProp>(chatroomInfo)
+    const [{ chat_nm, chat_lang, has_chat_pw, chat_pw, host_auth, room_option }, setFormItem] =
+        useState<FormItemProp>(chatroomInfo)
 
     useEffect(() => {
         setFormItem({ ...chatroomInfo, chat_lang: String(chatroomInfo.chat_lang).split(",") })
@@ -30,79 +31,10 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
         share: <></>,
         setting:
             chatroomInfo.room_option == 1 ? (
-                <Popup
-                    title="대화 설정"
-                    hasClosedBtn={true}
-                    hasTopIcon={false}
-                    style={{ width: 800 }}
-                    onClose={() => {
-                        setView("")
-                        setFormItem(chatroomInfo)
-                    }}>
-                    <div className="popup__content">
-                        <div className="popup__content--form">
-                            <div className="form-item">
-                                <p className="form-item__label">대화 명</p>
-                                <Input
-                                    type="text"
-                                    value={chat_nm}
-                                    placeholder="대화 명을 입력하세요."
-                                    onChange={chat_nm => setFormItem(prev => ({ ...prev, chat_nm }))}
-                                />
-                            </div>
-                            <div className="form-item">
-                                <p className="form-item__label">번역 언어 1</p>
-                                <Selectbox
-                                    style={{ height: 260 }}
-                                    items={languages}
-                                    selectedId={String(chat_lang).split(",")[0]}
-                                    onSelect={({ id }) => onSelect(id, 0)}
-                                />
-                            </div>
-                            <div className="form-item">
-                                <p className="form-item__label">번역 언어 2</p>
-                                <Selectbox
-                                    style={{ height: 260 }}
-                                    items={languages}
-                                    selectedId={String(chat_lang).split(",")[1]}
-                                    onSelect={({ id }) => onSelect(id, 1)}
-                                />
-                            </div>
-                        </div>
-                        <div className="popup__content--btn--setting">
-                            <Button
-                                text="저장"
-                                onClick={async () => {
-                                    const { data } = await supabase
-                                        .from("chatroom")
-                                        .update({
-                                            room_title: chat_nm,
-                                            chat_language: chat_lang.join(","),
-                                        })
-                                        .eq("room_id", id)
-                                        .select("*")
-
-                                    data?.length && setView("")
-                                }}
-                                classname="lined--1 typo t17 w500"
-                            />
-                            <Button text="취소" onClick={() => setView("")} classname="secondary typo t17 w500" />
-                        </div>
-                    </div>
-                </Popup>
-            ) : (
-                <Popup
-                    title="대화 설정"
-                    hasClosedBtn={true}
-                    hasTopIcon={false}
-                    style={{ width: 800 }}
-                    onClose={() => {
-                        setView("")
-                        setFormItem(chatroomInfo)
-                    }}>
-                    <div className="popup__content">
-                        <div className="popup__content--form">
-                            <div className="form__item--title">
+                <FormLayout
+                    formElement={
+                        <>
+                            <div className="form__item">
                                 <p className="form__item-label">대화 명</p>
                                 <Input
                                     type="text"
@@ -111,7 +43,57 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                                     onChange={chat_nm => setFormItem(prev => ({ ...prev, chat_nm }))}
                                 />
                             </div>
-                            <div className="form__item--password">
+                            <div className="form__item">
+                                <p className="form__item-label">번역 언어 1</p>
+                                <Selectbox
+                                    style={{ height: 260 }}
+                                    items={languages}
+                                    selectedId={String(chat_lang).split(",")[0]}
+                                    onSelect={({ id }) => onSelect(id, 0)}
+                                />
+                            </div>
+                            <div className="form__item">
+                                <p className="form__item-label">번역 언어 2</p>
+                                <Selectbox
+                                    style={{ height: 260 }}
+                                    items={languages}
+                                    selectedId={String(chat_lang).split(",")[1]}
+                                    onSelect={({ id }) => onSelect(id, 1)}
+                                />
+                            </div>
+                        </>
+                    }
+                    onSave={async () => {
+                        const { data } = await supabase
+                            .from("chatroom")
+                            .update({
+                                room_title: chat_nm,
+                                chat_language: chat_lang.join(","),
+                            })
+                            .eq("room_id", id)
+                            .select("*")
+
+                        data?.length && setView("")
+                    }}
+                    onClose={() => {
+                        setView("")
+                        setFormItem(chatroomInfo)
+                    }}
+                />
+            ) : (
+                <FormLayout
+                    formElement={
+                        <>
+                            <div className="form__item">
+                                <p className="form__item-label">대화 명</p>
+                                <Input
+                                    type="text"
+                                    value={chat_nm}
+                                    placeholder="대화 명을 입력하세요."
+                                    onChange={chat_nm => setFormItem(prev => ({ ...prev, chat_nm }))}
+                                />
+                            </div>
+                            <div className="form__item">
                                 <p className="form__item--label">암호 설정</p>
                                 <div>
                                     <Checkbox
@@ -133,7 +115,7 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                                     )}
                                 </div>
                             </div>
-                            <div className="form__item--auth">
+                            <div className="form__item">
                                 <p className="form__item-label">호스트 승인</p>
                                 <div>
                                     <RadioGroup
@@ -149,28 +131,25 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                                     />
                                 </div>
                             </div>
-                        </div>
-                        <div className="popup__content--btn--setting">
-                            <Button
-                                text="저장"
-                                onClick={async () => {
-                                    const { data } = await supabase
-                                        .from("chatroom")
-                                        .update({
-                                            room_title: chat_nm,
-                                            chat_language: chat_lang.join(","),
-                                        })
-                                        .eq("room_id", id)
-                                        .select("*")
+                        </>
+                    }
+                    onSave={async () => {
+                        const { data } = await supabase
+                            .from("chatroom")
+                            .update({
+                                room_title: chat_nm,
+                                chat_language: chat_lang.join(","),
+                            })
+                            .eq("room_id", id)
+                            .select("*")
 
-                                    data?.length && setView("")
-                                }}
-                                classname="lined--1 typo t17 w500"
-                            />
-                            <Button text="취소" onClick={() => setView("")} classname="secondary typo t17 w500" />
-                        </div>
-                    </div>
-                </Popup>
+                        data?.length && setView("")
+                    }}
+                    onClose={() => {
+                        setView("")
+                        setFormItem(chatroomInfo)
+                    }}
+                />
             ),
 
         close: <></>,

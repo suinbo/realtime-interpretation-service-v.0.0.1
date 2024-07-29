@@ -23,7 +23,7 @@ const Input = ({
     return (
         <input
             type={type}
-            className={cx("input", "typo t18", classname)}
+            className={cx("input", classname)}
             onChange={onInputChange}
             onKeyDown={onKeyDown}
             value={value}

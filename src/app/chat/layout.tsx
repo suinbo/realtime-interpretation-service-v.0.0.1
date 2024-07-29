@@ -8,12 +8,7 @@ const Layout = ({
     return (
         <div className="chatboard">
             <div className="chatboard__inner">
-                <div className="header">
-                    <div className="header__title">
-                        <span className="typo t16">[민원 상담] 대화 1</span>
-                    </div>
-                    <HeaderToolbar />
-                </div>
+                <HeaderToolbar />
                 {children}
             </div>
         </div>

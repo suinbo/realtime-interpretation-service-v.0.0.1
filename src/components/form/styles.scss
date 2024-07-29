@@ -161,8 +161,8 @@
 /** Radio */
 .radio {
     &-list {
-        display: grid;
-        grid-template-columns: 1fr 5fr;
+        display: flex;
+        gap: 40px;
         align-items: center;
     }
 
@@ -171,9 +171,11 @@
             display: flex;
             align-items: center;
             gap: 26px;
+            cursor: pointer;
         }
 
         input[type="radio"] {
+            cursor: pointer;
             width: 18px;
             height: 18px;
             border-radius: 50%;
@@ -190,23 +192,24 @@
 
 /** Checkbox */
 .checkbox {
-    display: flex;
-    align-items: center;
-    gap: 26px;
+    label {
+        display: flex;
+        align-items: center;
+        gap: 26px;
+        cursor: pointer;
+    }
 
-    > label {
+    input[type="checkbox"] {
+        cursor: pointer;
         width: 18px;
         height: 18px;
-        border: 2px solid #e0e0e0;
         border-radius: 4px;
+        border: 2px solid #e0e0e0;
+        appearance: none;
 
-        &.checked {
+        &:checked {
             border: none;
             background: #000 url("../../assets/images/check.png") no-repeat center center;
         }
-    }
-
-    > input[type="checkbox"] {
-        display: none;
     }
 }

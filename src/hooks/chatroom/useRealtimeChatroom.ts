@@ -6,6 +6,7 @@ export interface ChatroomProp {
     id: string
     room_id: string
     room_title: string
+    room_option: number
     chat_language: string[]
     creator_id: string
     member_id: string | null

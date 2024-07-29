@@ -1,7 +1,7 @@
 @mixin formGridStyle {
     display: grid;
     grid-template-columns: 1fr 4fr;
-    grid-template-rows: 52px;
+    grid-template-rows: 42px;
     align-items: center;
 }
 
@@ -31,13 +31,15 @@
     &__inner {
         display: flex;
         flex-direction: column;
-        gap: 40px;
+        gap: 20px;
     }
 
     &__header {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ebebeb;
 
         &--button {
             display: flex;
@@ -56,7 +58,7 @@
     &__content {
         display: flex;
         flex-direction: column;
-        gap: 40px;
+        gap: 50px;
         padding: 10px;
 
         &--form {
@@ -67,11 +69,7 @@
             // TODO 세팅 화면 설정 레이아웃과 동일
             .form {
                 &__item {
-                    &--title,
-                    &--password,
-                    &--auth {
-                        @include formGridStyle;
-                    }
+                    @include formGridStyle;
 
                     &--password {
                         > div {
@@ -82,7 +80,7 @@
 
                         &-group {
                             display: grid;
-                            grid-template-columns: 1fr 5fr;
+                            grid-template-columns: 1fr 3fr;
                             align-items: center;
 
                             > span {
@@ -108,11 +106,12 @@
             flex-direction: row;
             gap: 14px;
 
+            // 세팅 팝업 (width: 40%)
             &--setting {
                 display: flex;
                 flex-direction: row;
                 gap: 14px;
-                width: 50%;
+                width: 40%;
                 position: relative;
                 left: 50%;
                 transform: translate(-50%, 0);
