@@ -165,6 +165,40 @@
                                     border-left: 20px solid #fff;
                                 }
 
+                                // 말풍선
+                                .text-item {
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 20px;
+
+                                    &--audio-text {
+                                        padding-bottom: 20px;
+                                        border-bottom: 1px solid #ebebeb;
+                                    }
+
+                                    &--translation-text {
+                                        display: flex;
+                                        flex-direction: column;
+                                        gap: 8px;
+
+                                        > span {
+                                            display: flex;
+                                            gap: 6px;
+                                            background-color: #ffd12b;
+                                            padding: 4px 12px;
+                                            border-radius: 16px;
+                                            width: fit-content;
+
+                                            &::before {
+                                                content: "";
+                                                background: url("../../assets/images/translation.png") no-repeat center;
+                                                width: 29px;
+                                                height: 25px;
+                                            }
+                                        }
+                                    }
+                                }
+
                                 // 음성 인식 시작 버튼
                                 .starter {
                                     width: auto;

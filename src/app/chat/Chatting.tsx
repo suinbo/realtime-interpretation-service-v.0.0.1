@@ -13,27 +13,32 @@ const Chatting = ({
     startRecording: () => void
     userId: string
 }) => {
+    const newMessage = { msg_id: "new", msg_content: "", speaker_id: userId, msg_trans_content: "" }
     return (
         <div className="content__body--chat">
             <ul>
-                {[...messages, { msg_id: "new", msg_content: "", speaker_id: userId }].map(
-                    ({ msg_id, msg_content, speaker_id }) => (
-                        <li key={msg_id} className={cx("chatting__item", { my: speaker_id == userId })}>
-                            <div className="chatting__item--user">
-                                <span className="profile" />
-                            </div>
-                            <div className="chatting__item--text">
-                                {msg_content ? (
-                                    <span className="typo t22">{msg_content}</span>
-                                ) : isRecording ? (
-                                    <Loading />
-                                ) : (
-                                    <Button text="음성 인식 시작" onClick={startRecording} classname="starter" />
-                                )}
-                            </div>
-                        </li>
-                    )
-                )}
+                {[...messages, newMessage].map(({ msg_id, msg_content, speaker_id, msg_trans_content }) => (
+                    <li key={msg_id} className={cx("chatting__item", { my: speaker_id == userId })}>
+                        <div className="chatting__item--user">
+                            <span className="profile" />
+                        </div>
+                        <div className="chatting__item--text">
+                            {msg_content ? (
+                                <div className="text-item">
+                                    <div className="text-item--audio-text typo t22 w500">{msg_content}</div>
+                                    <div className="text-item--translation-text">
+                                        <span>Translation</span>
+                                        <p>{msg_trans_content}</p>
+                                    </div>
+                                </div>
+                            ) : isRecording ? (
+                                <Loading />
+                            ) : (
+                                <Button text="음성 인식 시작" onClick={startRecording} classname="starter" />
+                            )}
+                        </div>
+                    </li>
+                ))}
             </ul>
         </div>
     )

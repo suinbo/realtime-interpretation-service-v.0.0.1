@@ -74,10 +74,48 @@ export function useTranscriptions({ userId, roomId }: { userId: string; roomId: 
 
                         const { text } = await response.json()
 
+                        // 3. 번역 API 호출
+                        const translationResponse = await fetch(API.GPT_TRANSLATION_API, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
+                            },
+                            body: JSON.stringify({
+                                model: "gpt-4",
+                                // prompt: `Translate this text to English: ${text}`,
+                                messages: [
+                                    {
+                                        role: "system",
+                                        content: "You are a helpful assistant that translates text.",
+                                    },
+                                    {
+                                        role: "user",
+                                        content: `Translate the following text to English:\n\n${text}`,
+                                    },
+                                ],
+                                max_tokens: 1000,
+                                temperature: 0.3,
+                            }),
+                        })
+
+                        if (!translationResponse.ok) {
+                            const errorText = await translationResponse.text()
+                            throw new Error(errorText)
+                        }
+
+                        const { choices } = await translationResponse.json()
+                        const translatedText = choices[0].message.content.trim()
+
                         // Supabase에 텍스트 저장
-                        const { data, error } = await supabase
-                            .from("messages")
-                            .insert([{ msg_content: text, speaker_id: userId, room_id: roomId }])
+                        const { data, error } = await supabase.from("messages").insert([
+                            {
+                                msg_content: text,
+                                speaker_id: userId,
+                                room_id: roomId,
+                                msg_trans_content: translatedText,
+                            },
+                        ])
 
                         if (error) {
                             throw new Error(error.message)
