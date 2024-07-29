@@ -9,19 +9,19 @@ import { ChatroomAtom, UserAtom } from "@atoms/Atom"
 import useRealtimeChatroom from "@hooks/chatroom/useRealtimeChatroom"
 import Chatting from "./Chatting"
 import { ModalByApproval } from "./_component"
+import { useTranscriptions } from "@hooks/audioSetting/useTranscriptions"
 import "@assets/styles/common.scss"
 import "./style.scss"
-import { useTranscriptions } from "@hooks/audioSetting/useTranscriptions"
 
 const Chat = () => {
     const { id } = useQueryParams()
-    const transcriptions = useTranscriptions()
     const [start, setStart] = useState<boolean>(false)
 
     const user = useRecoilValue(UserAtom)
     const setChatroom = useSetRecoilState(ChatroomAtom)
 
     const { chatroom } = useRealtimeChatroom(id as string, user)
+    const transcriptions = useTranscriptions({ userId: user.id, roomId: id as string })
 
     useEffect(() => {
         if (chatroom) {
@@ -58,12 +58,12 @@ const Chat = () => {
         <div className="content">
             <div className="content__wrapper">
                 {isAccepted && (
-                    <div className="content__body--no-member typo t18 ">
+                    <div className="content__body--no-member typo t18">
                         {`${chatroom?.member_email} 님이 참여하였습니다.`}
                     </div>
                 )}
                 {start ? (
-                    <Chatting {...transcriptions} />
+                    <Chatting {...transcriptions} userId={user.id} />
                 ) : (
                     <div className="content__body--button">
                         <Button

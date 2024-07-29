@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react"
 import { supabase } from "@utils/superbase"
 import { API } from "@resources/constant"
 
-export function useTranscriptions() {
+export function useTranscriptions({ userId, roomId }: { userId: string; roomId: string }) {
     const [messages, setMessages] = useState<any[]>([])
     const [isRecording, setIsRecording] = useState(false)
     const mediaRecorderRef = useRef<MediaRecorder | null>(null)
@@ -23,7 +23,7 @@ export function useTranscriptions() {
 
         // 초기 데이터 로드
         const fetchMessages = async () => {
-            const { data } = await supabase.from("messages").select("*")
+            const { data } = await supabase.from("messages").select("*").eq("room_id", roomId)
             setMessages(data || [])
         }
 
@@ -75,7 +75,9 @@ export function useTranscriptions() {
                         const { text } = await response.json()
 
                         // Supabase에 텍스트 저장
-                        const { data, error } = await supabase.from("messages").insert([{ content: text }])
+                        const { data, error } = await supabase
+                            .from("messages")
+                            .insert([{ msg_content: text, speaker_id: userId, room_id: roomId }])
 
                         if (error) {
                             throw new Error(error.message)

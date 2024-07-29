@@ -79,6 +79,7 @@
                 &--no-member {
                     text-align: center;
                     color: #c7c7c7;
+                    margin-bottom: 40px;
                 }
 
                 &--chat {
@@ -97,7 +98,35 @@
                         .chatting__item {
                             display: flex;
                             align-items: center;
+                            flex-direction: row-reverse;
                             gap: 50px;
+
+                            &.my {
+                                flex-direction: row;
+
+                                .chatting__item--user .profile {
+                                    background-color: #ffd12b;
+                                }
+
+                                .chatting__item--text {
+                                    &::before {
+                                        display: none;
+                                    }
+
+                                    &::after {
+                                        content: "";
+                                        position: absolute;
+                                        top: 50%;
+                                        left: -20px;
+                                        transform: translate(0, -50%);
+                                        width: 0;
+                                        height: 0;
+                                        border-top: 14px solid transparent;
+                                        border-bottom: 14px solid transparent;
+                                        border-right: 20px solid #fff;
+                                    }
+                                }
+                            }
 
                             &--user {
                                 display: flex;
@@ -105,7 +134,8 @@
                                 .profile {
                                     width: 54px;
                                     height: 54px;
-                                    background: url("../../assets/images/profile.png") no-repeat #ffd12b;
+                                    background: url("../../assets/images/profile.png") no-repeat;
+                                    background-color: #4f60ff;
                                     background-position: center;
                                     border-radius: 50%;
                                 }
@@ -126,13 +156,13 @@
                                     content: "";
                                     position: absolute;
                                     top: 50%;
-                                    left: -20px;
+                                    right: -20px;
                                     transform: translate(0, -50%);
                                     width: 0;
                                     height: 0;
                                     border-top: 14px solid transparent;
                                     border-bottom: 14px solid transparent;
-                                    border-right: 20px solid #fff;
+                                    border-left: 20px solid #fff;
                                 }
 
                                 // 음성 인식 시작 버튼
