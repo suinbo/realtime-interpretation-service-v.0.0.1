@@ -30,21 +30,22 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
     const contentModal: { [key: string]: React.ReactNode } = {
         share: <></>,
         setting:
-            chatroomInfo.room_option == 1 ? (
+            room_option == 1 ? (
                 <FormLayout
                     formElement={
                         <>
                             <div className="form__item">
-                                <p className="form__item-label">대화 명</p>
+                                <p className="form__item-label typo w500">대화 명</p>
                                 <Input
                                     type="text"
+                                    classname="typo t17"
                                     value={chat_nm}
                                     placeholder="대화 명을 입력하세요."
                                     onChange={chat_nm => setFormItem(prev => ({ ...prev, chat_nm }))}
                                 />
                             </div>
                             <div className="form__item">
-                                <p className="form__item-label">번역 언어 1</p>
+                                <p className="form__item-label typo w500">번역 언어 1</p>
                                 <Selectbox
                                     style={{ height: 260 }}
                                     items={languages}
@@ -53,7 +54,7 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                                 />
                             </div>
                             <div className="form__item">
-                                <p className="form__item-label">번역 언어 2</p>
+                                <p className="form__item-label typo w500">번역 언어 2</p>
                                 <Selectbox
                                     style={{ height: 260 }}
                                     items={languages}
@@ -85,16 +86,17 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                     formElement={
                         <>
                             <div className="form__item">
-                                <p className="form__item-label">대화 명</p>
+                                <p className="form__item-label typo w500">대화 명</p>
                                 <Input
                                     type="text"
+                                    classname="typo t17"
                                     value={chat_nm}
                                     placeholder="대화 명을 입력하세요."
                                     onChange={chat_nm => setFormItem(prev => ({ ...prev, chat_nm }))}
                                 />
                             </div>
-                            <div className="form__item">
-                                <p className="form__item--label">암호 설정</p>
+                            <div className="form__item--password">
+                                <p className="form__item--label typo w500">암호 설정</p>
                                 <div>
                                     <Checkbox
                                         id="password-check"
@@ -107,6 +109,7 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                                             <span className="typo t14">암호</span>
                                             <Input
                                                 type="password"
+                                                classname="typo t17"
                                                 value={chat_pw as string}
                                                 placeholder="암호를 입력하세요."
                                                 onChange={chat_pw => setFormItem(prev => ({ ...prev, chat_pw }))}
@@ -116,7 +119,7 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                                 </div>
                             </div>
                             <div className="form__item">
-                                <p className="form__item-label">호스트 승인</p>
+                                <p className="form__item-label typo w500">호스트 승인</p>
                                 <div>
                                     <RadioGroup
                                         name="host_auth"
@@ -138,7 +141,8 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                             .from("chatroom")
                             .update({
                                 room_title: chat_nm,
-                                chat_language: chat_lang.join(","),
+                                room_password: chat_pw,
+                                approval_required: host_auth,
                             })
                             .eq("room_id", id)
                             .select("*")

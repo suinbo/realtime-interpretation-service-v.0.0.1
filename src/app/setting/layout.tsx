@@ -4,6 +4,7 @@ import { useRecoilValue } from "recoil"
 import { User } from "@supabase/supabase-js"
 import { UserAtom } from "@atoms/Atom"
 import { useSession } from "@hooks/useSession"
+import "@assets/styles/common.scss"
 import "./style.scss"
 
 const Layout = ({

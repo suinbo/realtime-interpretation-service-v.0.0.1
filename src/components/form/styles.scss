@@ -161,12 +161,15 @@
 /** Radio */
 .radio {
     &-list {
-        display: flex;
-        gap: 40px;
+        display: grid;
+        grid-template-columns: 1fr 4fr;
         align-items: center;
     }
 
     &-button {
+        display: grid;
+        grid-template-columns: auto 1fr; //해당 열에 포함된 콘텐츠의 너비에 맞춰 자동으로 설정
+
         label {
             display: flex;
             align-items: center;
@@ -203,7 +206,7 @@
         cursor: pointer;
         width: 18px;
         height: 18px;
-        border-radius: 4px;
+        border-radius: 6px;
         border: 2px solid #e0e0e0;
         appearance: none;
 

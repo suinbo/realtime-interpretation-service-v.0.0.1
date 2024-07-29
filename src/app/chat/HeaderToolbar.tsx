@@ -4,7 +4,7 @@ import { ChatroomAtom, UserAtom } from "@atoms/Atom"
 import { useSession } from "@hooks/useSession"
 import { useState } from "react"
 import { useRecoilValue } from "recoil"
-import ModalBySetting from "./_component/ModalBySetting"
+import ModalBySetting from "./_component/modal/ModalBySetting"
 
 const HeaderToolbar = () => {
     useSession()

@@ -9,8 +9,6 @@ import { useSetRecoilState } from "recoil"
 import { LoginProp } from "./setting/types"
 import { UserAtom } from "@atoms/Atom"
 import { User } from "@supabase/supabase-js"
-import { useSession } from "@hooks/useSession"
-import "@assets/styles/common.scss"
 import "./style.scss"
 
 /**

@@ -10,7 +10,6 @@ import { ChatroomAtom, UserAtom } from "@atoms/Atom"
 import useRealtimeChatroom from "@hooks/chatroom/useRealtimeChatroom"
 import Chatting from "./Chatting"
 import { ModalByApproval } from "./_component"
-import "./style.scss"
 
 const Chat = () => {
     const { id } = useQueryParams()

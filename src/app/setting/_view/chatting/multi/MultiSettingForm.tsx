@@ -16,7 +16,7 @@ const MultiSettingForm = ({
                     <span className="typo t20 w500">대화 명</span>
                     <Input
                         type="text"
-                        classname="typo t18"
+                        classname="typo t17"
                         value={chat_nm}
                         placeholder="대화 명을 입력하세요."
                         onChange={chat_nm => setFormItem(prev => ({ ...prev, chat_nm }))}
@@ -36,6 +36,7 @@ const MultiSettingForm = ({
                                 <span className="typo t18">암호</span>
                                 <Input
                                     type="password"
+                                    classname="typo t17"
                                     value={chat_pw as string}
                                     placeholder="암호를 입력하세요."
                                     onChange={chat_pw => setFormItem(prev => ({ ...prev, chat_pw }))}

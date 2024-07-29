@@ -1,7 +1,7 @@
 import { Button } from "@components/form"
 import { ChatroomProp } from "@hooks/chatroom/useRealtimeChatroom"
-import PasswordInput from "./PasswordInput"
-import PendintApproval from "./PendingApprovalView"
+import PasswordInput from "../PasswordInput"
+import PendintApproval from "../PendingApprovalView"
 import { supabase } from "@utils/superbase"
 import { SimpleLayout } from "./PopupLayout"
 
