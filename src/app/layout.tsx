@@ -4,6 +4,7 @@ import cx from "classnames"
 import Provider from "./Provider"
 // TODO: common.scss 로 통합
 import "./globals.scss"
+import "@assets/styles/common.scss"
 
 const notoSansKr = Noto_Sans_KR({
     subsets: ["latin"],

@@ -50,7 +50,7 @@
         color: #ffc700;
     }
 
-    @for $i from 15 through 80 {
+    @for $i from 12 through 80 {
         &.t#{$i} {
             font-size: #{$i}px;
 

@@ -72,14 +72,13 @@
 
             &__wrapper {
                 height: 100%;
-                padding: 40px;
             }
 
             &__body {
                 &--no-member {
                     text-align: center;
                     color: #c7c7c7;
-                    margin-bottom: 40px;
+                    margin: 30px 0;
                 }
 
                 &--chat {
@@ -92,7 +91,7 @@
                     > ul {
                         display: flex;
                         flex-direction: column;
-                        gap: 30px;
+                        // gap: 10px;
                         width: 100%;
 
                         .chatting__item {
@@ -100,7 +99,9 @@
                             align-items: center;
                             flex-direction: row-reverse;
                             gap: 50px;
+                            padding: 16px;
 
+                            // 나의 말풍선
                             &.my {
                                 flex-direction: row;
 
@@ -132,12 +133,13 @@
                                 display: flex;
 
                                 .profile {
-                                    width: 54px;
-                                    height: 54px;
+                                    width: 45px;
+                                    height: 45px;
                                     background: url("../../assets/images/profile.png") no-repeat;
                                     background-color: #4f60ff;
                                     background-position: center;
                                     border-radius: 50%;
+                                    box-shadow: 0 0 8px 3px rgba(194, 194, 194, 0.4);
                                 }
                             }
 
@@ -147,10 +149,10 @@
                                 flex-direction: row;
                                 gap: 26px;
 
-                                padding: 30px 50px;
+                                padding: 30px 40px;
                                 background-color: #fff;
-                                border-radius: 20px;
-                                box-shadow: 0 0 30px 10px rgba(199, 199, 199, 0.1);
+                                border-radius: 28px;
+                                box-shadow: 0 0 26px 8px rgba(199, 199, 199, 0.1);
 
                                 &::before {
                                     content: "";
@@ -169,10 +171,10 @@
                                 .text-item {
                                     display: flex;
                                     flex-direction: column;
-                                    gap: 20px;
+                                    gap: 14px;
 
                                     &--audio-text {
-                                        padding-bottom: 20px;
+                                        padding-bottom: 16px;
                                         border-bottom: 1px solid #ebebeb;
                                     }
 
@@ -183,11 +185,13 @@
 
                                         > span {
                                             display: flex;
-                                            gap: 6px;
-                                            background-color: #ffd12b;
-                                            padding: 4px 12px;
+                                            gap: 2px;
+                                            //background-color: #ffd12b;
+                                            background-color: #e8e8e8;
+                                            padding: 0px 11px 0px 5px;
                                             border-radius: 16px;
                                             width: fit-content;
+                                            align-items: center;
 
                                             &::before {
                                                 content: "";

@@ -25,10 +25,10 @@ const Chatting = ({
                         <div className="chatting__item--text">
                             {msg_content ? (
                                 <div className="text-item">
-                                    <div className="text-item--audio-text typo t22 w500">{msg_content}</div>
+                                    <div className="text-item--audio-text typo t17 w500">{msg_content}</div>
                                     <div className="text-item--translation-text">
-                                        <span>Translation</span>
-                                        <p>{msg_trans_content}</p>
+                                        <span className="typo t13 w500">Translation</span>
+                                        <p className="typo t17 w500">{msg_trans_content}</p>
                                     </div>
                                 </div>
                             ) : isRecording ? (

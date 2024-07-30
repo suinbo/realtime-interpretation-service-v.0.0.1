@@ -58,7 +58,7 @@ const Chat = () => {
         <div className="content">
             <div className="content__wrapper">
                 {isAccepted && (
-                    <div className="content__body--no-member typo t18">
+                    <div className="content__body--no-member typo t16">
                         {`${chatroom?.member_email} 님이 참여하였습니다.`}
                     </div>
                 )}
