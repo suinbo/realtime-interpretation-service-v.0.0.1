@@ -46,6 +46,7 @@ export type SelectboxItemProp = {
 }
 
 export type LoginProp = {
-    email: string
+    email?: string
     password: string
+    rePassword?: string
 }

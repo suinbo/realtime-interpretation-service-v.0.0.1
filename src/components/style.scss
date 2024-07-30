@@ -71,6 +71,20 @@
             .form {
                 &__item {
                     @include formGridStyle;
+                    &-wrapper {
+                        display: flex;
+                        align-items: center;
+                        gap: 16px;
+
+                        .re-check {
+                            display: flex;
+
+                            background: url("../assets/images/recheck.png") no-repeat center;
+                            width: 25px;
+                            height: 25px;
+                            content: "";
+                        }
+                    }
 
                     &--password {
                         @include formGridStyle;
@@ -109,7 +123,8 @@
             gap: 14px;
 
             // 세팅 팝업 (width: 40%)
-            &--setting {
+            &--setting,
+            &--login {
                 display: flex;
                 flex-direction: row;
                 gap: 14px;

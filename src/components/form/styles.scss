@@ -3,7 +3,7 @@
     border: none;
     border-radius: $radius;
     padding: $padding;
-    box-shadow: 0 0 24px 2px rgba(223, 223, 223, 0.3);
+
     background-color: #fff;
 
     @media (max-width: 1600px) {
@@ -26,6 +26,12 @@
 /** Input */
 .input {
     @include formStyle(60px);
+    border: 1px solid transparent;
+    box-shadow: 0 0 24px 2px rgba(223, 223, 223, 0.3);
+
+    &:focus {
+        border: 1px solid #ffd84f;
+    }
 
     &::placeholder {
         color: #c6c6c6;
@@ -98,6 +104,7 @@
     &__opener {
         cursor: pointer;
         @include formStyle(60px);
+        box-shadow: 0 0 24px 2px rgba(223, 223, 223, 0.3);
 
         display: flex;
         justify-content: space-between;
@@ -135,6 +142,7 @@
         z-index: 1;
 
         @include formStyle(26px, 16px 20px);
+        box-shadow: 0 0 24px 2px rgba(223, 223, 223, 0.3);
 
         &-list {
             overflow-y: scroll;
