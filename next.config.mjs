@@ -3,6 +3,7 @@
 import path from "path"
 import { fileURLToPath } from "url"
 import { dirname } from "path"
+// import i18nextConfig from "./next-i18next.config.mjs"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
