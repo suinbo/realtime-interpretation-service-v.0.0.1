@@ -1,8 +1,16 @@
 import { Button } from "@components/form"
 import Popup from "@components/Popup"
 
-const SimpleLayout = ({ text, controller }: { text: React.ReactNode; controller: React.ReactNode }) => (
-    <Popup hasClosedBtn={false} hasTopIcon={true} style={{ width: 430 }}>
+const SimpleLayout = ({
+    hasTopIcon,
+    text,
+    controller,
+}: {
+    hasTopIcon?: boolean
+    text: React.ReactNode
+    controller: React.ReactNode
+}) => (
+    <Popup hasClosedBtn={false} hasTopIcon={hasTopIcon} style={{ width: 430 }}>
         <div className="popup__content">
             <div className="popup__content--title">
                 <p className="typo t18">{text}</p>
@@ -25,8 +33,8 @@ const FormLayout = ({
         <div className="popup__content">
             <div className="popup__content--form">{formElement}</div>
             <div className="popup__content--btn--setting">
-                <Button text="저장" onClick={onSave} classname="lined--1 typo t17 w500" />
-                <Button text="취소" onClick={onClose} classname="secondary typo t17 w500" />
+                <Button text="저장" onClick={onSave} classname="lined--1 typo t15 w500" />
+                <Button text="취소" onClick={onClose} classname="secondary typo t15 w500" />
             </div>
         </div>
     </Popup>

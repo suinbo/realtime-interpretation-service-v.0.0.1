@@ -1,4 +1,4 @@
-@mixin formStyle($radius, $padding: 16px 30px) {
+@mixin formStyle($radius, $padding: 12px 30px) {
     width: 100%;
     border: none;
     border-radius: $radius;

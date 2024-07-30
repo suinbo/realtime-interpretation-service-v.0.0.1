@@ -1,10 +1,11 @@
 @mixin formGridStyle {
     display: grid;
     grid-template-columns: 1fr 4fr;
-    grid-template-rows: 42px;
+    grid-template-rows: 48px;
     align-items: center;
 }
 
+// 팝업
 .popup {
     position: absolute;
     top: 50%;
@@ -117,6 +118,88 @@
                 left: 50%;
                 transform: translate(-50%, 0);
             }
+        }
+    }
+}
+
+// 로딩 닷
+.loading-wrap {
+    .loading {
+        display: flex;
+        align-items: center;
+        width: 96px;
+        height: 20px;
+        margin: 0 auto;
+        text-align: center;
+
+        &.dot {
+            div {
+                width: 20px;
+                height: 20px;
+                margin: auto;
+                border-radius: 10px;
+                background-color: #ffd84f;
+                transform: scale(0);
+                animation: dot 1.5s linear infinite;
+                text-indent: -9999em;
+
+                &:nth-child(1) {
+                    left: -50px;
+                    animation-delay: -0.1s;
+                }
+                &:nth-child(3) {
+                    right: -50px;
+                    animation-delay: 0.1s;
+                }
+            }
+        }
+    }
+}
+
+@keyframes dot {
+    0% {
+        transform: scale(0);
+    }
+    35% {
+        transform: scale(0.5);
+    }
+    70% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(0);
+    }
+}
+
+// 스피너
+.spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    &__item {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 20px;
+
+        &--bar {
+            width: 80px;
+            height: 80px;
+            border: 8px solid #ffd84f;
+            border-top: 10px solid #f3f3f3;
+            border-radius: 50%;
+            animation: rotate 1s linear infinite;
+        }
+    }
+
+    @keyframes rotate {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
         }
     }
 }

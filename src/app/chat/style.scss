@@ -72,21 +72,24 @@
 
             &__wrapper {
                 height: 100%;
+                margin: 34px 0;
             }
 
             &__body {
-                &--no-member {
-                    text-align: center;
-                    color: #c7c7c7;
-                    margin: 30px 0;
-                }
-
                 &--chat {
                     display: flex;
-                    height: 100%;
+                    flex-direction: column;
+                    height: 760px;
                     padding-right: 40px;
                     overflow-y: scroll;
                     @include scrollStyle;
+
+                    &--noti {
+                        display: flex;
+                        justify-content: center;
+                        color: #c7c7c7;
+                        margin: 20px;
+                    }
 
                     > ul {
                         display: flex;
@@ -99,7 +102,7 @@
                             align-items: center;
                             flex-direction: row-reverse;
                             gap: 50px;
-                            padding: 16px;
+                            padding: 14px;
 
                             // 나의 말풍선
                             &.my {
@@ -174,8 +177,15 @@
                                     gap: 14px;
 
                                     &--audio-text {
+                                        display: flex;
+                                        flex-direction: column;
+                                        gap: 10px;
                                         padding-bottom: 16px;
                                         border-bottom: 1px solid #ebebeb;
+
+                                        .trans {
+                                            color: #b4b4b4;
+                                        }
                                     }
 
                                     &--translation-text {

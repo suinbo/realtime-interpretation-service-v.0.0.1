@@ -50,7 +50,7 @@ export default function Selectbox({
     return (
         <div className="selectbox">
             <div ref={selectBoxRef} className="selectbox__opener" onClick={() => setActive(!active)}>
-                <div className="typo t17">
+                <div className="typo t16">
                     {innerElement}
                     {selectedId ? items.find(item => item.id == selectedId)?.name : "-"}
                 </div>

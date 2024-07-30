@@ -25,7 +25,7 @@ const Chat = () => {
 
     useEffect(() => {
         if (chatroom) {
-            const { room_title, chat_language, room_password, room_option, approval_required } = chatroom
+            const { room_title, chat_language, room_password, room_option, approval_required, expired_at } = chatroom
 
             setChatroom({
                 chat_nm: room_title,
@@ -38,39 +38,18 @@ const Chat = () => {
         }
     }, [chatroom])
 
-    // 유효하지 않은 링크 팝업
-    const InvalidModal = () => (
-        <Popup hasClosedBtn={false} hasTopIcon={true} style={{ width: 430 }}>
-            <div className="popup__content">
-                <div className="popup__content--title">
-                    <p className="typo t18">
-                        <span className="typo w500">유효하지 않은</span> 링크 입니다.
-                    </p>
-                </div>
-                <div className="popup__content--btn">
-                    <Button text="창 닫기" onClick={() => ({})} classname="secondary typo t17 w500" />
-                </div>
-            </div>
-        </Popup>
-    )
-
     const Content = () => (
         <div className="content">
             <div className="content__wrapper">
-                {isAccepted && (
-                    <div className="content__body--no-member typo t16">
-                        {`${chatroom?.member_email} 님이 참여하였습니다.`}
-                    </div>
-                )}
                 {start ? (
-                    <Chatting {...transcriptions} userId={user.id} />
+                    <Chatting {...transcriptions} userId={user.id} chatroom={chatroom} />
                 ) : (
                     <div className="content__body--button">
                         <Button
                             text="시작하기"
                             onClick={() => {
                                 setStart(!start)
-                                transcriptions.startRecording()
+                                //transcriptions.startRecording()
                             }}
                             classname="typo t38 w500"
                             theme="lined--2"
@@ -86,6 +65,7 @@ const Chat = () => {
     const isAccepted = Boolean(chatroom.approval_accepted)
     const isRequired = Boolean(chatroom.approval_required)
     const isRequested = Boolean(chatroom.approval_requested)
+    const isExpired = !!chatroom.expired_at
 
     const viewOption = {
         showRequestPassword: user.id === chatroom.member_id && !!chatroom.room_password && !isAccepted,
@@ -98,6 +78,8 @@ const Chat = () => {
 
         /* 승인 수락 요청 대기 (참여자) - 계정이 참여자 and 승인 요청 and 미승인 */
         showPendingApproval: user.id === chatroom.member_id && isRequired && isRequested && !isAccepted,
+
+        showInvalidRoom: isExpired,
     }
 
     // 모달을 제외한 콘텐츠 렌더링

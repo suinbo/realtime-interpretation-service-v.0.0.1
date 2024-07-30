@@ -1,12 +1,12 @@
 import React, { SetStateAction, useEffect, useState } from "react"
-import { Checkbox, Input, RadioGroup, Selectbox } from "@components/form"
+import { Button, Checkbox, Input, RadioGroup, Selectbox } from "@components/form"
 import { FormItemProp } from "@app/setting/types"
 import { languages } from "@resources/data"
 import { useRecoilValue } from "recoil"
 import { ChatroomAtom } from "@atoms/Atom"
 import { supabase } from "@utils/superbase"
 import { useQueryParams } from "@hooks/useQueryParams"
-import { FormLayout } from "./PopupLayout"
+import { FormLayout, SimpleLayout } from "./PopupLayout"
 
 const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispatch<SetStateAction<string>> }) => {
     const { id } = useQueryParams()
@@ -156,7 +156,43 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                 />
             ),
 
-        close: <></>,
+        close: (
+            <SimpleLayout
+                hasTopIcon={false}
+                text={
+                    <>
+                        대화를<span className="typo w500"> 종료</span>하시겠습니까?
+                    </>
+                }
+                controller={
+                    <div className="popup__content--btn">
+                        <Button
+                            text="예"
+                            onClick={async () => {
+                                const { data } = await supabase
+                                    .from("chatroom")
+                                    .update({
+                                        expired_at: new Date(Date.now()).toISOString(),
+                                    })
+                                    .eq("room_id", id)
+                                    .select("*")
+
+                                if (data?.length) setView("")
+                            }}
+                            classname="lined--1 typo t15 w500"
+                        />
+                        <Button
+                            text="아니오"
+                            onClick={() => {
+                                setView("")
+                                setFormItem(chatroomInfo)
+                            }}
+                            classname="secondary typo t15 w500 "
+                        />
+                    </div>
+                }
+            />
+        ),
     }
 
     return !!view && contentModal[view]

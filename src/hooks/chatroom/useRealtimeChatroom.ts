@@ -11,7 +11,8 @@ export interface ChatroomProp {
     creator_id: string
     member_id: string | null
     member_email: string | null
-    created_at: string
+    created_at: Date
+    expired_at: Date
     room_password: string | null
     approval_accepted: number // 승인 수락 여부 (1:수락, 0:미수락)
     approval_required: number // 승인 설정 여부 (1:활성, 0:비활성)

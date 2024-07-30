@@ -1,20 +1,28 @@
 import { Button } from "@components/form"
 import { ChatroomProp } from "@hooks/chatroom/useRealtimeChatroom"
 import PasswordInput from "../PasswordInput"
-import PendintApproval from "../PendingApprovalView"
 import { supabase } from "@utils/superbase"
 import { SimpleLayout } from "./PopupLayout"
+import PendintApproval from "@components/PendingApprovalView"
+import { useRouter } from "next/navigation"
 
 const Modal = ({
     chatroom,
     roomId,
-    viewOption: { showRequestPassword, showRequestApproval, showResponseApproval, showPendingApproval },
+    viewOption: {
+        showRequestPassword,
+        showRequestApproval,
+        showResponseApproval,
+        showPendingApproval,
+        showInvalidRoom,
+    },
 }: {
     chatroom: ChatroomProp
     roomId: string
     viewOption: { [key: string]: boolean }
 }) => {
-    // 팝업 레이아웃
+    const router = useRouter()
+
     const contentModal = {
         approvalRequest: (
             <SimpleLayout
@@ -84,12 +92,31 @@ const Modal = ({
             />
         ),
         pendingApproval: <PendintApproval />,
+        invalidRoom: (
+            <SimpleLayout
+                text={
+                    <>
+                        <span className="typo w500">유효하지 않은</span> 링크 입니다.
+                    </>
+                }
+                controller={
+                    <div className="popup__content--btn">
+                        <Button
+                            text="홈 화면 가기"
+                            onClick={() => router.push("/")}
+                            classname="secondary typo t17 w500"
+                        />
+                    </div>
+                }
+            />
+        ),
     }
 
     if (showRequestPassword) return contentModal["passwordRequest"]
     if (showRequestApproval) return contentModal["approvalRequest"]
     if (showResponseApproval) return contentModal["approvalResponse"]
     if (showPendingApproval) return contentModal["pendingApproval"]
+    if (showInvalidRoom) return contentModal["invalidRoom"]
 
     return null
 }
