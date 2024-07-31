@@ -2,6 +2,7 @@ import { RefObject, SetStateAction } from "react"
 import { FormItemProp, SelectboxItemProp } from "@app/setting/types"
 import { languages } from "@resources/data"
 import { Input, Selectbox } from "@components/form"
+import { useInitLanguage } from "@hooks/useInitLanguage"
 
 const SingleSettingForm = ({
     refs,
@@ -14,6 +15,7 @@ const SingleSettingForm = ({
     setFormItem: React.Dispatch<SetStateAction<FormItemProp>>
     isFocused: boolean
 }) => {
+    const t = useInitLanguage()
     const selectboxItems = languages.map(({ id, name }) => ({ id, name }))
 
     const onSelect = (index: number, item: SelectboxItemProp) => {
@@ -29,23 +31,23 @@ const SingleSettingForm = ({
     return (
         <div className="form__content">
             <div className="form__item--name">
-                <span className="typo t20 w500">대화 명</span>
+                <span className="typo t20 w500">{t("chat_title")}</span>
                 <Input
                     refs={refs.name}
                     type="text"
                     classname="typo t18"
                     value={chat_nm}
-                    placeholder="대화 명을 입력하세요."
+                    placeholder={t("enter_chat_title")}
                     onChange={value => setFormItem(prev => ({ ...prev, chat_nm: value }))}
                 />
             </div>
             <div className="form__item--language">
-                <span className="typo t20 w500">번역 언어</span>
+                <span className="typo t20 w500">{t("trans_language")}</span>
                 <div>
                     <Selectbox
                         items={selectboxItems}
                         selectedId={chat_lang[0]}
-                        innerElement={<span className="sub-text typo t18">언어 1</span>}
+                        innerElement={<span className="sub-text typo t18">{t("language_1")}</span>}
                         onSelect={selectedItem => onSelect(0, selectedItem)}
                         style={{ height: 214 }}
                     />
@@ -53,7 +55,7 @@ const SingleSettingForm = ({
                         isFocused={isFocused}
                         items={selectboxItems}
                         selectedId={chat_lang[1]}
-                        innerElement={<span className="sub-text typo t18">언어 2</span>}
+                        innerElement={<span className="sub-text typo t18">{t("language_2")}</span>}
                         onSelect={selectedItem => onSelect(1, selectedItem)}
                         style={{ height: 214 }}
                     />

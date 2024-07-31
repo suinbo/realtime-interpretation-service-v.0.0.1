@@ -5,15 +5,17 @@ import SingleAudioForm from "./single/SingleAudioForm"
 import MultiAudioForm from "./multi/MultiAudioForm"
 import MultiSettingForm from "./multi/MultiSettingForm"
 import { OptionAtom } from "@atoms/Atom"
-import { labelOfStep, STEP } from "@resources/constant"
+import { NAV, STEP } from "@resources/constant"
 import { ChatSetter, Navigation } from "@app/setting/_component"
-import { FormItemProp, SettingContentProp, StepProp } from "@app/setting/types"
+import { FormItemProp, LabelOfStepProp, SettingContentProp, StepProp } from "@app/setting/types"
 import { focusOnEmpty } from "@utils/common"
 import cx from "classnames"
 import "@assets/styles/common.scss"
 import "./style.scss"
+import { useInitLanguage } from "@hooks/useInitLanguage"
 
 const ChattingView = () => {
+    const t = useInitLanguage()
     const [{ language, display }, setOption] = useRecoilState(OptionAtom)
 
     const [step, setStep] = useState<StepProp>(STEP[1])
@@ -35,6 +37,17 @@ const ChattingView = () => {
     useEffect(() => {
         if (!!formItem.chat_lang[1]) setIsFocused(false)
     }, [formItem.chat_lang])
+
+    const labelOfStep: LabelOfStepProp = {
+        [STEP[1]]: {
+            nav: NAV.NEXT,
+            title: t("chat_setting"),
+        },
+        [STEP[2]]: {
+            nav: NAV.PREVIOUS,
+            title: t("audio_setting"),
+        },
+    }
 
     // 디스플레이 옵션-스텝 별 컨텐츠
     const settingContent: SettingContentProp = {
@@ -82,8 +95,8 @@ const ChattingView = () => {
                         <div className="setting-board__button">
                             <ChatSetter
                                 items={[
-                                    { id: "setting", name: "대화 설정" },
-                                    { id: "new", name: "새 대화 생성" },
+                                    { id: "setting", name: t("chat_setting") },
+                                    { id: "new", name: t("create_chat") },
                                 ]}
                                 formItem={formItem}
                             />

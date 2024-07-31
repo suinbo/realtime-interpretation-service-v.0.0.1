@@ -5,10 +5,12 @@ import { useSession } from "@hooks/useSession"
 import { useState } from "react"
 import { useRecoilValue } from "recoil"
 import ModalBySetting from "./_component/modal/ModalBySetting"
+import { useInitLanguage } from "@hooks/useInitLanguage"
 
 const HeaderToolbar = () => {
     useSession()
 
+    const t = useInitLanguage()
     const user = useRecoilValue(UserAtom)
     const { chat_nm } = useRecoilValue(ChatroomAtom)
     const [view, setView] = useState<string>("")
@@ -16,7 +18,7 @@ const HeaderToolbar = () => {
     return (
         <div className="header">
             <div className="header__title">
-                <span className="typo t16">[대화] {chat_nm}</span>
+                <span className="typo t16">{t("chat", { val: chat_nm })}</span>
             </div>
             <div className="header__toolbar">
                 <div className="header__toolbar--user">

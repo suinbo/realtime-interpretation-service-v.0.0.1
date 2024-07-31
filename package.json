@@ -4,7 +4,7 @@
     "private": true,
     "main": "./main/main.mjs",
     "scripts": {
-        "start": "next start",
+        "do_start": "next start",
         "lint": "next lint",
         "dev": "concurrently -n \"NEXT,ELECTRON\" -c \"yellow,blue\" --kill-others \"next dev -H 0.0.0.0\" \"electron .\"",
         "build": "next build && electron-builder"

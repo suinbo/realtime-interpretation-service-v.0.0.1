@@ -3,8 +3,11 @@ import { SelectboxItemProp } from "../../../types"
 import { Selectbox } from "@components/form"
 import { VolumeTester } from "@app/setting/_component"
 import { useControlVolume } from "@hooks/audioSetting/useControlVolume"
+import { useInitLanguage } from "@hooks/useInitLanguage"
 
 const MultiAudioForm = () => {
+    const t = useInitLanguage()
+
     const [selectedItem, setSelectedItem] = useState<SelectboxItemProp>({ id: "", name: "" })
 
     // 선택한 디바이스의 스트림 데이터 가져오기
@@ -17,7 +20,7 @@ const MultiAudioForm = () => {
     return (
         <div className="form__content">
             <div className="form__item--microphone">
-                <span className="typo t20 w500">마이크</span>
+                <span className="typo t20 w500">{t("mic")}</span>
                 <div>
                     <Selectbox
                         items={audioDevices}

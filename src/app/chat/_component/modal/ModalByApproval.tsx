@@ -5,6 +5,7 @@ import { supabase } from "@utils/superbase"
 import { SimpleLayout } from "./PopupLayout"
 import PendintApproval from "@components/PendingApprovalView"
 import { useRouter } from "next/navigation"
+import { useInitLanguage } from "@hooks/useInitLanguage"
 
 const Modal = ({
     chatroom,
@@ -22,19 +23,21 @@ const Modal = ({
     viewOption: { [key: string]: boolean }
 }) => {
     const router = useRouter()
+    const t = useInitLanguage()
 
     const contentModal = {
         approvalRequest: (
             <SimpleLayout
                 text={
                     <>
-                        대화 참여를 위해<span className="typo w500"> 호스트 승인</span>이 필요합니다.
+                        {/* 대화 참여를 위해<span className="typo w500"> 호스트 승인</span>이 필요합니다. */}
+                        {t("required_approval")}
                     </>
                 }
                 controller={
                     <div className="popup__content--btn">
                         <Button
-                            text="승인 요청"
+                            text={t("request_approval")}
                             onClick={async () => {
                                 const { data } = await supabase
                                     .from("chatroom")
@@ -54,13 +57,14 @@ const Modal = ({
             <SimpleLayout
                 text={
                     <>
-                        <span className="typo w500">{chatroom?.member_email}</span> 님이 승인을 요청 합니다.
+                        {/* <span className="typo w500">{chatroom?.member_email}</span> 님이 승인을 요청 합니다. */}
+                        {t("user_requests", { val: chatroom?.member_email })}
                     </>
                 }
                 controller={
                     <div className="popup__content--btn">
                         <Button
-                            text="수락"
+                            text={t("accept")}
                             onClick={async () => {
                                 const { data } = await supabase
                                     .from("chatroom")
@@ -72,7 +76,7 @@ const Modal = ({
                             }}
                             classname="lined--1 typo t17 w500"
                         />
-                        <Button text="거절" onClick={() => ({})} classname="secondary typo t17 w500 " />
+                        <Button text={t("refuse")} onClick={() => ({})} classname="secondary typo t17 w500 " />
                     </div>
                 }
             />
@@ -81,7 +85,8 @@ const Modal = ({
             <SimpleLayout
                 text={
                     <>
-                        대화 참여를 위해 <span className="typo w600"> 암호 코드</span>를 입력하세요.
+                        {/* 대화 참여를 위해 <span className="typo w600"> 암호 코드</span>를 입력하세요. */}
+                        {t("required_password")}
                     </>
                 }
                 controller={
@@ -96,13 +101,14 @@ const Modal = ({
             <SimpleLayout
                 text={
                     <>
-                        <span className="typo w500">유효하지 않은</span> 링크 입니다.
+                        {/* <span className="typo w500">유효하지 않은</span> 링크 입니다. */}
+                        {t("invalid_url")}
                     </>
                 }
                 controller={
                     <div className="popup__content--btn">
                         <Button
-                            text="홈 화면 가기"
+                            text={t("go_home")}
                             onClick={() => router.push("/")}
                             classname="secondary typo t17 w500"
                         />

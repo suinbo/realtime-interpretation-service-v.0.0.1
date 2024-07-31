@@ -9,10 +9,12 @@ import useRealtimeChatroom from "@hooks/chatroom/useRealtimeChatroom"
 import Chatting from "./Chatting"
 import { ModalByApproval } from "./_component"
 import { useTranscriptions } from "@hooks/audioSetting/useTranscriptions"
+import { useInitLanguage } from "@hooks/useInitLanguage"
 import "@assets/styles/common.scss"
 import "./style.scss"
 
 const Chat = () => {
+    const t = useInitLanguage()
     const { id, langs, display, host } = useQueryParams()
     const [start, setStart] = useState<boolean>(false)
 
@@ -74,7 +76,7 @@ const Chat = () => {
                 ) : (
                     <div className="content__body--button">
                         <Button
-                            text="시작하기"
+                            text={t("do_start")}
                             onClick={() => {
                                 setStart(!start)
                                 //transcriptions.startRecording()

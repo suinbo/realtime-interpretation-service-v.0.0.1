@@ -7,9 +7,11 @@ import { ChatroomAtom } from "@atoms/Atom"
 import { supabase } from "@utils/superbase"
 import { useQueryParams } from "@hooks/useQueryParams"
 import { FormLayout, SimpleLayout } from "./PopupLayout"
+import { useInitLanguage } from "@hooks/useInitLanguage"
 
 const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispatch<SetStateAction<string>> }) => {
     const { id } = useQueryParams()
+    const t = useInitLanguage()
     const chatroomInfo = useRecoilValue(ChatroomAtom)
 
     const [{ chat_nm, chat_lang, has_chat_pw, chat_pw, host_auth, room_option }, setFormItem] =
@@ -35,17 +37,17 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                     formElement={
                         <>
                             <div className="form__item">
-                                <p className="form__item-label typo w500">대화 명</p>
+                                <p className="form__item-label typo w500">{t("chat_title")}</p>
                                 <Input
                                     type="text"
                                     classname="typo t17"
                                     value={chat_nm}
-                                    placeholder="대화 명을 입력하세요."
+                                    placeholder={t("")}
                                     onChange={chat_nm => setFormItem(prev => ({ ...prev, chat_nm }))}
                                 />
                             </div>
                             <div className="form__item">
-                                <p className="form__item-label typo w500">번역 언어 1</p>
+                                <p className="form__item-label typo w500">{t("trans_language")} 1</p>
                                 <Selectbox
                                     style={{ height: 260 }}
                                     items={languages}
@@ -54,7 +56,7 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                                 />
                             </div>
                             <div className="form__item">
-                                <p className="form__item-label typo w500">번역 언어 2</p>
+                                <p className="form__item-label typo w500">{t("trans_language")} 2</p>
                                 <Selectbox
                                     style={{ height: 260 }}
                                     items={languages}
@@ -86,32 +88,32 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                     formElement={
                         <>
                             <div className="form__item">
-                                <p className="form__item-label typo w500">대화 명</p>
+                                <p className="form__item-label typo w500">{t("chat_title")}</p>
                                 <Input
                                     type="text"
                                     classname="typo t17"
                                     value={chat_nm}
-                                    placeholder="대화 명을 입력하세요."
+                                    placeholder={t("enter_chat_title")}
                                     onChange={chat_nm => setFormItem(prev => ({ ...prev, chat_nm }))}
                                 />
                             </div>
                             <div className="form__item--password">
-                                <p className="form__item--label typo w500">암호 설정</p>
+                                <p className="form__item--label typo w500">{t("set_password")}</p>
                                 <div>
                                     <Checkbox
                                         id="password-check"
-                                        label="설정"
+                                        label={t("setting")}
                                         isCheck={has_chat_pw}
                                         onChange={has_chat_pw => setFormItem(prev => ({ ...prev, has_chat_pw }))}
                                     />
                                     {has_chat_pw && (
                                         <div className="form__item--password-group">
-                                            <span className="typo t14">암호</span>
+                                            <span className="typo t14">{t("password")}</span>
                                             <Input
                                                 type="password"
                                                 classname="typo t17"
                                                 value={chat_pw as string}
-                                                placeholder="암호를 입력하세요."
+                                                placeholder={t("enter_password")}
                                                 onChange={chat_pw => setFormItem(prev => ({ ...prev, chat_pw }))}
                                             />
                                         </div>
@@ -119,13 +121,13 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                                 </div>
                             </div>
                             <div className="form__item">
-                                <p className="form__item-label typo w500">호스트 승인</p>
+                                <p className="form__item-label typo w500">{t("host_approval")}</p>
                                 <div>
                                     <RadioGroup
                                         name="host_auth"
                                         items={[
-                                            { id: "1", value: "활성" },
-                                            { id: "0", value: "비활성" },
+                                            { id: "1", value: t("active") },
+                                            { id: "0", value: t("inactive") },
                                         ]}
                                         selectedId={String(host_auth)}
                                         onChange={selectedId =>
@@ -161,13 +163,14 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                 hasTopIcon={false}
                 text={
                     <>
-                        대화를<span className="typo w500"> 종료</span>하시겠습니까?
+                        {/* 대화를<span className="typo w500"> 종료</span>하시겠습니까? */}
+                        {t("end_chat")}
                     </>
                 }
                 controller={
                     <div className="popup__content--btn">
                         <Button
-                            text="예"
+                            text={t("yes")}
                             onClick={async () => {
                                 const { data } = await supabase
                                     .from("chatroom")
@@ -182,7 +185,7 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                             classname="lined--1 typo t15 w500"
                         />
                         <Button
-                            text="아니오"
+                            text={t("no")}
                             onClick={() => {
                                 setView("")
                                 setFormItem(chatroomInfo)

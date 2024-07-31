@@ -5,8 +5,10 @@ import { useRecoilValue } from "recoil"
 import { OptionAtom, UserAtom } from "@atoms/Atom"
 import cx from "classnames"
 import { supabase } from "@utils/superbase"
+import { useInitLanguage } from "@hooks/useInitLanguage"
 
 const ChatSetter = ({ items = [], formItem }: { items: SelectboxItemProp[]; formItem: FormItemProp }) => {
+    const t = useInitLanguage()
     const selectBoxRef = useRef<HTMLDivElement>(null)
     const [active, setActive] = useState<boolean>(false)
 
@@ -76,7 +78,7 @@ const ChatSetter = ({ items = [], formItem }: { items: SelectboxItemProp[]; form
                 }}>
                 <div className="typo t18">
                     <div className="selector-item">
-                        <span className="typo t20">새 대화</span>
+                        <span className="typo t20">{t("new_chat")}</span>
                     </div>
                 </div>
                 <span className={cx("selectbox__opener-arrow", { active })} />

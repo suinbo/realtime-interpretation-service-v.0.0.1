@@ -1,6 +1,7 @@
 import { ChatroomProp } from "@hooks/chatroom/useRealtimeChatroom"
 import React, { useMemo } from "react"
 import { ChatMessage } from "./_component"
+import { useTranslation } from "next-i18next"
 
 const Chatting = ({
     messages,
@@ -15,6 +16,7 @@ const Chatting = ({
     userId: string
     chatroom: ChatroomProp | null
 }) => {
+    const { t } = useTranslation()
     const messageList = useMemo(() => {
         const newMessage = { msg_id: "new", msg_content: "", speaker_id: userId, msg_trans_content: "" }
 
@@ -26,7 +28,7 @@ const Chatting = ({
         <div className="content__body--chat">
             {Boolean(chatroom?.approval_accepted) && (
                 <div className="content__body--chat--noti typo t16">
-                    {`${chatroom?.member_email} 님이 참여하였습니다.`}
+                    {t("participate", { val: chatroom?.member_email })}
                 </div>
             )}
             <ul>
@@ -40,7 +42,7 @@ const Chatting = ({
                     />
                 ))}
             </ul>
-            {chatroom?.expired_at && <div className="content__body--chat--noti typo t16">대화가 종료되었습니다.</div>}
+            {chatroom?.expired_at && <div className="content__body--chat--noti typo t16">{t("chat_finished")}</div>}
         </div>
     )
 }

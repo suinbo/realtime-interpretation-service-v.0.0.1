@@ -1,6 +1,7 @@
 import { RefObject, useState } from "react"
 import { Button } from "@components/form"
 import "./style.scss"
+import { useInitLanguage } from "@hooks/useInitLanguage"
 
 const VolumeTester = ({
     volumeBarsRef,
@@ -18,7 +19,7 @@ const VolumeTester = ({
     //         stopRecording()
     //     }
     // }, [startRecording, stopRecording])
-
+    const t = useInitLanguage()
     const [recording, setRecording] = useState<boolean>(false)
 
     const handleToggleRecording = () => {
@@ -33,7 +34,7 @@ const VolumeTester = ({
             <div className="volume-tester">
                 <div className="volume-tester__button">
                     <Button
-                        text={`테스트 ${recording ? "종료" : "시작"}`}
+                        text={`${t("test")} ${recording ? t("finish") : t("start")}`}
                         classname="audio-test"
                         onClick={handleToggleRecording}
                     />
