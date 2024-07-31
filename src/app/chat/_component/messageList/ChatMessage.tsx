@@ -1,11 +1,15 @@
+import { UserAtom } from "@atoms/Atom"
 import { Button } from "@components/form"
 import LoadingDot from "@components/LoadingDot"
+import { useQueryParams } from "@hooks/useQueryParams"
 import cx from "classnames"
+import { useRecoilValue } from "recoil"
 
 type ChatMessageProp = {
     msg_id: string
     msg_content: string
     speaker_id: string
+    msg_eng_content: string
     msg_trans_content: string
     isRecording: boolean
     userId: string
@@ -17,10 +21,14 @@ const ChatMessage = ({
     msg_content,
     speaker_id,
     msg_trans_content,
+    msg_eng_content,
     isRecording,
     userId,
     startRecording,
 }: ChatMessageProp) => {
+    const { id } = useRecoilValue(UserAtom)
+    const { host, display } = useQueryParams()
+
     return (
         <li key={msg_id} className={cx("chatting__item", { my: speaker_id == userId })}>
             <div className="chatting__item--user">
@@ -30,13 +38,15 @@ const ChatMessage = ({
                 {msg_content ? (
                     <div className="text-item">
                         <div className="text-item--audio-text ">
-                            <span className="typo t17 w500">{msg_content}</span>
-                            <span className="trans typo t14 w400">{msg_trans_content}</span>
+                            <span className="typo t17 w500">{id == host ? msg_content : msg_trans_content}</span>
+                            <span className="trans typo t14 w400">{msg_eng_content}</span>
                         </div>
-                        <div className="text-item--translation-text">
-                            <span className="typo t12 w500">Translation</span>
-                            <p className="typo t17">{msg_trans_content}</p>
-                        </div>
+                        {display == 1 && (
+                            <div className="text-item--translation-text">
+                                <span className="typo t12 w500">Translation</span>
+                                <p className="typo t17">{msg_trans_content}</p>
+                            </div>
+                        )}
                     </div>
                 ) : isRecording ? (
                     <LoadingDot />

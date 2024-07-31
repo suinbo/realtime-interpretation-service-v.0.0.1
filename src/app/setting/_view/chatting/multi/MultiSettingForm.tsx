@@ -1,16 +1,28 @@
-import { FormItemProp } from "@app/setting/types"
-import { Checkbox, Input, RadioGroup } from "@components/form"
+import { FormItemProp, SelectboxItemProp } from "@app/setting/types"
+import { Checkbox, Input, RadioGroup, Selectbox } from "@components/form"
+import { languages } from "@resources/data"
 import { RefObject, SetStateAction } from "react"
 
 const MultiSettingForm = ({
     refs,
-    formItem: { chat_nm, has_chat_pw, chat_pw, host_auth },
+    formItem: { chat_nm, chat_lang, has_chat_pw, chat_pw, host_auth },
     setFormItem,
 }: {
     refs: { [key: string]: RefObject<HTMLInputElement> }
     formItem: FormItemProp
     setFormItem: React.Dispatch<SetStateAction<FormItemProp>>
 }) => {
+    const selectboxItems = languages.map(({ id, name }) => ({ id, name }))
+
+    const onSelect = (index: number, item: SelectboxItemProp) => {
+        setFormItem(prev => {
+            const newFormItem = { ...prev }
+            newFormItem.chat_lang = [...prev.chat_lang]
+            newFormItem.chat_lang[index] = item.id
+
+            return newFormItem
+        })
+    }
     return (
         <>
             <div className="form__content">
@@ -24,6 +36,18 @@ const MultiSettingForm = ({
                         placeholder="대화 명을 입력하세요."
                         onChange={chat_nm => setFormItem(prev => ({ ...prev, chat_nm }))}
                     />
+                </div>
+                <div className="form__item--language">
+                    <span className="typo t20 w500">번역 언어</span>
+                    <div>
+                        <Selectbox
+                            items={selectboxItems}
+                            selectedId={chat_lang[1]}
+                            innerElement={<span className="sub-text typo t18">언어 1</span>}
+                            onSelect={selectedItem => onSelect(1, selectedItem)}
+                            style={{ height: 214 }}
+                        />
+                    </div>
                 </div>
                 <div className="form__item--password">
                     <span className="typo t20 w500">암호 설정</span>

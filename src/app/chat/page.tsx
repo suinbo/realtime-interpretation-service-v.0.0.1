@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react"
 import { Button } from "@components/form"
 import { useQueryParams } from "@hooks/useQueryParams"
-import Popup from "@components/Popup"
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import { ChatroomAtom, UserAtom } from "@atoms/Atom"
 import useRealtimeChatroom from "@hooks/chatroom/useRealtimeChatroom"
@@ -14,18 +13,47 @@ import "@assets/styles/common.scss"
 import "./style.scss"
 
 const Chat = () => {
-    const { id } = useQueryParams()
+    const { id, langs, display, host } = useQueryParams()
     const [start, setStart] = useState<boolean>(false)
 
     const user = useRecoilValue(UserAtom)
     const setChatroom = useSetRecoilState(ChatroomAtom)
 
+    const transLanguage: { [key: string]: string } = {
+        ko: "Korean",
+        en: "English",
+    }
+
     const { chatroom } = useRealtimeChatroom(id as string, user)
-    const transcriptions = useTranscriptions({ userId: user.id, roomId: id as string })
+
+    // 디스플레이 1 : 두 언어 보여야 함 (langCd, transLangCd)
+    // 디스플레이 2 : 자기언어만 보이면 됨 (langCd) /
+    // 호스트면 말하는 음성: (langs as string).split(",")[0] 아니면 (langs as string).split(",")[1]
+    // 호스트 번역 : transLanguage[(langs as string).split(",")[1]] 아니면 transLanguage[(langs as string).split(",")[0]]
+    const transcriptions = useTranscriptions({
+        hostId: host as string,
+        userId: user.id,
+        roomId: id as string,
+        //말하는 언어
+        langCd:
+            display == 1
+                ? (langs as string).split(",")[0]
+                : user.id == host
+                ? (langs as string).split(",")[0]
+                : (langs as string).split(",")[1],
+        //번역 언어
+        transLangCd:
+            display == 1
+                ? transLanguage[(langs as string).split(",")[1]]
+                : user.id == host
+                ? transLanguage[(langs as string).split(",")[1]]
+                : transLanguage[(langs as string).split(",")[0]],
+    })
 
     useEffect(() => {
         if (chatroom) {
-            const { room_title, chat_language, room_password, room_option, approval_required, expired_at } = chatroom
+            const { room_title, chat_language, room_password, room_option, approval_required, expired_at, creator_id } =
+                chatroom
 
             setChatroom({
                 chat_nm: room_title,

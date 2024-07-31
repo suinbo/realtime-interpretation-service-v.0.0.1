@@ -34,7 +34,14 @@ const ChatSetter = ({ items = [], formItem }: { items: SelectboxItemProp[]; form
 
         if (data) {
             const roomId = data?.[0]?.room_id
-            const params = new URLSearchParams({ id: roomId } as { [key: string]: any })
+            const params = new URLSearchParams({
+                id: roomId,
+                langs: formItem.chat_lang.join(","),
+                display: options.display,
+                host: id,
+            } as {
+                [key: string]: any
+            })
 
             window.open(`/chat?${params.toString()}`, "_blank", "noopener,noreferrer")
         }

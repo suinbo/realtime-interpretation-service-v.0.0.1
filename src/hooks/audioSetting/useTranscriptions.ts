@@ -3,10 +3,25 @@ import { useState, useEffect, useRef } from "react"
 import { supabase } from "@utils/superbase"
 import { API } from "@resources/constant"
 
-export function useTranscriptions({ userId, roomId }: { userId: string; roomId: string }) {
+export function useTranscriptions({
+    hostId,
+    userId,
+    roomId,
+    langCd,
+    transLangCd,
+}: {
+    hostId: string
+    userId: string
+    roomId: string
+    langCd: string
+    transLangCd: string
+}) {
     const [messages, setMessages] = useState<any[]>([])
     const [isRecording, setIsRecording] = useState(false)
     const mediaRecorderRef = useRef<MediaRecorder | null>(null)
+
+    console.log("langCd:: ", langCd)
+    console.log("transLangCd:: ", transLangCd)
 
     // 타임아웃
     const [lastDataTime, setLastDataTime] = useState<number>(Date.now())
@@ -55,7 +70,7 @@ export function useTranscriptions({ userId, roomId }: { userId: string; roomId: 
                     const audioBlob = new Blob(audioChunks, { type: "audio/webm" })
                     const formData = new FormData()
                     formData.append("file", audioBlob, "audio.webm")
-                    formData.append("language", "korean")
+                    formData.append("language", langCd)
                     formData.append("response_format", "json")
 
                     try {
@@ -74,7 +89,31 @@ export function useTranscriptions({ userId, roomId }: { userId: string; roomId: 
 
                         const { text } = await response.json()
 
-                        // 3. 번역 API 호출
+                        // 3. 영어 번역 API 호출
+                        const englishResponse = await fetch(API.GPT_TRANSLATION_API, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
+                            },
+                            body: JSON.stringify({
+                                model: "gpt-4",
+                                messages: [
+                                    {
+                                        role: "system",
+                                        content: "You are a helpful assistant that translates text.",
+                                    },
+                                    {
+                                        role: "user",
+                                        content: `Translate the following text to English:\n\n${text}`,
+                                    },
+                                ],
+                                max_tokens: 1000,
+                                temperature: 0.3,
+                            }),
+                        })
+
+                        // 3-1. 선택 언어 번역 API 호출
                         const translationResponse = await fetch(API.GPT_TRANSLATION_API, {
                             method: "POST",
                             headers: {
@@ -91,7 +130,7 @@ export function useTranscriptions({ userId, roomId }: { userId: string; roomId: 
                                     },
                                     {
                                         role: "user",
-                                        content: `Translate the following text to English:\n\n${text}`,
+                                        content: `Translate the following text to ${transLangCd}:\n\n${text}`,
                                     },
                                 ],
                                 max_tokens: 1000,
@@ -104,16 +143,28 @@ export function useTranscriptions({ userId, roomId }: { userId: string; roomId: 
                             throw new Error(errorText)
                         }
 
-                        const { choices } = await translationResponse.json()
-                        const translatedText = choices[0].message.content.trim()
+                        if (!englishResponse.ok) {
+                            const errorText = await englishResponse.text()
+                            throw new Error(errorText)
+                        }
+
+                        // 선택 번역 언어
+                        const { choices: transChoices } = await translationResponse.json()
+                        const translatedText = transChoices[0].message.content.trim()
+
+                        // 영어 번역 언어
+                        const { choices: englishChoices } = await englishResponse.json()
+                        const translatedEngText = englishChoices[0].message.content.trim()
 
                         // Supabase에 텍스트 저장
+                        const isHost = userId == hostId
                         const { data, error } = await supabase.from("messages").insert([
                             {
-                                msg_content: text,
                                 speaker_id: userId,
                                 room_id: roomId,
-                                msg_trans_content: translatedText,
+                                msg_content: isHost ? text : translatedText,
+                                msg_trans_content: isHost ? translatedText : text,
+                                msg_eng_content: translatedEngText,
                             },
                         ])
 
