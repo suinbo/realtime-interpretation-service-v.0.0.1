@@ -1,8 +1,9 @@
 import { Button } from "@components/form"
 import Popup from "@components/Popup"
+import cx from "classnames"
 
 const SimpleLayout = ({
-    isActive,
+    isActive, // 팝업 동작 우선수위 부여 (알림형 팝업 > 입력 폼 팝업)
     hasTopIcon,
     text,
     controller,
@@ -15,7 +16,7 @@ const SimpleLayout = ({
     <Popup hasClosedBtn={false} hasTopIcon={hasTopIcon} style={{ width: 430 }} isActive={isActive}>
         <div className="popup__content">
             <div className="popup__content--title">
-                <p className="typo t18">{text}</p>
+                <p className={cx("typo t18", { notice: isActive })}>{text}</p>
             </div>
             {controller}
         </div>

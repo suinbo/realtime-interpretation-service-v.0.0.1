@@ -63,24 +63,21 @@
         padding: 10px;
 
         &--title {
-            // 이메일 입력 폼
-            &--email {
-                display: flex;
-                justify-content: space-between;
+            display: flex;
+            justify-content: space-between;
 
-                .inner-close-btn {
-                    position: absolute;
-                    top: 30px;
-                    right: 28px;
-                    cursor: pointer;
-                    display: block;
-                    background: url("../assets/images/close.png") no-repeat center;
-                    width: 16px;
-                    height: 16px;
-                }
+            .inner-close-btn {
+                position: absolute;
+                top: 30px;
+                right: 28px;
+                cursor: pointer;
+                display: block;
+                background: url("../assets/images/close.png") no-repeat center;
+                width: 16px;
+                height: 16px;
             }
 
-            > p {
+            p.notice {
                 display: flex;
                 flex-direction: column;
                 gap: 12px;

@@ -81,7 +81,7 @@ const Modal = ({
             <SimpleLayout
                 text={
                     <>
-                        대화 참여를 위해<span className="typo w600"> 암호 코드</span>를 입력하세요.
+                        대화 참여를 위해 <span className="typo w600"> 암호 코드</span>를 입력하세요.
                     </>
                 }
                 controller={

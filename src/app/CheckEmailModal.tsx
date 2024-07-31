@@ -13,9 +13,9 @@ const CheckEmailModal = ({
     return (
         <Popup hasClosedBtn={false} style={{ width: 430 }} isActive={activeModal == "emailInput"}>
             <div className="popup__content">
-                <div className="popup__content--title--email">
+                <div className="popup__content--title">
                     <p className="typo t18">
-                        Please enter the <span className="typo w600">Email</span>.
+                        Please enter the <b>Email</b>.
                     </p>
                     <span className="inner-close-btn" onClick={() => setActiveModal("")} />
                 </div>

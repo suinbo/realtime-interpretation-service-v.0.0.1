@@ -120,9 +120,7 @@ const SignupModal = ({ setActiveModal }: { setActiveModal: React.Dispatch<SetSta
                     isActive={activeMiniModal}
                     text={
                         <>
-                            <span>
-                                <b>Check your password.</b>
-                            </span>
+                            <b>Check your password.</b>
                             <span className="typo t14">
                                 ※ You should enter a word of at least 8 characters by combining at least 3 types of
                                 letters, numbers, and special characters.

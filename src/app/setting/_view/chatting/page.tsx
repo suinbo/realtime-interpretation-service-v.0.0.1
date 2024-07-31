@@ -59,7 +59,7 @@ const ChattingView = () => {
                     className={cx("form__nav__item-icon", step)}
                     onClick={() => {
                         focusOnEmpty(refs, () => {
-                            if (!formItem.chat_lang[1]) {
+                            if (display == 1 && !formItem.chat_lang[1]) {
                                 setIsFocused(true)
                                 return
                             }
