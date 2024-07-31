@@ -54,7 +54,7 @@
 
                     &-group {
                         display: grid;
-                        grid-template-columns: 1fr 5fr;
+                        grid-template-columns: 1fr 3fr;
                         align-items: center;
 
                         > span {
@@ -99,6 +99,7 @@
 
                 &__item {
                     &-icon {
+                        position: relative;
                         cursor: pointer;
                         width: 52px;
                         height: 52px;

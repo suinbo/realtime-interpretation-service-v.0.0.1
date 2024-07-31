@@ -1,11 +1,13 @@
 import { FormItemProp } from "@app/setting/types"
 import { Checkbox, Input, RadioGroup } from "@components/form"
-import { SetStateAction } from "react"
+import { RefObject, SetStateAction } from "react"
 
 const MultiSettingForm = ({
+    refs,
     formItem: { chat_nm, has_chat_pw, chat_pw, host_auth },
     setFormItem,
 }: {
+    refs: { [key: string]: RefObject<HTMLInputElement> }
     formItem: FormItemProp
     setFormItem: React.Dispatch<SetStateAction<FormItemProp>>
 }) => {
@@ -15,6 +17,7 @@ const MultiSettingForm = ({
                 <div className="form__item--name">
                     <span className="typo t20 w500">대화 명</span>
                     <Input
+                        refs={refs.name}
                         type="text"
                         classname="typo t17"
                         value={chat_nm}
@@ -35,6 +38,7 @@ const MultiSettingForm = ({
                             <div className="form__item--password-group">
                                 <span className="typo t18">암호</span>
                                 <Input
+                                    refs={refs.password}
                                     type="password"
                                     classname="typo t17"
                                     value={chat_pw as string}

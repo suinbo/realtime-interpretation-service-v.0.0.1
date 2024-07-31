@@ -8,7 +8,7 @@ const EmailInput = ({ setActiveModal }: { setActiveModal: React.Dispatch<SetStat
     const [alertMessage, setAlertMessage] = useState<string>("")
 
     const onSubmit = async (e: React.MouseEvent<HTMLSpanElement>) => {
-        e.stopPropagation()
+        // e.stopPropagation()
         const current = ref.current
 
         if (current?.value) {

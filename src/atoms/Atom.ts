@@ -8,8 +8,8 @@ export const OptionAtom = atom({
     key: "OptionAtom",
     default: {
         view: VIEW.LANGUAGE,
-        language: "Afrikaans",
-        display: 1,
+        language: "en",
+        display: 2,
         chatting: {
             chat_nm: "",
             chat_lang: [""],

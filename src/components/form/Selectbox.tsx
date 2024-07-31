@@ -15,12 +15,14 @@ export default function Selectbox({
     innerElement,
     onSelect,
     style,
+    isFocused,
 }: {
     items: SelectboxItem[]
     selectedId?: string
     innerElement?: React.ReactNode
     onSelect: (selectedItem: SelectboxItem) => void
     style?: React.CSSProperties
+    isFocused?: boolean
 }) {
     const selectBoxRef = useRef<HTMLDivElement>(null)
     const [active, setActive] = useState<boolean>(false)
@@ -49,7 +51,10 @@ export default function Selectbox({
 
     return (
         <div className="selectbox">
-            <div ref={selectBoxRef} className="selectbox__opener" onClick={() => setActive(!active)}>
+            <div
+                ref={selectBoxRef}
+                className={cx("selectbox__opener", { focus: isFocused && !active })}
+                onClick={() => setActive(!active)}>
                 <div className="typo t16">
                     {innerElement}
                     {selectedId ? items.find(item => item.id == selectedId)?.name : "-"}

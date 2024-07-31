@@ -1,14 +1,18 @@
-import { SetStateAction } from "react"
+import { RefObject, SetStateAction } from "react"
 import { FormItemProp, SelectboxItemProp } from "@app/setting/types"
 import { languages } from "@resources/data"
 import { Input, Selectbox } from "@components/form"
 
 const SingleSettingForm = ({
+    refs,
     formItem: { chat_nm, chat_lang },
     setFormItem,
+    isFocused,
 }: {
+    refs: { [key: string]: RefObject<HTMLInputElement> }
     formItem: FormItemProp
     setFormItem: React.Dispatch<SetStateAction<FormItemProp>>
+    isFocused: boolean
 }) => {
     const selectboxItems = languages.map(({ id, name }) => ({ id, name }))
 
@@ -27,6 +31,7 @@ const SingleSettingForm = ({
             <div className="form__item--name">
                 <span className="typo t20 w500">대화 명</span>
                 <Input
+                    refs={refs.name}
                     type="text"
                     classname="typo t18"
                     value={chat_nm}
@@ -45,6 +50,7 @@ const SingleSettingForm = ({
                         style={{ height: 214 }}
                     />
                     <Selectbox
+                        isFocused={isFocused}
                         items={selectboxItems}
                         selectedId={chat_lang[1]}
                         innerElement={<span className="sub-text typo t18">언어 2</span>}

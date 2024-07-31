@@ -2,15 +2,17 @@ import { Button } from "@components/form"
 import Popup from "@components/Popup"
 
 const SimpleLayout = ({
+    isActive,
     hasTopIcon,
     text,
     controller,
 }: {
+    isActive?: boolean
     hasTopIcon?: boolean
     text: React.ReactNode
     controller: React.ReactNode
 }) => (
-    <Popup hasClosedBtn={false} hasTopIcon={hasTopIcon} style={{ width: 430 }}>
+    <Popup hasClosedBtn={false} hasTopIcon={hasTopIcon} style={{ width: 430 }} isActive={isActive}>
         <div className="popup__content">
             <div className="popup__content--title">
                 <p className="typo t18">{text}</p>

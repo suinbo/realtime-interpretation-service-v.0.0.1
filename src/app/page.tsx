@@ -9,12 +9,12 @@ import { useSetRecoilState } from "recoil"
 import { LoginProp } from "./setting/types"
 import { UserAtom } from "@atoms/Atom"
 import { User } from "@supabase/supabase-js"
-import "@assets/styles/common.scss"
-import "./style.scss"
 import SignupModal from "./SignupModal"
 import ResetPasswordModal from "./ResetPasswordModal"
-import { SimpleLayout } from "./chat/_component/modal/PopupLayout"
-import { EmailInput } from "./chat/_component"
+import CheckEmailModal from "./CheckEmailModal"
+import { focusOnEmpty } from "@utils/common"
+import "@assets/styles/common.scss"
+import "./style.scss"
 
 /**
  * 로그인 화면
@@ -32,14 +32,7 @@ const Login = () => {
     }
 
     const onSignIn = async () => {
-        const focusOnEmpty = (field: "email" | "password") => {
-            const ref = refs[field]
-            ref.current?.focus()
-        }
-
-        if (!email) focusOnEmpty("email")
-
-        if (!password) focusOnEmpty("password")
+        focusOnEmpty(refs)
 
         if (email && password) {
             const { data: user, error } = await supabase.auth.signInWithPassword({
@@ -75,20 +68,7 @@ const Login = () => {
     const contentModal: { [key: string]: React.ReactNode } = {
         signup: <SignupModal setActiveModal={setActiveModal} />,
         resetPassword: <ResetPasswordModal setActiveModal={setActiveModal} />,
-        emailInput: (
-            <SimpleLayout
-                text={
-                    <>
-                        Please enter the <span className="typo w600">Email</span>.
-                    </>
-                }
-                controller={
-                    <div className="popup__content--input">
-                        <EmailInput setActiveModal={setActiveModal} />
-                    </div>
-                }
-            />
-        ),
+        emailInput: <CheckEmailModal activeModal={activeModal} setActiveModal={setActiveModal} />,
     }
 
     return (
@@ -122,18 +102,24 @@ const Login = () => {
                                 value={password}
                                 onChange={password => setInput(prev => ({ ...prev, password }))}
                             />
-                            {errorMessage && <span className="msg">※ {errorMessage}</span>}
+                            {errorMessage && <span className="alert">※ {errorMessage}</span>}
                         </div>
                         <div className="login__form__item--btn">
                             <Button classname="typo t20" text="Sign In" onClick={onSignIn} />
-                            {/* <Button classname="typo t18 signup" text="Sign Up" onClick={() => {}} /> */}
+                            <Button
+                                classname="typo t18 signup"
+                                text="Sign Up"
+                                onClick={() => setActiveModal("signup")}
+                            />
                         </div>
                         <div className="login__form__item--reset typo t17">
-                            <span className="typo w500" onClick={() => setActiveModal("signup")}>
+                            {/* <span className="typo w500" onClick={() => setActiveModal("signup")}>
                                 Sign Up
                             </span>
-                            <span></span>
-                            <span onClick={() => setActiveModal("emailInput")}>Forgot Password ?</span>
+                            <span></span> */}
+                            <span className="typo t15" onClick={() => setActiveModal("emailInput")}>
+                                Forgot Password ?
+                            </span>
                         </div>
                     </div>
                     <div className="login__social">

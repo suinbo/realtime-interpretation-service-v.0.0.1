@@ -1,12 +1,10 @@
 "use client"
 
 import { ButtonList, Navigation } from "@app/setting/_component"
-import { useTranslation } from "next-i18next"
+import { useInitLanguage } from "@hooks/useInitLanguage"
 
 const DisplayView = () => {
-    const { t, i18n } = useTranslation()
-
-    console.log(t("display_1"))
+    const t = useInitLanguage()
 
     return (
         <div className="content">
@@ -16,18 +14,15 @@ const DisplayView = () => {
             <div className="content__wrapper">
                 <div className="content__title">
                     {/* <p className="typo t32"></p> */}
-                    <p className="typo t32">
-                        {t("select")}
-                        <b>{t("diplay_option")}</b>.
-                    </p>
+                    <p className="typo t32">{t("select_display")}</p>
                 </div>
                 <div className="content__body--display">
                     <ul className="content__body--display-list">
                         <ButtonList
                             content="display"
                             items={[
-                                { id: "1", name: t("display_1") },
                                 { id: "2", name: t("display_2") },
+                                { id: "1", name: t("display_1") },
                             ]}
                         />
                     </ul>

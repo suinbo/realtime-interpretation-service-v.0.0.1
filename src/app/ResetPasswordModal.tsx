@@ -4,7 +4,9 @@ import { SetStateAction, useMemo, useRef, useState } from "react"
 import { LoginProp } from "./setting/types"
 import { supabase } from "@utils/superbase"
 import { SimpleLayout } from "./chat/_component/modal/PopupLayout"
+import { focusOnEmpty } from "@utils/common"
 
+/** 비밀번호 업데이트 모달 */
 const ResetPasswordModal = ({ setActiveModal }: { setActiveModal: React.Dispatch<SetStateAction<string>> }) => {
     const [{ password, rePassword }, setFormItem] = useState<LoginProp>({
         password: "",
@@ -19,15 +21,9 @@ const ResetPasswordModal = ({ setActiveModal }: { setActiveModal: React.Dispatch
     }
 
     const onReset = async () => {
-        const focusOnEmpty = (field: "password" | "rePassword") => {
-            const ref = refs[field]
-            ref.current?.focus()
-        }
+        focusOnEmpty(refs)
 
-        if (!password) focusOnEmpty("password")
-        if (!rePassword) focusOnEmpty("rePassword")
-
-        if (password && !isCorrect) {
+        if (password && rePassword && !isCorrect) {
             setActiveMiniModal(true)
             return
         }
@@ -47,20 +43,16 @@ const ResetPasswordModal = ({ setActiveModal }: { setActiveModal: React.Dispatch
 
     return (
         <>
-            <Popup
-                title="Reset Password"
-                onClose={() => setActiveModal("")}
-                style={{ width: 800 }}
-                popupId="signup-form">
+            <Popup title="Reset Password" onClose={() => setActiveModal("")} style={{ width: 800 }}>
                 <div className="popup__content">
                     <div className="popup__content--form">
                         <div className="form__item">
-                            <p className="form__item-label typo t17 w500">Password</p>
+                            <p className="form__item-label typo t16 w500">Password</p>
                             <div>
                                 <Input
                                     refs={refs.password}
                                     type="password"
-                                    classname="typo t17"
+                                    classname="typo t15"
                                     value={password}
                                     placeholder="ex. Asdf12345*"
                                     onChange={password => setFormItem(prev => ({ ...prev, password }))}
@@ -68,12 +60,12 @@ const ResetPasswordModal = ({ setActiveModal }: { setActiveModal: React.Dispatch
                             </div>
                         </div>
                         <div className="form__item">
-                            <p className="form__item-label typo t17 w500">Verify Password</p>
+                            <p className="form__item-label typo t16 w500">Verify Password</p>
                             <div className="form__item-wrapper">
                                 <Input
                                     refs={refs.rePassword}
                                     type="password"
-                                    classname="typo t17"
+                                    classname="typo t15"
                                     value={rePassword}
                                     placeholder="Please check your password."
                                     onChange={rePassword => setFormItem(prev => ({ ...prev, rePassword }))}
@@ -83,17 +75,20 @@ const ResetPasswordModal = ({ setActiveModal }: { setActiveModal: React.Dispatch
                         </div>
                     </div>
                     <div className="popup__content--btn--login">
-                        <Button text="Submit" onClick={onReset} classname="lined--1 typo t16 w500" />
-                        <Button text="Cancel" onClick={() => setActiveModal("")} classname="secondary typo t16 w500" />
+                        <Button text="Submit" onClick={onReset} classname="lined--1 typo t14" />
+                        <Button text="Cancel" onClick={() => setActiveModal("")} classname="secondary typo t14" />
                     </div>
                 </div>
             </Popup>
             {activeMiniModal && (
                 <SimpleLayout
+                    isActive={activeMiniModal}
                     text={
                         <>
-                            <p className="typo t18 w500">Check your password.</p>
-                            <span className="typo t15">
+                            <span>
+                                <b>Check your password.</b>
+                            </span>
+                            <span className="typo t14">
                                 ※ You should enter a word of at least 8 characters by combining at least 3 types of
                                 letters, numbers, and special characters.
                             </span>
@@ -101,11 +96,7 @@ const ResetPasswordModal = ({ setActiveModal }: { setActiveModal: React.Dispatch
                     }
                     controller={
                         <div className="popup__content--btn">
-                            <Button
-                                text="Ok"
-                                onClick={() => setActiveMiniModal(false)}
-                                classname="lined--1 typo t15 w500"
-                            />
+                            <Button text="Ok" onClick={() => setActiveMiniModal(false)} classname="lined--1 typo t14" />
                         </div>
                     }
                 />

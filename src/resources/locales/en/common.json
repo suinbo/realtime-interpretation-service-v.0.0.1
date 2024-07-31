@@ -1,6 +1,5 @@
 {
-    "select": "Please select a ",
-    "diplay_option": "display option",
-    "display_1": "Dual-Microphone to Single Display Setup",
-    "display_2": "Single-Microphone on One Display Setup"
+    "select_display": "Please select a display option",
+    "display_1": "1:2 Display to Mic Setup",
+    "display_2": "1:1 Display to Mic Setup"
 }

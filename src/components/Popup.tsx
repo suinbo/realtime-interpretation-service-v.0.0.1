@@ -1,8 +1,8 @@
-import React, { CSSProperties, SetStateAction, useEffect, useRef, useState } from "react"
+import React, { CSSProperties, useEffect, useRef } from "react"
 import "./style.scss"
 
 const Popup = ({
-    popupId,
+    isActive, // 팝업 겹칠 시 클릭 이벤트 비활성화 방지
     children,
     hasClosedBtn = true,
     title,
@@ -10,7 +10,7 @@ const Popup = ({
     style,
     onClose,
 }: {
-    popupId?: string //팝업 동시 사용시 고유 식별
+    isActive?: boolean
     children: React.ReactNode
     title?: string
     hasClosedBtn?: boolean
@@ -19,16 +19,11 @@ const Popup = ({
     onClose?: () => void
 }) => {
     const popupRef = useRef<HTMLDivElement>(null)
-    const [activePopupId, setActivePopupId] = useState<string>("")
-
-    useEffect(() => {
-        popupId && setActivePopupId(popupId)
-    }, [])
 
     /** 외부 영역 클릭 방지 */
     useEffect(() => {
         const isOutsideClick = (e: Event) => {
-            if (activePopupId === popupId && !popupRef.current?.contains(e.target as Node)) {
+            if (isActive && popupRef.current && !popupRef.current.contains(e.target as Node)) {
                 e.stopPropagation() // 클릭 방지
                 e.preventDefault() // 포커싱 방지
             }

@@ -1,21 +1,17 @@
-"use client"
-
-import React from "react"
-import { OptionAtom } from "@atoms/Atom"
-import { useRecoilValue } from "recoil"
-import { Language, Display, Chatting } from "./_view"
 import enTranslations from "@resources/locales/en/common.json"
 import koTranslations from "@resources/locales/ko/common.json"
 import zhTranslations from "@resources/locales/zh/common.json"
 import jaTranslations from "@resources/locales/ja/common.json"
 import i18next from "@resources/locales/i18n"
 import { initReactI18next } from "react-i18next"
+import { useTranslation } from "react-i18next"
 import { useEffect } from "react"
-import "@assets/styles/common.scss"
-import "./style.scss"
+import { useRecoilValue } from "recoil"
+import { OptionAtom } from "@atoms/Atom"
 
-const SettingView = () => {
-    const { view } = useRecoilValue(OptionAtom)
+export const useInitLanguage = () => {
+    const { t } = useTranslation()
+    const options = useRecoilValue(OptionAtom)
 
     useEffect(() => {
         i18next.use(initReactI18next).init({
@@ -25,21 +21,13 @@ const SettingView = () => {
                 zh: { translation: zhTranslations },
                 ja: { translation: jaTranslations },
             },
-            lng: "ko",
+            lng: options.language,
             fallbackLng: "en",
             interpolation: {
                 escapeValue: false,
             },
         })
-    }, [])
+    }, [options])
 
-    const optionView: { [key: string]: React.ReactNode } = {
-        language: <Language />,
-        display: <Display />,
-        chatting: <Chatting />,
-    }
-
-    return optionView[view]
+    return t
 }
-
-export default SettingView

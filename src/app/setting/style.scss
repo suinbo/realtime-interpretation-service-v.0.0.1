@@ -49,6 +49,7 @@
             &__wrapper {
                 display: flex;
                 flex-direction: column;
+                align-items: center;
                 gap: 60px;
 
                 &-nav {
@@ -87,18 +88,19 @@
 
                 /* 디스플레이 옵션 */
                 &--display {
-                    margin: 0 120px;
+                    width: 560px; // 추가
+                    // margin: 0 120px;
 
                     &-list {
                         display: flex;
                         flex-direction: column;
-                        // justify-content: space-around;
                         gap: 14px;
                     }
                 }
 
                 /* 대화 설정 옵션 */
                 &--setting {
+                    width: 980px; // 추가
                     display: flex;
                     flex-direction: column;
                     gap: 20px;
