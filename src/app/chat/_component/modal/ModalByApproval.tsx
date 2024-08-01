@@ -5,7 +5,7 @@ import { supabase } from "@utils/superbase"
 import { SimpleLayout } from "./PopupLayout"
 import PendintApproval from "@components/PendingApprovalView"
 import { useRouter } from "next/navigation"
-import { useInitLanguage } from "@hooks/useInitLanguage"
+import { useTranslation } from "next-i18next"
 
 const Modal = ({
     chatroom,
@@ -23,11 +23,12 @@ const Modal = ({
     viewOption: { [key: string]: boolean }
 }) => {
     const router = useRouter()
-    const t = useInitLanguage()
+    const { t } = useTranslation()
 
     const contentModal = {
         approvalRequest: (
             <SimpleLayout
+                hasTopIcon={true}
                 text={
                     <>
                         {/* 대화 참여를 위해<span className="typo w500"> 호스트 승인</span>이 필요합니다. */}
@@ -55,6 +56,7 @@ const Modal = ({
         ),
         approvalResponse: (
             <SimpleLayout
+                hasTopIcon={true}
                 text={
                     <>
                         {/* <span className="typo w500">{chatroom?.member_email}</span> 님이 승인을 요청 합니다. */}
@@ -83,6 +85,7 @@ const Modal = ({
         ),
         passwordRequest: (
             <SimpleLayout
+                isActive={true}
                 text={
                     <>
                         {/* 대화 참여를 위해 <span className="typo w600"> 암호 코드</span>를 입력하세요. */}

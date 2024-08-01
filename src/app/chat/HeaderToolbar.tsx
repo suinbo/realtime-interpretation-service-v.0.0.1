@@ -10,7 +10,7 @@ import { useInitLanguage } from "@hooks/useInitLanguage"
 const HeaderToolbar = () => {
     useSession()
 
-    const t = useInitLanguage()
+    const { t } = useInitLanguage()
     const user = useRecoilValue(UserAtom)
     const { chat_nm } = useRecoilValue(ChatroomAtom)
     const [view, setView] = useState<string>("")

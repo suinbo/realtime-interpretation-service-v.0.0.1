@@ -2,7 +2,7 @@ import { RefObject, SetStateAction } from "react"
 import { FormItemProp, SelectboxItemProp } from "@app/setting/types"
 import { languages } from "@resources/data"
 import { Input, Selectbox } from "@components/form"
-import { useInitLanguage } from "@hooks/useInitLanguage"
+import { useTranslation } from "next-i18next"
 
 const SingleSettingForm = ({
     refs,
@@ -15,7 +15,7 @@ const SingleSettingForm = ({
     setFormItem: React.Dispatch<SetStateAction<FormItemProp>>
     isFocused: boolean
 }) => {
-    const t = useInitLanguage()
+    const { t } = useTranslation()
     const selectboxItems = languages.map(({ id, name }) => ({ id, name }))
 
     const onSelect = (index: number, item: SelectboxItemProp) => {

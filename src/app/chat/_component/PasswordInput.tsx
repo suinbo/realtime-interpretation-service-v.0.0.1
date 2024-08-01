@@ -2,8 +2,10 @@ import { useRef, useState } from "react"
 import { supabase } from "@utils/superbase"
 import cx from "classnames"
 import "./style.scss"
+import { useTranslation } from "next-i18next"
 
 const PasswordInput = ({ roomId }: { roomId: string }) => {
+    const { t } = useTranslation()
     const ref = useRef<HTMLInputElement>(null)
     const [alertMessage, setAlertMessage] = useState<string>("")
 
@@ -18,7 +20,7 @@ const PasswordInput = ({ roomId }: { roomId: string }) => {
                 .select("*")
                 .eq("room_password", current.value)
             if (!equalPassword?.length) {
-                setAlertMessage("암호 코드가 일치하지 않습니다.")
+                setAlertMessage(t("invalid_password"))
             } else {
                 // 자동 승인
                 const { data } = await supabase
@@ -30,7 +32,7 @@ const PasswordInput = ({ roomId }: { roomId: string }) => {
                     .select("*")
             }
         } else {
-            setAlertMessage("암호 코드를 입력해주세요.")
+            setAlertMessage(t("enter_password"))
         }
     }
 

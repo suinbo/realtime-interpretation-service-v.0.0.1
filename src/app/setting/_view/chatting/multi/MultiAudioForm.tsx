@@ -6,7 +6,7 @@ import { useControlVolume } from "@hooks/audioSetting/useControlVolume"
 import { useInitLanguage } from "@hooks/useInitLanguage"
 
 const MultiAudioForm = () => {
-    const t = useInitLanguage()
+    const { t } = useInitLanguage()
 
     const [selectedItem, setSelectedItem] = useState<SelectboxItemProp>({ id: "", name: "" })
 

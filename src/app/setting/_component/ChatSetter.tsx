@@ -8,7 +8,7 @@ import { supabase } from "@utils/superbase"
 import { useInitLanguage } from "@hooks/useInitLanguage"
 
 const ChatSetter = ({ items = [], formItem }: { items: SelectboxItemProp[]; formItem: FormItemProp }) => {
-    const t = useInitLanguage()
+    const { t } = useInitLanguage()
     const selectBoxRef = useRef<HTMLDivElement>(null)
     const [active, setActive] = useState<boolean>(false)
 

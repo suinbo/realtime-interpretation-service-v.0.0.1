@@ -12,6 +12,7 @@ type ChatMessageProp = {
     msg_eng_content: string
     msg_trans_content: string
     isRecording: boolean
+    isLoading: boolean
     userId: string
     startRecording: () => void
 }
@@ -23,6 +24,7 @@ const ChatMessage = ({
     msg_trans_content,
     msg_eng_content,
     isRecording,
+    isLoading,
     userId,
     startRecording,
 }: ChatMessageProp) => {
@@ -49,6 +51,8 @@ const ChatMessage = ({
                         )}
                     </div>
                 ) : isRecording ? (
+                    <LoadingDot />
+                ) : isLoading ? (
                     <LoadingDot />
                 ) : (
                     <Button text="음성 인식 시작" onClick={startRecording} classname="starter" />

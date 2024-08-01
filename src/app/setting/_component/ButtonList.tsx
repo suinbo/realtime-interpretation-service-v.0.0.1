@@ -18,7 +18,7 @@ const ButtonList = ({ items, content }: { items: { id: number | string; name: st
             <li className="content__item" key={id}>
                 <Button
                     theme="checker"
-                    classname={cx("typo t18", { active })}
+                    classname={cx("typo t17", { active })}
                     onClick={() => {
                         setOption(prev => ({ ...prev, [content]: id }))
 

@@ -3,10 +3,10 @@ import { SelectboxItemProp } from "../../../types"
 import { Selectbox } from "@components/form"
 import { VolumeTester } from "@app/setting/_component"
 import { useControlVolume } from "@hooks/audioSetting/useControlVolume"
-import { useInitLanguage } from "@hooks/useInitLanguage"
+import { useTranslation } from "next-i18next"
 
 const SingleAudioForm = () => {
-    const t = useInitLanguage()
+    const { t } = useTranslation()
     const [selectedItem, setSelectedItem] = useState<SelectboxItemProp>({ id: "", name: "" })
 
     // 선택한 디바이스의 스트림 데이터 가져오기

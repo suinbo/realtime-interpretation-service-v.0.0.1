@@ -7,11 +7,11 @@ import { ChatroomAtom } from "@atoms/Atom"
 import { supabase } from "@utils/superbase"
 import { useQueryParams } from "@hooks/useQueryParams"
 import { FormLayout, SimpleLayout } from "./PopupLayout"
-import { useInitLanguage } from "@hooks/useInitLanguage"
+import { useTranslation } from "next-i18next"
 
 const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispatch<SetStateAction<string>> }) => {
     const { id } = useQueryParams()
-    const t = useInitLanguage()
+    const { t } = useTranslation()
     const chatroomInfo = useRecoilValue(ChatroomAtom)
 
     const [{ chat_nm, chat_lang, has_chat_pw, chat_pw, host_auth, room_option }, setFormItem] =
@@ -40,7 +40,7 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                                 <p className="form__item-label typo w500">{t("chat_title")}</p>
                                 <Input
                                     type="text"
-                                    classname="typo t17"
+                                    classname="typo t15"
                                     value={chat_nm}
                                     placeholder={t("")}
                                     onChange={chat_nm => setFormItem(prev => ({ ...prev, chat_nm }))}
@@ -91,7 +91,7 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                                 <p className="form__item-label typo w500">{t("chat_title")}</p>
                                 <Input
                                     type="text"
-                                    classname="typo t17"
+                                    classname="typo t15"
                                     value={chat_nm}
                                     placeholder={t("enter_chat_title")}
                                     onChange={chat_nm => setFormItem(prev => ({ ...prev, chat_nm }))}
@@ -108,10 +108,10 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                                     />
                                     {has_chat_pw && (
                                         <div className="form__item--password-group">
-                                            <span className="typo t14">{t("password")}</span>
+                                            <span className="typo t15">{t("password")}</span>
                                             <Input
                                                 type="password"
-                                                classname="typo t17"
+                                                classname="typo t15"
                                                 value={chat_pw as string}
                                                 placeholder={t("enter_password")}
                                                 onChange={chat_pw => setFormItem(prev => ({ ...prev, chat_pw }))}

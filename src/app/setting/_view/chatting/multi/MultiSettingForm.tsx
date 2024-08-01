@@ -1,7 +1,7 @@
 import { FormItemProp, SelectboxItemProp } from "@app/setting/types"
 import { Checkbox, Input, RadioGroup, Selectbox } from "@components/form"
-import { useInitLanguage } from "@hooks/useInitLanguage"
 import { languages } from "@resources/data"
+import { useTranslation } from "next-i18next"
 import { RefObject, SetStateAction } from "react"
 
 const MultiSettingForm = ({
@@ -13,7 +13,7 @@ const MultiSettingForm = ({
     formItem: FormItemProp
     setFormItem: React.Dispatch<SetStateAction<FormItemProp>>
 }) => {
-    const t = useInitLanguage()
+    const { t } = useTranslation()
     const selectboxItems = languages.map(({ id, name }) => ({ id, name }))
 
     const onSelect = (index: number, item: SelectboxItemProp) => {

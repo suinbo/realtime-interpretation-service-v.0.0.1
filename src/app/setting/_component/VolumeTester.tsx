@@ -19,7 +19,7 @@ const VolumeTester = ({
     //         stopRecording()
     //     }
     // }, [startRecording, stopRecording])
-    const t = useInitLanguage()
+    const { t } = useInitLanguage()
     const [recording, setRecording] = useState<boolean>(false)
 
     const handleToggleRecording = () => {
