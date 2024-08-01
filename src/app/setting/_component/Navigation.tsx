@@ -7,9 +7,17 @@ import { ViewProp } from "../types"
 import "./style.scss"
 
 /** 옵션 화면 이동 네비게이터 */
-const Navigation = ({ view, position }: { view: ViewProp; position: string }) => {
+const Navigation = ({ view, position, onClick }: { view: ViewProp; position: string; onClick?: () => void }) => {
     const setOption = useSetRecoilState(OptionAtom)
-    return <div className={cx("navigation", position)} onClick={() => setOption(prev => ({ ...prev, view }))} />
+    return (
+        <div
+            className={cx("navigation", position)}
+            onClick={() => {
+                setOption(prev => ({ ...prev, view }))
+                onClick && onClick()
+            }}
+        />
+    )
 }
 
 export default Navigation

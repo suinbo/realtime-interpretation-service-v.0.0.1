@@ -1,9 +1,12 @@
 import { ButtonList, Navigation } from "@app/setting/_component"
-import { useInitLanguage } from "@hooks/useInitLanguage"
+import { OptionAtom } from "@atoms/Atom"
 import { languages } from "@resources/data"
+import { useTranslation } from "next-i18next"
+import { useRecoilValue } from "recoil"
 
 const LanguageView = () => {
-    useInitLanguage()
+    const { language } = useRecoilValue(OptionAtom)
+    const { i18n } = useTranslation()
 
     return (
         <div className="content">
@@ -24,7 +27,7 @@ const LanguageView = () => {
                 </div>
             </div>
             <div className="content__wrapper-nav">
-                <Navigation view="display" position="right" />
+                <Navigation view="display" position="right" onClick={() => i18n.changeLanguage(language)} />
             </div>
         </div>
     )

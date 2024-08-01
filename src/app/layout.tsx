@@ -29,9 +29,9 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="ko">
-            <Provider>
-                <body className={cx(notoSansKr.className, roboto.variable)}>{children}</body>
-            </Provider>
+            <body className={cx(notoSansKr.className, roboto.variable)}>
+                <Provider>{children}</Provider>
+            </body>
         </html>
     )
 }
