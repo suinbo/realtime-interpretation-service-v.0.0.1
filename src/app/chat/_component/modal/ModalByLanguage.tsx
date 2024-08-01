@@ -71,7 +71,7 @@ const ModalByLanguage = ({ setActive }: { setActive: React.Dispatch<SetStateActi
                     const { data } = await supabase
                         .from("chatroom")
                         .update({
-                            chat_language: [originLang, selectedItem.id],
+                            chat_language: [originLang, selectedItem.id].join(","),
                         })
                         .eq("room_id", id)
                         .select("*")
