@@ -17,6 +17,7 @@ export interface ChatroomProp {
     approval_accepted: number // 승인 수락 여부 (1:수락, 0:미수락)
     approval_required: number // 승인 설정 여부 (1:활성, 0:비활성)
     approval_requested: number // 승인 요청 여부 (1:요청, 0:미요청)
+    is_started: number //대화 시작 여부
 }
 
 /**

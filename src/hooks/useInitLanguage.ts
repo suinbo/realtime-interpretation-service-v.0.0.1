@@ -9,8 +9,8 @@ import { useEffect } from "react"
 import { useRecoilValue } from "recoil"
 import { OptionAtom } from "@atoms/Atom"
 
-export const useInitLanguage = () => {
-    const { t } = useTranslation()
+export const useInitLanguage = (lang?: string) => {
+    const { t, i18n } = useTranslation()
     const options = useRecoilValue(OptionAtom)
 
     useEffect(() => {
@@ -21,13 +21,13 @@ export const useInitLanguage = () => {
                 zh: { translation: zhTranslations },
                 ja: { translation: jaTranslations },
             },
-            lng: options.language,
+            lng: lang ?? options.language,
             fallbackLng: "en",
             interpolation: {
                 escapeValue: false,
             },
         })
-    }, [options])
+    }, [options, lang])
 
-    return t
+    return { t, i18n }
 }

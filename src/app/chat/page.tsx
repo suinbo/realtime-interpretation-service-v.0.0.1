@@ -10,52 +10,58 @@ import Chatting from "./Chatting"
 import { ModalByApproval } from "./_component"
 import { useTranscriptions } from "@hooks/audioSetting/useTranscriptions"
 import { useInitLanguage } from "@hooks/useInitLanguage"
+import ModalByLanguage from "./_component/modal/ModalByLanguage"
+import { supabase } from "@utils/superbase"
+import cookie from "@utils/cookie"
 import "@assets/styles/common.scss"
 import "./style.scss"
 
 const Chat = () => {
-    const t = useInitLanguage()
     const { id, langs, display, host } = useQueryParams()
-    const [start, setStart] = useState<boolean>(false)
-
     const user = useRecoilValue(UserAtom)
     const setChatroom = useSetRecoilState(ChatroomAtom)
+    const [start, setStart] = useState<boolean>(false)
 
-    const transLanguage: { [key: string]: string } = {
-        ko: "Korean",
-        en: "English",
-    }
+    const [originLang, transLang] = (langs as string).split(",")
+    const isHost = host == user.id
+
+    /** 언어셋 쿠기 존재 여부 */
+    const hasCookie = cookie.hasItem("languageSet")
+
+    /** 언어셋 초기화 */
+    const { t } = useInitLanguage(
+        hasCookie ? (cookie.getItem("languageSet") as string) : isHost ? originLang : transLang
+    )
 
     const { chatroom } = useRealtimeChatroom(id as string, user)
 
-    // 디스플레이 1 : 두 언어 보여야 함 (langCd, transLangCd)
-    // 디스플레이 2 : 자기언어만 보이면 됨 (langCd) /
-    // 호스트면 말하는 음성: (langs as string).split(",")[0] 아니면 (langs as string).split(",")[1]
-    // 호스트 번역 : transLanguage[(langs as string).split(",")[1]] 아니면 transLanguage[(langs as string).split(",")[0]]
+    /** 언어 확인 모달 활성화 */
+    const [activeCheckModal, setActiveCheckModal] = useState<boolean>(false)
+
     const transcriptions = useTranscriptions({
         hostId: host as string,
         userId: user.id,
         roomId: id as string,
         //말하는 언어
-        langCd:
-            display == 1
-                ? (langs as string).split(",")[0]
-                : user.id == host
-                ? (langs as string).split(",")[0]
-                : (langs as string).split(",")[1],
+        langCd: display == 1 ? originLang : isHost ? originLang : transLang,
         //번역 언어
-        transLangCd:
-            display == 1
-                ? transLanguage[(langs as string).split(",")[1]]
-                : user.id == host
-                ? transLanguage[(langs as string).split(",")[1]]
-                : transLanguage[(langs as string).split(",")[0]],
+        transLangCd: display == 1 ? transLang : isHost ? transLang : originLang,
     })
 
     useEffect(() => {
         if (chatroom) {
-            const { room_title, chat_language, room_password, room_option, approval_required, expired_at, creator_id } =
-                chatroom
+            const {
+                room_title,
+                chat_language,
+                room_password,
+                room_option,
+                approval_required,
+                approval_accepted,
+                member_id,
+                expired_at,
+                creator_id,
+                is_started,
+            } = chatroom
 
             setChatroom({
                 chat_nm: room_title,
@@ -65,8 +71,11 @@ const Chat = () => {
                 host_auth: approval_required,
                 room_option,
             })
+
+            setActiveCheckModal(user.id === member_id && !hasCookie)
+            setStart(Boolean(is_started))
         }
-    }, [chatroom])
+    }, [chatroom, hasCookie])
 
     const Content = () => (
         <div className="content">
@@ -77,8 +86,15 @@ const Chat = () => {
                     <div className="content__body--button">
                         <Button
                             text={t("do_start")}
-                            onClick={() => {
+                            onClick={async () => {
                                 setStart(!start)
+                                await supabase
+                                    .from("chatroom")
+                                    .update({
+                                        is_started: 1,
+                                    })
+                                    .eq("room_id", id)
+                                    .select("*")
                                 //transcriptions.startRecording()
                             }}
                             classname="typo t38 w500"
@@ -112,13 +128,15 @@ const Chat = () => {
         showInvalidRoom: isExpired,
     }
 
-    // 모달을 제외한 콘텐츠 렌더링
+    // 모달을 제외한 콘텐츠 렌더링 (참여자)
+    // 생성자에게는 [시작하기] 버튼 항상 노출
     const shouldShowContent = !Object.values(viewOption).some(Boolean)
 
     return (
         <div>
             {shouldShowContent && <Content />}
-            <ModalByApproval chatroom={chatroom} roomId={id as string} viewOption={viewOption} />
+            {!!hasCookie && <ModalByApproval chatroom={chatroom} roomId={id as string} viewOption={viewOption} />}
+            {activeCheckModal && <ModalByLanguage setActive={setActiveCheckModal} />}
         </div>
     )
 }
