@@ -4,8 +4,10 @@ import { useRecoilState } from "recoil"
 import { Button } from "@components/form"
 import { OptionAtom } from "@atoms/Atom"
 import cx from "classnames"
+import { useTranslation } from "next-i18next"
 
 const ButtonList = ({ items, content }: { items: { id: number | string; name: string }[]; content: string }) => {
+    const { i18n } = useTranslation()
     const [option, setOption] = useRecoilState(OptionAtom)
 
     return items.map(item => {
@@ -17,7 +19,11 @@ const ButtonList = ({ items, content }: { items: { id: number | string; name: st
                 <Button
                     theme="checker"
                     classname={cx("typo t18", { active })}
-                    onClick={() => setOption(prev => ({ ...prev, [content]: id }))}>
+                    onClick={() => {
+                        setOption(prev => ({ ...prev, [content]: id }))
+
+                        if (content == "language") i18n.changeLanguage(id as string)
+                    }}>
                     <div className="checker-item">
                         <span className={cx("checker-item-checkbox", { active })} />
                         <span>{name}</span>

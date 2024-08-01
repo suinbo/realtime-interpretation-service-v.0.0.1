@@ -185,11 +185,13 @@
         label {
             display: flex;
             align-items: center;
-            gap: 26px;
+            gap: 20px;
             cursor: pointer;
         }
 
         input[type="radio"] {
+            position: relative;
+            top: 1px;
             cursor: pointer;
             width: 18px;
             height: 18px;
@@ -210,14 +212,16 @@
     label {
         display: flex;
         align-items: center;
-        gap: 26px;
+        gap: 20px;
         cursor: pointer;
     }
 
     input[type="checkbox"] {
+        position: relative;
+        top: 1px;
         cursor: pointer;
-        width: 18px;
-        height: 18px;
+        width: 17px;
+        height: 17px;
         border-radius: 4px;
         border: 2px solid #e0e0e0;
         appearance: none;

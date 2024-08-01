@@ -12,7 +12,7 @@ const roboto = Roboto({
     fallback: ["system-ui", "arial"],
 })
 
-const notoSansKr = Noto_Sans_KR({
+export const notoSansKr = Noto_Sans_KR({
     subsets: ["latin"],
     weight: ["400", "500", "600", "700"],
 })

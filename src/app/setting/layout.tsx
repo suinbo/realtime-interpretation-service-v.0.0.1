@@ -6,6 +6,8 @@ import { UserAtom } from "@atoms/Atom"
 import { useSession } from "@hooks/useSession"
 import "@assets/styles/common.scss"
 import "./style.scss"
+import { notoSansKr } from "@app/Provider"
+import cx from "classnames"
 
 const Layout = ({
     children,
@@ -19,7 +21,7 @@ const Layout = ({
     return (
         <div className="dashboard">
             <div className="dashboard__inner">
-                <div className="header">
+                <div className={cx("header", notoSansKr.className)}>
                     <div className="header__title">
                         <span>실시간 동시통역 서비스</span>
                     </div>

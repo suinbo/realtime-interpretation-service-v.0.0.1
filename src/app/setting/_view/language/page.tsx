@@ -1,15 +1,11 @@
+import { notoSansKr } from "@app/Provider"
 import { ButtonList, Navigation } from "@app/setting/_component"
-import { OptionAtom } from "@atoms/Atom"
 import { languages } from "@resources/data"
-import { useTranslation } from "next-i18next"
-import { useRecoilValue } from "recoil"
+import cx from "classnames"
 
 const LanguageView = () => {
-    const { language } = useRecoilValue(OptionAtom)
-    const { i18n } = useTranslation()
-
     return (
-        <div className="content">
+        <div className={cx("content", notoSansKr.className)}>
             <div className="content__wrapper-nav" />
             <div className="content__wrapper">
                 <div className="content__title">
@@ -27,7 +23,7 @@ const LanguageView = () => {
                 </div>
             </div>
             <div className="content__wrapper-nav">
-                <Navigation view="display" position="right" onClick={() => i18n.changeLanguage(language)} />
+                <Navigation view="display" position="right" />
             </div>
         </div>
     )

@@ -31,23 +31,23 @@ const SingleSettingForm = ({
     return (
         <div className="form__content">
             <div className="form__item--name">
-                <span className="typo t20 w500">{t("chat_title")}</span>
+                <span className="typo t18 w500">{t("chat_title")}</span>
                 <Input
                     refs={refs.name}
                     type="text"
-                    classname="typo t18"
+                    classname="typo t17"
                     value={chat_nm}
                     placeholder={t("enter_chat_title")}
                     onChange={value => setFormItem(prev => ({ ...prev, chat_nm: value }))}
                 />
             </div>
             <div className="form__item--language">
-                <span className="typo t20 w500">{t("trans_language")}</span>
+                <span className="typo t18 w500">{t("trans_language")}</span>
                 <div>
                     <Selectbox
                         items={selectboxItems}
                         selectedId={chat_lang[0]}
-                        innerElement={<span className="sub-text typo t18">{t("language_1")}</span>}
+                        innerElement={<span className="sub-text typo t17">{t("language_1")}</span>}
                         onSelect={selectedItem => onSelect(0, selectedItem)}
                         style={{ height: 214 }}
                     />
@@ -55,7 +55,7 @@ const SingleSettingForm = ({
                         isFocused={isFocused}
                         items={selectboxItems}
                         selectedId={chat_lang[1]}
-                        innerElement={<span className="sub-text typo t18">{t("language_2")}</span>}
+                        innerElement={<span className="sub-text typo t17">{t("language_2")}</span>}
                         onSelect={selectedItem => onSelect(1, selectedItem)}
                         style={{ height: 214 }}
                     />

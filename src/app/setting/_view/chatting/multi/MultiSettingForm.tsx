@@ -29,7 +29,7 @@ const MultiSettingForm = ({
         <>
             <div className="form__content">
                 <div className="form__item--name">
-                    <span className="typo t20 w500">{t("chat_title")}</span>
+                    <span className="typo t18 w500">{t("chat_title")}</span>
                     <Input
                         refs={refs.name}
                         type="text"
@@ -40,20 +40,19 @@ const MultiSettingForm = ({
                     />
                 </div>
                 <div className="form__item--language">
-                    <span className="typo t20 w500">{t("trans_language")}</span>
+                    <span className="typo t18 w500">{t("trans_language")}</span>
                     <div>
                         <Selectbox
                             items={selectboxItems}
                             selectedId={chat_lang[1]}
-                            innerElement={<span className="sub-text typo t18">{t("trans_language")}</span>}
                             onSelect={selectedItem => onSelect(1, selectedItem)}
                             style={{ height: 214 }}
                         />
                     </div>
                 </div>
                 <div className="form__item--password">
-                    <span className="typo t20 w500">{t("set_password")}</span>
-                    <div className="typo t18">
+                    <span className="typo t18 w500">{t("set_password")}</span>
+                    <div className="typo t17">
                         <Checkbox
                             id="password-check"
                             label={t("setting")}
@@ -62,7 +61,7 @@ const MultiSettingForm = ({
                         />
                         {has_chat_pw && (
                             <div className="form__item--password-group">
-                                <span className="typo t18">{t("password")}</span>
+                                <span className="typo t17">{t("password")}</span>
                                 <Input
                                     refs={refs.password}
                                     type="password"
@@ -76,8 +75,8 @@ const MultiSettingForm = ({
                     </div>
                 </div>
                 <div className="form__item--auth">
-                    <span className="typo t20 w500">{t("host_approval")}</span>
-                    <div className="typo t18">
+                    <span className="typo t18 w500">{t("host_approval")}</span>
+                    <div className="typo t17">
                         <RadioGroup
                             name="host_auth"
                             items={[
