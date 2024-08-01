@@ -6,12 +6,14 @@ import { useTranslation } from "next-i18next"
 const Chatting = ({
     messages,
     isRecording,
+    isLoading,
     startRecording,
     userId,
     chatroom,
 }: {
     messages: any
     isRecording: boolean
+    isLoading: boolean
     startRecording: () => void
     userId: string
     chatroom: ChatroomProp | null
@@ -39,6 +41,7 @@ const Chatting = ({
                         isRecording={isRecording}
                         userId={userId}
                         startRecording={startRecording}
+                        isLoading={isLoading}
                     />
                 ))}
             </ul>

@@ -16,12 +16,10 @@ export function useTranscriptions({
     langCd: string
     transLangCd: string
 }) {
-    const [messages, setMessages] = useState<any[]>([])
-    const [isRecording, setIsRecording] = useState(false)
+    const [messages, setMessages] = useState<any[]>([]) // 채팅 메시지
+    const [isRecording, setIsRecording] = useState(false) // 녹음 진행 여부
     const mediaRecorderRef = useRef<MediaRecorder | null>(null)
-
-    console.log("langCd:: ", langCd)
-    console.log("transLangCd:: ", transLangCd)
+    const [isLoading, setIsLoading] = useState<boolean>(false) // 로딩 표시 활성화
 
     // 타임아웃
     const [lastDataTime, setLastDataTime] = useState<number>(Date.now())
@@ -52,16 +50,19 @@ export function useTranscriptions({
 
     // 녹음 시작
     const startRecording = async () => {
+        setIsLoading(true)
+
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
                 const mediaRecorder = new MediaRecorder(stream)
 
+                setLastDataTime(Date.now())
+
                 let audioChunks: Blob[] = []
                 mediaRecorder.ondataavailable = event => {
                     if (event.data.size > 0) {
-                        // 음성 데이터 도착하면 타이머 초기화
-                        setLastDataTime(Date.now())
+                        // 타이머 끝난 후 실행
                         audioChunks.push(event.data)
                     }
                 }
@@ -158,18 +159,26 @@ export function useTranscriptions({
 
                         // Supabase에 텍스트 저장
                         const isHost = userId == hostId
-                        const { data, error } = await supabase.from("messages").insert([
-                            {
-                                speaker_id: userId,
-                                room_id: roomId,
-                                msg_content: isHost ? text : translatedText,
-                                msg_trans_content: isHost ? translatedText : text,
-                                msg_eng_content: translatedEngText,
-                            },
-                        ])
+                        const { data, error } = await supabase
+                            .from("messages")
+                            .insert([
+                                {
+                                    speaker_id: userId,
+                                    room_id: roomId,
+                                    msg_content: isHost ? text : translatedText,
+                                    msg_trans_content: isHost ? translatedText : text,
+                                    msg_eng_content: translatedEngText,
+                                },
+                            ])
+                            .select("*")
 
                         if (error) {
                             throw new Error(error.message)
+                        }
+
+                        // 로딩 완료 (녹음, 번역 완료)
+                        if (data) {
+                            setIsLoading(false)
                         }
 
                         console.log("Data inserted into Supabase:", data)
@@ -196,24 +205,33 @@ export function useTranscriptions({
     }
 
     // 주기적으로 음성이 감지되지 않는 시간 체크
+    // 5초 이상 음성이 감지되지 않으면 녹음 중단
+    // 1초마다 체크
     useEffect(() => {
-        const checkInactiveTime = () => {
-            const currentTime = Date.now()
+        if (isRecording) {
+            const checkInactiveTime = () => {
+                const currentTime = Date.now()
 
-            // 5초 이상 음성이 감지되지 않으면 녹음 중단
-            if (isRecording && currentTime - lastDataTime > 5000) {
-                stopRecording()
+                console.log("currentTime:: ", currentTime)
+                console.log("lastDataTime:: ", lastDataTime)
+
+                //TODO : 현재로서 10초동안 녹음 후 중단
+                //TODO : lastDataTime 업데이트 시점 미지정
+                if (currentTime - lastDataTime > 10000) {
+                    console.log("!!10초후 중단")
+                    stopRecording()
+                }
             }
-        }
 
-        // 1초마다 체크
-        const interval = setInterval(checkInactiveTime, 5000)
-        return () => clearInterval(interval)
+            const interval = setInterval(checkInactiveTime, 1000)
+            return () => clearInterval(interval)
+        }
     }, [isRecording, lastDataTime])
 
     return {
         messages,
         isRecording,
+        isLoading,
         startRecording,
         stopRecording,
     }
