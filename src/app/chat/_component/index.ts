@@ -1,4 +1,5 @@
 export { default as PasswordInput } from "./PasswordInput"
 export { default as EmailInput } from "./EmailInput"
-export { default as ModalByApproval } from "./modal/ModalByApproval"
+export { default as ModalByApprovalOfMember } from "./modal/ModalByApprovalOfMember"
+export { default as ModalByApprovalOfHost } from "./modal/ModalByApprovalOfHost"
 export { default as ChatMessage } from "./messageList/ChatMessage"

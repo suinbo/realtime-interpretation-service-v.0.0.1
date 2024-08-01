@@ -7,7 +7,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil"
 import { ChatroomAtom, UserAtom } from "@atoms/Atom"
 import useRealtimeChatroom from "@hooks/chatroom/useRealtimeChatroom"
 import Chatting from "./Chatting"
-import { ModalByApproval } from "./_component"
+import { ModalByApprovalOfMember, ModalByApprovalOfHost } from "./_component"
 import { useTranscriptions } from "@hooks/audioSetting/useTranscriptions"
 import { useInitLanguage } from "@hooks/useInitLanguage"
 import ModalByLanguage from "./_component/modal/ModalByLanguage"
@@ -21,6 +21,12 @@ const Chat = () => {
     const user = useRecoilValue(UserAtom)
     const setChatroom = useSetRecoilState(ChatroomAtom)
     const [start, setStart] = useState<boolean>(false)
+
+    /** 언어셋 */
+    const [{ langCd, transLangCd }, setLangCd] = useState<{ langCd: string; transLangCd: string }>({
+        langCd: "",
+        transLangCd: "",
+    })
 
     const [originLang, transLang] = (langs as string).split(",")
     const isHost = host == user.id
@@ -38,14 +44,14 @@ const Chat = () => {
     /** 언어 확인 모달 활성화 */
     const [activeCheckModal, setActiveCheckModal] = useState<boolean>(false)
 
+
+    //TODO: 디스플레이 1일 경우 언어셋 세팅
     const transcriptions = useTranscriptions({
         hostId: host as string,
         userId: user.id,
         roomId: id as string,
-        //말하는 언어
-        langCd: display == 1 ? originLang : isHost ? originLang : transLang,
-        //번역 언어
-        transLangCd: display == 1 ? transLang : isHost ? transLang : originLang,
+        langCd: isHost ? langCd : transLangCd,
+        transLangCd: isHost ? transLangCd : langCd,
     })
 
     useEffect(() => {
@@ -74,6 +80,12 @@ const Chat = () => {
 
             setActiveCheckModal(user.id === member_id && !hasCookie)
             setStart(Boolean(is_started))
+
+            // 언어셋 설정
+            setLangCd({
+                langCd: (chat_language as any).split(",")[0],
+                transLangCd: (chat_language as any).split(",")[1],
+            })
         }
     }, [chatroom, hasCookie])
 
@@ -135,7 +147,14 @@ const Chat = () => {
     return (
         <div>
             {shouldShowContent && <Content />}
-            {!!hasCookie && <ModalByApproval chatroom={chatroom} roomId={id as string} viewOption={viewOption} />}
+
+            {/* 참여자 */}
+            {!!hasCookie && (
+                <ModalByApprovalOfMember chatroom={chatroom} roomId={id as string} viewOption={viewOption} />
+            )}
+
+            {/* 생성자 */}
+            {<ModalByApprovalOfHost chatroom={chatroom} roomId={id as string} viewOption={viewOption} />}
             {activeCheckModal && <ModalByLanguage setActive={setActiveCheckModal} />}
         </div>
     )

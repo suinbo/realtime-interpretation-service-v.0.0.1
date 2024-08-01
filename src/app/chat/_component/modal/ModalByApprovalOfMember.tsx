@@ -10,13 +10,7 @@ import { useTranslation } from "next-i18next"
 const Modal = ({
     chatroom,
     roomId,
-    viewOption: {
-        showRequestPassword,
-        showRequestApproval,
-        showResponseApproval,
-        showPendingApproval,
-        showInvalidRoom,
-    },
+    viewOption: { showRequestPassword, showRequestApproval, showPendingApproval, showInvalidRoom },
 }: {
     chatroom: ChatroomProp
     roomId: string
@@ -50,35 +44,6 @@ const Modal = ({
                             }}
                             classname="lined--1 typo t17 w500"
                         />
-                    </div>
-                }
-            />
-        ),
-        approvalResponse: (
-            <SimpleLayout
-                hasTopIcon={true}
-                text={
-                    <>
-                        {/* <span className="typo w500">{chatroom?.member_email}</span> 님이 승인을 요청 합니다. */}
-                        {t("user_requests", { val: chatroom?.member_email })}
-                    </>
-                }
-                controller={
-                    <div className="popup__content--btn">
-                        <Button
-                            text={t("accept")}
-                            onClick={async () => {
-                                const { data } = await supabase
-                                    .from("chatroom")
-                                    .update({
-                                        approval_accepted: 1,
-                                    })
-                                    .eq("room_id", roomId)
-                                    .select("*")
-                            }}
-                            classname="lined--1 typo t17 w500"
-                        />
-                        <Button text={t("refuse")} onClick={() => ({})} classname="secondary typo t17 w500 " />
                     </div>
                 }
             />
@@ -123,7 +88,6 @@ const Modal = ({
 
     if (showRequestPassword) return contentModal["passwordRequest"]
     if (showRequestApproval) return contentModal["approvalRequest"]
-    if (showResponseApproval) return contentModal["approvalResponse"]
     if (showPendingApproval) return contentModal["pendingApproval"]
     if (showInvalidRoom) return contentModal["invalidRoom"]
 
