@@ -88,10 +88,7 @@ const ResetPasswordModal = ({ setActiveModal }: { setActiveModal: React.Dispatch
                             <span>
                                 <b>Check your password.</b>
                             </span>
-                            <span className="typo t14">
-                                ※ You should enter a word of at least 8 characters by combining at least 3 types of
-                                letters, numbers, and special characters.
-                            </span>
+                            <span className="typo t14">※ You should enter a word of at least 6 characters.</span>
                         </>
                     }
                     controller={
