@@ -28,9 +28,10 @@ const Chatting = ({
 
     return (
         <div className="content__body--chat">
-            {Boolean(chatroom?.approval_accepted) && (
+            {/* 참여자 참여 여부 */}
+            {chatroom?.room_option == 2 && (
                 <div className="content__body--chat--noti typo t16">
-                    {t("participate", { val: chatroom?.member_email })}
+                    {chatroom?.member_id ? t("participate", { val: chatroom?.member_email }) : t("no_member")}
                 </div>
             )}
             <ul>
@@ -45,7 +46,6 @@ const Chatting = ({
                     />
                 ))}
             </ul>
-            {chatroom?.expired_at && <div className="content__body--chat--noti typo t16">{t("chat_finished")}</div>}
         </div>
     )
 }
