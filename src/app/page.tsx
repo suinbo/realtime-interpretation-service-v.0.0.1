@@ -4,7 +4,7 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { Button, Input } from "@components/form"
 import { supabase } from "@utils/superbase"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useSetRecoilState } from "recoil"
 import { LoginProp } from "./setting/types"
 import { UserAtom } from "@atoms/Atom"
@@ -31,6 +31,24 @@ const Login = () => {
         password: useRef<HTMLInputElement>(null),
     }
 
+    // TODO useSession 통합
+    useEffect(() => {
+        const fetchUser = async () => {
+            const {
+                data: { session },
+                error,
+            } = await supabase.auth.getSession()
+
+            if (session) {
+                const { user } = session
+                setUser(user)
+                router.push("/setting")
+            }
+        }
+
+        fetchUser()
+    }, [])
+
     const onSignIn = async () => {
         focusOnEmpty(refs)
 
@@ -47,14 +65,6 @@ const Login = () => {
                 router.push("/setting")
             }
         }
-
-        // // 로그인 없이 채팅방 접속시
-        // const previousUrl = document.referrer
-        // const currentUrl = window.location.href
-
-        // if (previousUrl.includes("/chat") && !currentUrl.includes("/chat")) {
-        //     router.back()
-        // }
 
         // const { data, error } = await supabase.auth.signInWithOAuth({
         //     provider: "kakao",
