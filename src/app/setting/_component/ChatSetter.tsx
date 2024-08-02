@@ -45,6 +45,7 @@ const ChatSetter = ({ items = [], formItem }: { items: SelectboxItemProp[]; form
                 [key: string]: any
             })
 
+            //window.open(`/chat?${encodeURIComponent(params.toString())}`, "_blank", "noopener,noreferrer")
             window.open(`/chat?${params.toString()}`, "_blank", "noopener,noreferrer")
         }
     }

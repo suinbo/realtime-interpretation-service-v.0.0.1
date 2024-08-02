@@ -3,16 +3,31 @@ import { Button, Checkbox, Input, RadioGroup, Selectbox } from "@components/form
 import { FormItemProp } from "@app/setting/types"
 import { languages } from "@resources/data"
 import { useRecoilValue } from "recoil"
-import { ChatroomAtom } from "@atoms/Atom"
+import { ChatroomAtom, UserAtom } from "@atoms/Atom"
 import { supabase } from "@utils/superbase"
 import { useQueryParams } from "@hooks/useQueryParams"
 import { FormLayout, SimpleLayout } from "./PopupLayout"
 import { useTranslation } from "next-i18next"
+import { convertKoreaTime } from "@utils/common"
+import Popup from "@components/Popup"
+import ToastPopup from "@components/ToastPopup"
 
 const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispatch<SetStateAction<string>> }) => {
-    const { id } = useQueryParams()
+    const { id, host } = useQueryParams()
+    const user = useRecoilValue(UserAtom)
     const { t } = useTranslation()
     const chatroomInfo = useRecoilValue(ChatroomAtom)
+    const [activeToast, setActiveToast] = useState<boolean>(false)
+
+    useEffect(() => {
+        if (activeToast) {
+            const timerId = setTimeout(() => {
+                setActiveToast(false)
+            }, 1000)
+
+            return () => clearTimeout(timerId)
+        }
+    }, [activeToast, setActiveToast])
 
     const [{ chat_nm, chat_lang, has_chat_pw, chat_pw, host_auth, room_option }, setFormItem] =
         useState<FormItemProp>(chatroomInfo)
@@ -30,10 +45,39 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
         })
 
     const contentModal: { [key: string]: React.ReactNode } = {
-        share: <></>,
+        share: (
+            <Popup hasClosedBtn={false} style={{ width: 480 }} isActive={true}>
+                <div className="popup__content">
+                    <div className="popup__content--title">
+                        <p className="typo t18 notice">
+                            <b>{t("copy_url")}</b>
+                            <span className="typo t14">※ {window.location.href}</span>
+                        </p>
+                        <span className="inner-close-btn" onClick={() => setView("")} />
+                    </div>
+                    <div className="popup__content--btn">
+                        <Button
+                            text={
+                                <div className="copy-text">
+                                    <span className="typo t15">URL {t("copy")}</span>
+                                </div>
+                            }
+                            onClick={() => {
+                                navigator.clipboard.writeText(window.location.href).then(() => {
+                                    setActiveToast(true)
+                                    setView("")
+                                })
+                            }}
+                            classname="typo t15 w500 grayed"
+                        />
+                    </div>
+                </div>
+            </Popup>
+        ),
         setting:
             room_option == 1 ? (
                 <FormLayout
+                    isActive={true}
                     formElement={
                         <>
                             <div className="form__item">
@@ -85,6 +129,7 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                 />
             ) : (
                 <FormLayout
+                    isActive={true}
                     formElement={
                         <>
                             <div className="form__item">
@@ -160,6 +205,7 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
 
         close: (
             <SimpleLayout
+                isActive={true}
                 hasTopIcon={false}
                 text={
                     <>
@@ -172,15 +218,29 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                         <Button
                             text={t("yes")}
                             onClick={async () => {
-                                const { data } = await supabase
-                                    .from("chatroom")
-                                    .update({
-                                        expired_at: new Date(Date.now()).toISOString(),
-                                    })
-                                    .eq("room_id", id)
-                                    .select("*")
-
-                                if (data?.length) setView("")
+                                if (host == user.id) {
+                                    // 호스트일 경우 대화방 만료
+                                    await supabase
+                                        .from("chatroom")
+                                        .update({
+                                            expired_at: convertKoreaTime(Date.now()),
+                                        })
+                                        .eq("room_id", id)
+                                        .select("*")
+                                } else {
+                                    //  참여자일 경우 그냥 방 나가기
+                                    // const { data } = await supabase
+                                    //     .from("chatroom")
+                                    //     .update({
+                                    //         member_id: null,
+                                    //         member_email: null,
+                                    //     })
+                                    //     .eq("room_id", id)
+                                    //     .select("*")
+                                    // if (data?.length) {
+                                    //     setView("")
+                                    // }
+                                }
                             }}
                             classname="lined--1 typo t15 w500"
                         />
@@ -198,7 +258,12 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
         ),
     }
 
-    return !!view && contentModal[view]
+    return (
+        <>
+            {activeToast && <ToastPopup text={t("copied")} />}
+            {!!view && contentModal[view]}
+        </>
+    )
 }
 
 export default ModalBySetting

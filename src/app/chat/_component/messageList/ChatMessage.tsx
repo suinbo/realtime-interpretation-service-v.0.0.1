@@ -3,6 +3,7 @@ import { Button } from "@components/form"
 import LoadingDot from "@components/LoadingDot"
 import { useQueryParams } from "@hooks/useQueryParams"
 import cx from "classnames"
+import { useTranslation } from "next-i18next"
 import { useRecoilValue } from "recoil"
 
 type ChatMessageProp = {
@@ -30,6 +31,7 @@ const ChatMessage = ({
 }: ChatMessageProp) => {
     const { id } = useRecoilValue(UserAtom)
     const { host, display } = useQueryParams()
+    const { t } = useTranslation()
 
     return (
         <li key={msg_id} className={cx("chatting__item", { my: speaker_id == userId })}>
@@ -55,7 +57,7 @@ const ChatMessage = ({
                 ) : isLoading ? (
                     <LoadingDot />
                 ) : (
-                    <Button text="음성 인식 시작" onClick={startRecording} classname="starter" />
+                    <Button text={t("recording")} onClick={startRecording} classname="starter" />
                 )}
             </div>
         </li>

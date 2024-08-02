@@ -20,3 +20,9 @@ export const focusOnEmpty = (refs: { [key: string]: RefObject<HTMLInputElement> 
 
     if (hasNonNullRef) callback && callback()
 }
+
+/** UTC+9 (대한민국 시간) 으로 변환 */
+export const convertKoreaTime = (timestamp: number) => {
+    const kstDate = new Date(timestamp + 9 * 60 * 60 * 1000)
+    return kstDate.toISOString().replace("Z", "+09:00")
+}

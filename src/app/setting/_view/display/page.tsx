@@ -1,10 +1,10 @@
 "use client"
 
 import { ButtonList, Navigation } from "@app/setting/_component"
-import { useTranslation } from "next-i18next"
+import { useInitLanguage } from "@hooks/useInitLanguage"
 
 const DisplayView = () => {
-    const { t } = useTranslation()
+    const { t } = useInitLanguage()
 
     return (
         <div className="content">

@@ -17,7 +17,7 @@ const SimpleLayout = ({
     <Popup hasClosedBtn={false} hasTopIcon={hasTopIcon} style={{ width: 430 }} isActive={isActive}>
         <div className="popup__content">
             <div className="popup__content--title">
-                <p className={cx("typo t18", { notice: isActive })}>{text}</p>
+                <p className={cx("typo t16", { notice: isActive })}>{text}</p>
             </div>
             {controller}
         </div>

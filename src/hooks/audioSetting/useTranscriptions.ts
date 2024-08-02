@@ -7,12 +7,14 @@ export function useTranscriptions({
     hostId,
     userId,
     roomId,
+    display,
     langCd,
     transLangCd,
 }: {
     hostId: string
     userId: string
     roomId: string
+    display: number
     langCd: string
     transLangCd: string
 }) {
@@ -157,8 +159,12 @@ export function useTranscriptions({
                         const { choices: englishChoices } = await englishResponse.json()
                         const translatedEngText = englishChoices[0].message.content.trim()
 
+                        // TODO 영어로 녹음된 경우
+                        const isAlreadyTranslated = translatedEngText == "The text is already in English."
+
                         // Supabase에 텍스트 저장
                         const isHost = userId == hostId
+
                         const { data, error } = await supabase
                             .from("messages")
                             .insert([
@@ -167,7 +173,7 @@ export function useTranscriptions({
                                     room_id: roomId,
                                     msg_content: isHost ? text : translatedText,
                                     msg_trans_content: isHost ? translatedText : text,
-                                    msg_eng_content: translatedEngText,
+                                    msg_eng_content: isAlreadyTranslated ? text : translatedEngText,
                                 },
                             ])
                             .select("*")
@@ -204,8 +210,8 @@ export function useTranscriptions({
         }
     }
 
-    // 주기적으로 음성이 감지되지 않는 시간 체크
-    // 5초 이상 음성이 감지되지 않으면 녹음 중단
+    // [TO-BE] 주기적으로 음성이 감지되지 않는 시간 체크
+    // [TO-BE] 4초 이상 음성이 감지되지 않으면 녹음 중단
     // 1초마다 체크
     useEffect(() => {
         if (isRecording) {
@@ -215,10 +221,9 @@ export function useTranscriptions({
                 console.log("currentTime:: ", currentTime)
                 console.log("lastDataTime:: ", lastDataTime)
 
-                //TODO : 현재로서 10초동안 녹음 후 중단
+                //TODO : 현재로서 4초동안 녹음 후 중단
                 //TODO : lastDataTime 업데이트 시점 미지정
-                if (currentTime - lastDataTime > 10000) {
-                    console.log("!!10초후 중단")
+                if (currentTime - lastDataTime > 4000) {
                     stopRecording()
                 }
             }

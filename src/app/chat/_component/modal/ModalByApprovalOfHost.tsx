@@ -8,7 +8,7 @@ import { useTranslation } from "next-i18next"
 const ModalByApprovalOfHost = ({
     chatroom,
     roomId,
-    viewOption: { showResponseApproval },
+    viewOption: { showResponseApproval, showInvalidRoom },
 }: {
     chatroom: ChatroomProp
     roomId: string
@@ -32,7 +32,7 @@ const ModalByApprovalOfHost = ({
                         <Button
                             text={t("accept")}
                             onClick={async () => {
-                                const { data } = await supabase
+                                await supabase
                                     .from("chatroom")
                                     .update({
                                         approval_accepted: 1,
@@ -42,13 +42,26 @@ const ModalByApprovalOfHost = ({
                             }}
                             classname="lined--1 typo t17 w500"
                         />
-                        <Button text={t("refuse")} onClick={() => ({})} classname="secondary typo t17 w500 " />
+                        <Button
+                            text={t("refuse")}
+                            onClick={async () => {
+                                await supabase
+                                    .from("chatroom")
+                                    .update({
+                                        approval_requested: 0,
+                                    })
+                                    .eq("room_id", roomId)
+                                    .select("*")
+                            }}
+                            classname="secondary typo t17 w500 "
+                        />
                     </div>
                 }
             />
         ),
         invalidRoom: (
             <SimpleLayout
+                isActive={true}
                 text={
                     <>
                         {/* <span className="typo w500">유효하지 않은</span> 링크 입니다. */}
@@ -59,7 +72,9 @@ const ModalByApprovalOfHost = ({
                     <div className="popup__content--btn">
                         <Button
                             text={t("go_home")}
-                            onClick={() => router.push("/")}
+                            onClick={() => {
+                                router.push("/setting")
+                            }}
                             classname="secondary typo t17 w500"
                         />
                     </div>
@@ -69,6 +84,7 @@ const ModalByApprovalOfHost = ({
     }
 
     if (showResponseApproval) return contentModal["approvalResponse"]
+    if (showInvalidRoom) return contentModal["invalidRoom"]
 
     return null
 }

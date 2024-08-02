@@ -47,6 +47,24 @@
     padding: 14px 30px;
     background-color: #ffd84f;
 
+    .copy-text {
+        display: flex;
+        justify-content: center;
+
+        > span {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+
+            &::before {
+                content: "";
+                background: url("../../assets/images/link.png") no-repeat;
+                width: 25px;
+                height: 25px;
+            }
+        }
+    }
+
     /** 라인 버튼 */
     &.lined {
         @for $i from 1 through 3 {
@@ -59,6 +77,11 @@
     /** Secondary 버튼 */
     &.secondary {
         background-color: #ffeeb4;
+    }
+
+    /** 흑색 버튼 */
+    &.grayed {
+        background-color: #e9e9e9;
     }
 
     /** 체커 버튼 */

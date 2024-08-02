@@ -1,20 +1,20 @@
 import { Button } from "@components/form"
-import { ChatroomProp } from "@hooks/chatroom/useRealtimeChatroom"
 import PasswordInput from "../PasswordInput"
 import { supabase } from "@utils/superbase"
 import { SimpleLayout } from "./PopupLayout"
 import PendintApproval from "@components/PendingApprovalView"
 import { useRouter } from "next/navigation"
 import { useTranslation } from "next-i18next"
+import { SetStateAction } from "react"
 
 const Modal = ({
-    chatroom,
     roomId,
     viewOption: { showRequestPassword, showRequestApproval, showPendingApproval, showInvalidRoom },
+    setIsPassed,
 }: {
-    chatroom: ChatroomProp
     roomId: string
     viewOption: { [key: string]: boolean }
+    setIsPassed: React.Dispatch<SetStateAction<string>>
 }) => {
     const router = useRouter()
     const { t } = useTranslation()
@@ -59,7 +59,7 @@ const Modal = ({
                 }
                 controller={
                     <div className="popup__content--input">
-                        <PasswordInput roomId={roomId as string} />
+                        <PasswordInput setIsPassed={setIsPassed} />
                     </div>
                 }
             />
@@ -67,6 +67,7 @@ const Modal = ({
         pendingApproval: <PendintApproval />,
         invalidRoom: (
             <SimpleLayout
+                isActive={true}
                 text={
                     <>
                         {/* <span className="typo w500">유효하지 않은</span> 링크 입니다. */}
@@ -77,7 +78,7 @@ const Modal = ({
                     <div className="popup__content--btn">
                         <Button
                             text={t("go_home")}
-                            onClick={() => router.push("/")}
+                            onClick={() => router.push("/setting")}
                             classname="secondary typo t17 w500"
                         />
                     </div>

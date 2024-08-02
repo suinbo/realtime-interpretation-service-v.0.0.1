@@ -22,7 +22,12 @@ const Chat = () => {
     const setChatroom = useSetRecoilState(ChatroomAtom)
     const [start, setStart] = useState<boolean>(false)
 
-    /** 언어셋 */
+    /** 언어셋 쿠기 존재 여부 */
+    const hasCookieLangSet = cookie.hasItem("languageSet")
+    const getCookiePassedStatus = cookie.getItem("is_passed")
+
+    /** 쿠키 관리 상태 데이터 (언어셋, 암호 확인 여부) */
+    const [isPassed, setIsPassed] = useState<string>(getCookiePassedStatus as string)
     const [{ langCd, transLangCd }, setLangCd] = useState<{ langCd: string; transLangCd: string }>({
         langCd: "",
         transLangCd: "",
@@ -31,19 +36,15 @@ const Chat = () => {
     const [originLang, transLang] = (langs as string).split(",")
     const isHost = host == user.id
 
-    /** 언어셋 쿠기 존재 여부 */
-    const hasCookie = cookie.hasItem("languageSet")
-
     /** 언어셋 초기화 */
     const { t } = useInitLanguage(
-        hasCookie ? (cookie.getItem("languageSet") as string) : isHost ? originLang : transLang
+        hasCookieLangSet ? (cookie.getItem("languageSet") as string) : isHost ? originLang : transLang
     )
 
     const { chatroom } = useRealtimeChatroom(id as string, user)
 
     /** 언어 확인 모달 활성화 */
     const [activeCheckModal, setActiveCheckModal] = useState<boolean>(false)
-
 
     //TODO: 디스플레이 1일 경우 언어셋 세팅
     const transcriptions = useTranscriptions({
@@ -52,6 +53,7 @@ const Chat = () => {
         roomId: id as string,
         langCd: isHost ? langCd : transLangCd,
         transLangCd: isHost ? transLangCd : langCd,
+        display: display as number,
     })
 
     useEffect(() => {
@@ -78,16 +80,17 @@ const Chat = () => {
                 room_option,
             })
 
-            setActiveCheckModal(user.id === member_id && !hasCookie)
+            setActiveCheckModal(user.id === member_id && !hasCookieLangSet)
             setStart(Boolean(is_started))
 
             // 언어셋 설정
-            setLangCd({
-                langCd: (chat_language as any).split(",")[0],
-                transLangCd: (chat_language as any).split(",")[1],
-            })
+            const [langCd, transLangCd] = (chat_language as any).split(",")
+            setLangCd({ langCd, transLangCd })
+
+            // 암호 통과 여부 (초기화)
+            setIsPassed(getCookiePassedStatus as string)
         }
-    }, [chatroom, hasCookie])
+    }, [chatroom, hasCookieLangSet, isPassed])
 
     const Content = () => (
         <div className="content">
@@ -126,9 +129,10 @@ const Chat = () => {
     const isExpired = !!chatroom.expired_at
 
     const viewOption = {
-        showRequestPassword: user.id === chatroom.member_id && !!chatroom.room_password && !isAccepted,
+        /* 암호 코드 요청 (참여자) - 계정이 참여자 and 암호 활성화 and 암호 입력 전 */
+        showRequestPassword: user.id === chatroom.member_id && !!chatroom.room_password && !isPassed,
 
-        /* 승인 요청 (참여자) - 계정이 참여자 and 승인 활성화 and 미승인 (암호 없음) */
+        /* 승인 요청 (참여자) - 계정이 참여자 and 승인 활성화 and 미승인 */
         showRequestApproval: user.id === chatroom.member_id && isRequired && !isRequested && !isAccepted,
 
         /* 승인 수락 요청 (생성자) - 계정이 생성자 and 승인 활성화 and 미승인 */
@@ -146,15 +150,18 @@ const Chat = () => {
 
     return (
         <div>
+            {/* 참여자 + 생성자 (대화방 내용) */}
             {shouldShowContent && <Content />}
 
             {/* 참여자 */}
-            {!!hasCookie && (
-                <ModalByApprovalOfMember chatroom={chatroom} roomId={id as string} viewOption={viewOption} />
+            {!!hasCookieLangSet && (
+                <ModalByApprovalOfMember roomId={id as string} viewOption={viewOption} setIsPassed={setIsPassed} />
             )}
 
             {/* 생성자 */}
             {<ModalByApprovalOfHost chatroom={chatroom} roomId={id as string} viewOption={viewOption} />}
+
+            {/* 참여자 (언어셋 체크) */}
             {activeCheckModal && <ModalByLanguage setActive={setActiveCheckModal} />}
         </div>
     )

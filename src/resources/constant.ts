@@ -1,4 +1,4 @@
-import { LabelOfStepProp } from "@app/setting/types"
+export const FLAG = { Y: "Y", N: "N" }
 
 export const VIEW = {
     LANGUAGE: "language" as const,
