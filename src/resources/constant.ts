@@ -21,4 +21,5 @@ export const API = {
     GPT_TRANSLATION_API: "https://api.openai.com/v1/chat/completions",
 }
 
-export const COOKIE_DOMAIN = location.hostname.replace("www.", "")
+export const COOKIE_DOMAIN =
+    typeof window !== "undefined" ? window.location.hostname.replace("www.", "") : "default.domain.com"

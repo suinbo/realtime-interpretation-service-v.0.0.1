@@ -38,8 +38,6 @@
     &--alert {
         display: flex;
         align-items: center;
-
-        // global.scss import 하지 못하는 문제 수정 필요
-        font-size: 14px;
+        color: rgb(231, 0, 0);
     }
 }
