@@ -46,5 +46,6 @@
     "cancel": "取消",
     "test": "测试",
     "start": "开始",
-    "finish": "结束"
+    "finish": "结束",
+    "logout": "您想要登出吗？"
 }

@@ -35,6 +35,14 @@
                 background-position: center 45%;
                 border-radius: 50%;
             }
+
+            &__profile-logout {
+                cursor: pointer;
+                content: "";
+                background: url("../../assets/images/logout.png") no-repeat center;
+                width: 22px;
+                height: 22px;
+            }
         }
 
         .content {

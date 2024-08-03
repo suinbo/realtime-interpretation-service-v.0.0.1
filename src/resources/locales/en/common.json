@@ -46,5 +46,6 @@
     "cancel": "Cancel",
     "test": "Test",
     "start": "Start",
-    "finish": "Finish"
+    "finish": "Finish",
+    "logout": "Would you like to log out?"
 }

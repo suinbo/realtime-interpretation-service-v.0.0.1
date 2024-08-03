@@ -62,6 +62,14 @@ const Login = () => {
                 setErrorMessage(error.message)
             } else {
                 setUser(prev => ({ ...prev, user }))
+                // userinfo 테이블에 로그인 여부 컬럼 저장
+                await supabase
+                    .from("userinfo")
+                    .update({
+                        is_logged: 1,
+                    })
+                    .eq("email", email)
+                    .select("*")
                 router.push("/setting")
             }
         }
