@@ -166,6 +166,9 @@
 
 // 로딩 닷
 .loading-wrap {
+    display: flex;
+    gap: 14px;
+
     .loading {
         display: flex;
         align-items: center;
@@ -194,6 +197,10 @@
                     animation-delay: 0.1s;
                 }
             }
+        }
+
+        &.text {
+            width: auto;
         }
     }
 }

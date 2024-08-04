@@ -18,7 +18,6 @@ export function useTranscriptions({
     langCd: string
     transLangCd: string
 }) {
-    const [messages, setMessages] = useState<any[]>([]) // 채팅 메시지
     const [isRecording, setIsRecording] = useState(false) // 녹음 진행 여부
     const mediaRecorderRef = useRef<MediaRecorder | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(false) // 로딩 표시 활성화
@@ -26,34 +25,8 @@ export function useTranscriptions({
     // 타임아웃
     const [lastDataTime, setLastDataTime] = useState<number>(Date.now())
 
-    useEffect(() => {
-        // 채널 생성
-        const channel = supabase
-            .channel("realtime:messages")
-            .on("postgres_changes", { event: "*", schema: "public", table: "messages" }, payload => {
-                console.log("Change received!", payload)
-                setMessages(prevMessages => [...prevMessages, payload.new])
-            })
-            .subscribe()
-
-        // 초기 데이터 로드
-        const fetchMessages = async () => {
-            const { data } = await supabase.from("messages").select("*").eq("room_id", roomId)
-            setMessages(data || [])
-        }
-
-        fetchMessages()
-
-        // 컴포넌트가 언마운트될 때 구독 해제
-        return () => {
-            supabase.removeChannel(channel)
-        }
-    }, [])
-
     // 녹음 시작
     const startRecording = async () => {
-        setIsLoading(true)
-
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
@@ -207,34 +180,34 @@ export function useTranscriptions({
         if (mediaRecorderRef.current) {
             mediaRecorderRef.current.stop()
             setIsRecording(false)
+            setIsLoading(true)
         }
     }
 
     // [TO-BE] 주기적으로 음성이 감지되지 않는 시간 체크
     // [TO-BE] 4초 이상 음성이 감지되지 않으면 녹음 중단
     // 1초마다 체크
-    useEffect(() => {
-        if (isRecording) {
-            const checkInactiveTime = () => {
-                const currentTime = Date.now()
+    // useEffect(() => {
+    //     if (isRecording) {
+    //         const checkInactiveTime = () => {
+    //             const currentTime = Date.now()
 
-                console.log("currentTime:: ", currentTime)
-                console.log("lastDataTime:: ", lastDataTime)
+    //             console.log("currentTime:: ", currentTime)
+    //             console.log("lastDataTime:: ", lastDataTime)
 
-                //TODO : 현재로서 4초동안 녹음 후 중단
-                //TODO : lastDataTime 업데이트 시점 미지정
-                if (currentTime - lastDataTime > 4000) {
-                    stopRecording()
-                }
-            }
+    //             //TODO : 현재로서 4초동안 녹음 후 중단
+    //             //TODO : lastDataTime 업데이트 시점 미지정
+    //             if (currentTime - lastDataTime > 4000) {
+    //                 stopRecording()
+    //             }
+    //         }
 
-            const interval = setInterval(checkInactiveTime, 1000)
-            return () => clearInterval(interval)
-        }
-    }, [isRecording, lastDataTime])
+    //         const interval = setInterval(checkInactiveTime, 1000)
+    //         return () => clearInterval(interval)
+    //     }
+    // }, [isRecording, lastDataTime])
 
     return {
-        messages,
         isRecording,
         isLoading,
         startRecording,

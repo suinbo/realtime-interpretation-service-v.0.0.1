@@ -74,6 +74,13 @@
         }
     }
 
+    /** disalbed 버튼 */
+    &:disabled {
+        background-color: #efefef;
+        color: #a8a8a8;
+        cursor: default;
+    }
+
     /** Secondary 버튼 */
     &.secondary {
         background-color: #ffeeb4;

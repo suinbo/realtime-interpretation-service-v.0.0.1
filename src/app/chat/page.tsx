@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Button } from "@components/form"
 import { useQueryParams } from "@hooks/useQueryParams"
 import { useRecoilValue, useSetRecoilState } from "recoil"
@@ -15,6 +15,7 @@ import { supabase } from "@utils/superbase"
 import cookie from "@utils/cookie"
 import "@assets/styles/common.scss"
 import "./style.scss"
+import useRealtimeMessage from "@hooks/chatroom/useRealtimeMessage"
 
 const Chat = () => {
     const { id, langs, display, host } = useQueryParams()
@@ -42,6 +43,8 @@ const Chat = () => {
     )
 
     const { chatroom } = useRealtimeChatroom(id as string, user)
+
+    const { messages } = useRealtimeMessage({ roomId: id as string })
 
     /** 언어 확인 모달 활성화 */
     const [activeCheckModal, setActiveCheckModal] = useState<boolean>(false)
@@ -96,7 +99,7 @@ const Chat = () => {
         <div className="content">
             <div className="content__wrapper">
                 {start ? (
-                    <Chatting {...transcriptions} userId={user.id} chatroom={chatroom} />
+                    <Chatting {...transcriptions} userId={user.id} chatroom={chatroom} messages={messages} />
                 ) : (
                     <div className="content__body--button">
                         <Button

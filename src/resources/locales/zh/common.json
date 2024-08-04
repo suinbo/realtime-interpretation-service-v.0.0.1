@@ -46,6 +46,8 @@
     "cancel": "取消",
     "test": "测试",
     "start": "开始",
-    "finish": "结束",
+    "stop": "结束",
+    "listening": "正在听",
+    "translating": "正在翻译",
     "logout": "您想要登出吗？"
 }

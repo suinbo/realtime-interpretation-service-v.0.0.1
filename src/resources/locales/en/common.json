@@ -46,6 +46,8 @@
     "cancel": "Cancel",
     "test": "Test",
     "start": "Start",
-    "finish": "Finish",
+    "stop": "Stop",
+    "listening": "聴いています",
+    "translating": "翻訳中",
     "logout": "Would you like to log out?"
 }

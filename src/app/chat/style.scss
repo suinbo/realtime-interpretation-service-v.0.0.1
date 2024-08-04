@@ -213,11 +213,16 @@
                                     }
                                 }
 
-                                // 음성 인식 시작 버튼
-                                .starter {
-                                    width: auto;
-                                    background-color: #e4e4e4;
-                                    padding: 5px 20px;
+                                .active-item {
+                                    display: flex;
+                                    gap: 20px;
+                                    align-items: center;
+
+                                    // 음성 인식 시작 버튼
+                                    &--controller {
+                                        width: 100px;
+                                        padding: 5px 20px;
+                                    }
                                 }
                             }
                         }

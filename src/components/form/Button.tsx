@@ -17,7 +17,7 @@ const Button = ({
     theme?: string
 }) => {
     return (
-        <button className={cx("button", theme, classname, { disabled })} onClick={() => !disabled && onClick()}>
+        <button className={cx("button", theme, classname)} onClick={() => !disabled && onClick()} disabled={disabled}>
             {children ?? text}
         </button>
     )

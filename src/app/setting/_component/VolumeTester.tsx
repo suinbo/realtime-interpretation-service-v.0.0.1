@@ -34,7 +34,7 @@ const VolumeTester = ({
             <div className="volume-tester">
                 <div className="volume-tester__button">
                     <Button
-                        text={`${t("test")} ${recording ? t("finish") : t("start")}`}
+                        text={`${t("test")} ${recording ? t("stop") : t("start")}`}
                         classname="audio-test"
                         onClick={handleToggleRecording}
                     />

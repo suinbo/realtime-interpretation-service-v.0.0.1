@@ -45,6 +45,8 @@
     "cancel": "취소",
     "test": "테스트",
     "start": "시작",
-    "finish": "종료",
+    "stop": "종료",
+    "listening": "듣는 중",
+    "translating": "번역 중",
     "logout": "로그아웃 하시겠습니까?"
 }
