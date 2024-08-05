@@ -8,10 +8,12 @@ const MultiSettingForm = ({
     refs,
     formItem: { chat_nm, chat_lang, has_chat_pw, chat_pw, host_auth },
     setFormItem,
+    isFocused,
 }: {
     refs: { [key: string]: RefObject<HTMLInputElement> }
     formItem: FormItemProp
     setFormItem: React.Dispatch<SetStateAction<FormItemProp>>
+    isFocused: boolean
 }) => {
     const { t } = useTranslation()
     const selectboxItems = languages.map(({ id, name }) => ({ id, name }))
@@ -43,6 +45,7 @@ const MultiSettingForm = ({
                     <span className="typo t18 w500">{t("trans_language")}</span>
                     <div>
                         <Selectbox
+                            isFocused={isFocused}
                             items={selectboxItems}
                             selectedId={chat_lang[1]}
                             onSelect={selectedItem => onSelect(1, selectedItem)}

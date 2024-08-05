@@ -49,7 +49,6 @@ const Chat = () => {
     /** 언어 확인 모달 활성화 */
     const [activeCheckModal, setActiveCheckModal] = useState<boolean>(false)
 
-    //TODO: 디스플레이 1일 경우 언어셋 세팅
     const transcriptions = useTranscriptions({
         hostId: host as string,
         userId: user.id,

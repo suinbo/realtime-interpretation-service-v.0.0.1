@@ -19,6 +19,8 @@ const ChattingView = () => {
     const [{ language, display }, setOption] = useRecoilState(OptionAtom)
 
     const [step, setStep] = useState<StepProp>(STEP[1])
+
+    /** 셀렉박스 포커싱 */
     const [isFocused, setIsFocused] = useState<boolean>(false)
 
     const refs = {
@@ -58,7 +60,9 @@ const ChattingView = () => {
             [STEP[2]]: <SingleAudioForm />,
         },
         [2]: {
-            [STEP[1]]: <MultiSettingForm formItem={formItem} setFormItem={setFormItem} refs={refs} />,
+            [STEP[1]]: (
+                <MultiSettingForm formItem={formItem} setFormItem={setFormItem} refs={refs} isFocused={isFocused} />
+            ),
             [STEP[2]]: <MultiAudioForm />,
         },
     }
@@ -99,6 +103,16 @@ const ChattingView = () => {
                                     { id: "new", name: t("create_chat") },
                                 ]}
                                 formItem={formItem}
+                                onClick={(callback: any) => {
+                                    focusOnEmpty(refs, () => {
+                                        if (!formItem.chat_lang[1]) {
+                                            setIsFocused(true)
+                                            return
+                                        }
+
+                                        callback()
+                                    })
+                                }}
                             />
                         </div>
                         <div className="setting-board__form">

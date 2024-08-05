@@ -6,10 +6,11 @@ import PendintApproval from "@components/PendingApprovalView"
 import { useRouter } from "next/navigation"
 import { useTranslation } from "next-i18next"
 import { SetStateAction } from "react"
+import cookie from "@utils/cookie"
 
 const Modal = ({
     roomId,
-    viewOption: { showRequestPassword, showRequestApproval, showPendingApproval, showInvalidRoom },
+    viewOption: { showRequestPassword, showRequestApproval, showPendingApproval },
     setIsPassed,
 }: {
     roomId: string
@@ -78,7 +79,10 @@ const Modal = ({
                     <div className="popup__content--btn">
                         <Button
                             text={t("go_home")}
-                            onClick={() => router.push("/setting")}
+                            onClick={() => {
+                                cookie.clear()
+                                router.push("/setting")
+                            }}
                             classname="secondary typo t17 w500"
                         />
                     </div>
@@ -90,7 +94,6 @@ const Modal = ({
     if (showRequestPassword) return contentModal["passwordRequest"]
     if (showRequestApproval) return contentModal["approvalRequest"]
     if (showPendingApproval) return contentModal["pendingApproval"]
-    if (showInvalidRoom) return contentModal["invalidRoom"]
 
     return null
 }

@@ -11,6 +11,7 @@ import { useTranslation } from "next-i18next"
 import { convertKoreaTime } from "@utils/common"
 import Popup from "@components/Popup"
 import ToastPopup from "@components/ToastPopup"
+import cookie from "@utils/cookie"
 
 const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispatch<SetStateAction<string>> }) => {
     const { id, host } = useQueryParams()
@@ -218,6 +219,8 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                         <Button
                             text={t("yes")}
                             onClick={async () => {
+                                setView("")
+
                                 if (host == user.id) {
                                     // 호스트일 경우 대화방 만료
                                     await supabase
@@ -241,6 +244,9 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                                     //     setView("")
                                     // }
                                 }
+
+                                cookie.removeItem("languageSet")
+                                window.close()
                             }}
                             classname="lined--1 typo t15 w500"
                         />

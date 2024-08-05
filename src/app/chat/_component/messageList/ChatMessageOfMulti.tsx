@@ -20,7 +20,8 @@ type ChatMessageProp = {
     stopRecording: () => void
 }
 
-const ChatMessage = ({
+/** Display 2대 (1인) */
+const MultiChatMessage = ({
     msg_id,
     msg_content,
     speaker_id,
@@ -50,6 +51,8 @@ const ChatMessage = ({
                 onKeyDown={e => {
                     if (e.key == "z") startRecording()
                     if (e.key == "x") stopRecording()
+                    // if (e.key == "c") startRecording()
+                    // if (e.key == "d") stopRecording()
                 }}
                 text={isRecording ? t("stop") : isLoading ? "-" : t("start")}
                 onClick={isRecording ? stopRecording : startRecording}
@@ -73,35 +76,6 @@ const ChatMessage = ({
             <div className="chatting__item--user">
                 <span className="profile" />
             </div>
-            {/* <div className="chatting__item--text">
-                {msg_content ? (
-                    <div className="text-item">
-                        <div className="text-item--audio-text ">
-                            <span className="typo t17 w500">{id == host ? msg_content : msg_trans_content}</span>
-                            <span className="trans typo t14 w400">{msg_eng_content}</span>
-                        </div>
-                        {display == 1 && (
-                            <div className="text-item--translation-text">
-                                <span className="typo t12 w500">Translation</span>
-                                <p className="typo t17">{msg_trans_content}</p>
-                            </div>
-                        )}
-                    </div>
-                ) : isRecording ? (
-                    <LoadingDot />
-                ) : isLoading ? (
-                    <LoadingDot />
-                ) : (
-                    <div>
-                        {isRecording ? <LoadingDot /> : <>녹음 대기중</>}
-                        <Button
-                            text={isRecording ? "stop" : t("recording")}
-                            onClick={isRecording ? stopRecording : startRecording}
-                            classname="starter"
-                        />
-                    </div>
-                )}
-            </div> */}
             <div className="chatting__item--text">
                 {msg_content ? (
                     <div className="text-item">
@@ -123,4 +97,4 @@ const ChatMessage = ({
         </li>
     )
 }
-export default ChatMessage
+export default MultiChatMessage

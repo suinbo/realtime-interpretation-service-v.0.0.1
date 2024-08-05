@@ -1,6 +1,6 @@
 import { ChatroomProp } from "@hooks/chatroom/useRealtimeChatroom"
 import React, { useEffect, useMemo, useRef, useState } from "react"
-import { ChatMessage } from "./_component"
+import { SingleChatMessage } from "./_component"
 import { useTranslation } from "next-i18next"
 
 const Chatting = ({
@@ -65,7 +65,7 @@ const Chatting = ({
             )}
             <ul>
                 {messageList.map(message => (
-                    <ChatMessage
+                    <SingleChatMessage
                         key={message.msg_id}
                         {...message}
                         isRecording={isRecording}

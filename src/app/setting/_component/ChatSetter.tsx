@@ -7,7 +7,15 @@ import cx from "classnames"
 import { supabase } from "@utils/superbase"
 import { useInitLanguage } from "@hooks/useInitLanguage"
 
-const ChatSetter = ({ items = [], formItem }: { items: SelectboxItemProp[]; formItem: FormItemProp }) => {
+const ChatSetter = ({
+    items = [],
+    formItem,
+    onClick,
+}: {
+    items: SelectboxItemProp[]
+    formItem: FormItemProp
+    onClick: (cb: any) => any
+}) => {
     const { t } = useInitLanguage()
     const selectBoxRef = useRef<HTMLDivElement>(null)
     const [active, setActive] = useState<boolean>(false)
@@ -58,9 +66,10 @@ const ChatSetter = ({ items = [], formItem }: { items: SelectboxItemProp[]; form
                         id={item.id}
                         key={item.id}
                         onClick={() => {
-                            setActive(false)
-                            fetchMessages()
-                            //TODO 새 대화 버튼 UI 수정
+                            onClick(() => {
+                                setActive(false)
+                                fetchMessages()
+                            })
                         }}>
                         {item.name}
                     </li>
@@ -73,7 +82,7 @@ const ChatSetter = ({ items = [], formItem }: { items: SelectboxItemProp[]; form
         <div className="selectbox">
             <div
                 ref={selectBoxRef}
-                className="selectbox__opener--newchat"
+                className={"selectbox__opener--newchat"}
                 onClick={() => {
                     setActive(!active)
                 }}>

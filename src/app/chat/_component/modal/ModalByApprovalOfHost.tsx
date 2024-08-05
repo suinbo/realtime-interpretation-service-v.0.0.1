@@ -4,6 +4,7 @@ import { supabase } from "@utils/superbase"
 import { SimpleLayout } from "./PopupLayout"
 import { useRouter } from "next/navigation"
 import { useTranslation } from "next-i18next"
+import cookie from "@utils/cookie"
 
 const ModalByApprovalOfHost = ({
     chatroom,
@@ -73,6 +74,7 @@ const ModalByApprovalOfHost = ({
                         <Button
                             text={t("go_home")}
                             onClick={() => {
+                                cookie.clear()
                                 router.push("/setting")
                             }}
                             classname="secondary typo t17 w500"

@@ -24,7 +24,6 @@ const ModalByLanguage = ({ setActive }: { setActive: React.Dispatch<SetStateActi
                 isActive={true}
                 text={
                     <>
-                        {/* <span className="typo w500">유효하지 않은</span> 링크 입니다. */}
                         <span className="typo t16 w500">{t("check_language", { val: language?.name })}</span>
                         <span className="typo t15 subtext">{`[ ${language?.name} ] has been set. Would you like to keep it as is?`}</span>
                     </>

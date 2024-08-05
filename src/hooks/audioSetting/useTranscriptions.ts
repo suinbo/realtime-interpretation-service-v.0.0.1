@@ -77,7 +77,8 @@ export function useTranscriptions({
                                 messages: [
                                     {
                                         role: "system",
-                                        content: "You are a helpful assistant that translates text.",
+                                        content:
+                                            "You are a helpful assistant that translates text concisely, providing only the main translation without any extra information.",
                                     },
                                     {
                                         role: "user",
@@ -102,7 +103,8 @@ export function useTranscriptions({
                                 messages: [
                                     {
                                         role: "system",
-                                        content: "You are a helpful assistant that translates text.",
+                                        content:
+                                            "You are a helpful assistant that translates text concisely, providing only the main translation without any extra information.",
                                     },
                                     {
                                         role: "user",

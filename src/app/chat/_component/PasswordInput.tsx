@@ -11,7 +11,7 @@ const PasswordInput = ({ setIsPassed }: { setIsPassed: React.Dispatch<SetStateAc
     const ref = useRef<HTMLInputElement>(null)
     const [alertMessage, setAlertMessage] = useState<string>("")
 
-    const onSubmit = async (e: React.MouseEvent<HTMLSpanElement>) => {
+    const onSubmit = async (e: React.MouseEvent<HTMLSpanElement> | React.KeyboardEvent<HTMLSpanElement>) => {
         e.stopPropagation()
         const current = ref.current
 
@@ -46,7 +46,12 @@ const PasswordInput = ({ setIsPassed }: { setIsPassed: React.Dispatch<SetStateAc
     return (
         <div className="password-input">
             <div className={cx("password-input__wrapper", { reject: !!alertMessage })}>
-                <input ref={ref} type="password" className="typo t18" onKeyDown={e => {}} />
+                <input
+                    ref={ref}
+                    type="password"
+                    className="typo t18"
+                    onKeyDown={(e: React.KeyboardEvent<HTMLSpanElement>) => e.key == "Enter" && onSubmit(e)}
+                />
                 <span className="password-input--btn" onClick={e => onSubmit(e)} />
             </div>
             {alertMessage && <span className="typo t14 password-input--alert">※ {alertMessage}</span>}

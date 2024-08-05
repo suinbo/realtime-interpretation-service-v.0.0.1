@@ -31,11 +31,13 @@ const Popup = ({
 
         !!window && window.addEventListener("click", isOutsideClick, true)
         !!window && window.addEventListener("mousedown", isOutsideClick, true)
+        !!window && window.addEventListener("keydown", isOutsideClick, true)
 
         return () => {
             if (!window) return
             window.removeEventListener("click", isOutsideClick, true)
             window.removeEventListener("mousedown", isOutsideClick, true)
+            window.removeEventListener("keydown", isOutsideClick, true)
         }
     }, [])
 
