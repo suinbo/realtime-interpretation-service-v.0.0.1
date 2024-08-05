@@ -2,7 +2,7 @@
 
 import { useTranslation } from "next-i18next"
 import { Noto_Sans_JP, Noto_Sans_KR, Noto_Sans_SC, Roboto } from "next/font/google"
-import React, { useEffect, useState } from "react"
+import React, { Suspense, useEffect, useState } from "react"
 import { RecoilRoot } from "recoil"
 
 const roboto = Roboto({
@@ -52,8 +52,10 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     }, [i18n.language])
 
     return (
-        <RecoilRoot>
-            <div className={fontClass}>{children}</div>
-        </RecoilRoot>
+        <Suspense>
+            <RecoilRoot>
+                <div className={fontClass}>{children}</div>
+            </RecoilRoot>
+        </Suspense>
     )
 }
