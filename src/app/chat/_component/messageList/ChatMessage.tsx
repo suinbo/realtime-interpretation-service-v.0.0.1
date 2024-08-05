@@ -43,6 +43,31 @@ const ChatMessage = ({
         }
     }, [])
 
+    const InitChat = () => (
+        <div className="active-item">
+            <Button
+                refs={buttonRefs}
+                onKeyDown={e => {
+                    if (e.key == "z") startRecording()
+                    if (e.key == "x") stopRecording()
+                }}
+                text={isRecording ? t("stop") : isLoading ? "-" : t("start")}
+                onClick={isRecording ? stopRecording : startRecording}
+                classname="active-item--controller"
+                disabled={isLoading}
+            />
+            {isRecording ? (
+                <div className="active-item--loading">
+                    <LoadingDot text={t("listening")} />
+                </div>
+            ) : isLoading ? (
+                <div className="active-item--loading">
+                    <LoadingDot text={t("translating")} />
+                </div>
+            ) : null}
+        </div>
+    )
+
     return (
         <li key={msg_id} className={cx("chatting__item", { my: speaker_id == userId })}>
             <div className="chatting__item--user">
@@ -80,7 +105,7 @@ const ChatMessage = ({
             <div className="chatting__item--text">
                 {msg_content ? (
                     <div className="text-item">
-                        <div className="text-item--audio-text ">
+                        <div className="text-item--audio-text">
                             <span className="typo t17 w500">{id == host ? msg_content : msg_trans_content}</span>
                             <span className="trans typo t14 w400">{msg_eng_content}</span>
                         </div>
@@ -92,28 +117,7 @@ const ChatMessage = ({
                         )}
                     </div>
                 ) : (
-                    <div className="active-item">
-                        <Button
-                            refs={buttonRefs}
-                            onKeyDown={e => {
-                                if (e.key == "z") startRecording()
-                                if (e.key == "x") stopRecording()
-                            }}
-                            text={isRecording ? t("stop") : isLoading ? "-" : t("start")}
-                            onClick={isRecording ? stopRecording : startRecording}
-                            classname="active-item--controller"
-                            disabled={isLoading}
-                        />
-                        {isRecording ? (
-                            <div className="active-item--loading">
-                                <LoadingDot text={t("listening")} />
-                            </div>
-                        ) : isLoading ? (
-                            <div className="active-item--loading">
-                                <LoadingDot text={t("translating")} />
-                            </div>
-                        ) : null}
-                    </div>
+                    <InitChat />
                 )}
             </div>
         </li>

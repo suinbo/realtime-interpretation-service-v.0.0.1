@@ -133,7 +133,7 @@ export function useTranscriptions({
                         const translatedEngText = englishChoices[0].message.content.trim()
 
                         // TODO 영어로 녹음된 경우
-                        const isAlreadyTranslated = translatedEngText == "The text is already in English."
+                        const isAlreadyTranslated = translatedEngText.includes("is already in English")
 
                         // Supabase에 텍스트 저장
                         const isHost = userId == hostId
