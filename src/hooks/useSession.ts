@@ -3,11 +3,11 @@ import { User } from "@supabase/supabase-js"
 import { supabase } from "@utils/superbase"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
-import { useSetRecoilState } from "recoil"
+import { useRecoilState } from "recoil"
 
 export const useSession = () => {
     const router = useRouter()
-    const setUser = useSetRecoilState<User>(UserAtom)
+    const [user, setUser] = useRecoilState<User>(UserAtom)
 
     // 로그인 없이 채팅방 접속시
     // useEffect(() => {
@@ -37,4 +37,6 @@ export const useSession = () => {
 
         fetchUser()
     }, [])
+
+    return { user }
 }
