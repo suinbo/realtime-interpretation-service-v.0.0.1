@@ -4,6 +4,7 @@ import LoadingDot from "@components/LoadingDot"
 import { useQueryParams } from "@hooks/useQueryParams"
 import cx from "classnames"
 import { useTranslation } from "next-i18next"
+import { useEffect, useRef } from "react"
 import { useRecoilValue } from "recoil"
 
 type ChatMessageProp = {
@@ -34,6 +35,13 @@ const ChatMessage = ({
     const { id } = useRecoilValue(UserAtom)
     const { host, display } = useQueryParams()
     const { t } = useTranslation()
+    const buttonRefs = useRef<HTMLButtonElement>(null)
+
+    useEffect(() => {
+        if (buttonRefs) {
+            buttonRefs.current?.focus()
+        }
+    }, [])
 
     return (
         <li key={msg_id} className={cx("chatting__item", { my: speaker_id == userId })}>
@@ -86,6 +94,11 @@ const ChatMessage = ({
                 ) : (
                     <div className="active-item">
                         <Button
+                            refs={buttonRefs}
+                            onKeyDown={e => {
+                                if (e.key == "z") startRecording()
+                                if (e.key == "x") stopRecording()
+                            }}
                             text={isRecording ? t("stop") : isLoading ? "-" : t("start")}
                             onClick={isRecording ? stopRecording : startRecording}
                             classname="active-item--controller"

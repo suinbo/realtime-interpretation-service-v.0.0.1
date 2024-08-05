@@ -7,14 +7,29 @@ import { supabase } from "@utils/superbase"
 import { useEffect, useRef, useState } from "react"
 import { useSetRecoilState } from "recoil"
 import { LoginProp } from "./setting/types"
-import { UserAtom } from "@atoms/Atom"
+import { OptionAtom, UserAtom } from "@atoms/Atom"
 import { User } from "@supabase/supabase-js"
 import SignupModal from "./SignupModal"
 import ResetPasswordModal from "./ResetPasswordModal"
 import CheckEmailModal from "./CheckEmailModal"
 import { focusOnEmpty } from "@utils/common"
+import { VIEW } from "@resources/constant"
+import { useInitLanguage } from "@hooks/useInitLanguage"
 import "@assets/styles/common.scss"
 import "./style.scss"
+
+const defaultOption = {
+    view: VIEW.LANGUAGE,
+    language: "en",
+    display: 2,
+    chatting: {
+        chat_nm: "",
+        chat_lang: [""],
+        has_chat_pw: false,
+        chat_pw: null,
+        host_auth: 0,
+    },
+}
 
 /**
  * 로그인 화면
@@ -22,9 +37,12 @@ import "./style.scss"
 const Login = () => {
     const router = useRouter()
     const setUser = useSetRecoilState<User>(UserAtom)
+    const setOptions = useSetRecoilState(OptionAtom)
     const [{ email, password }, setInput] = useState<LoginProp>({ email: "", password: "" })
     const [errorMessage, setErrorMessage] = useState<string>("")
     const [activeModal, setActiveModal] = useState<string>("")
+
+    useInitLanguage()
 
     const refs = {
         email: useRef<HTMLInputElement>(null),
@@ -33,6 +51,8 @@ const Login = () => {
 
     // TODO useSession 통합
     useEffect(() => {
+        setOptions(defaultOption)
+
         const fetchUser = async () => {
             const {
                 data: { session },
@@ -119,6 +139,7 @@ const Login = () => {
                                 type="password"
                                 value={password}
                                 onChange={password => setInput(prev => ({ ...prev, password }))}
+                                onKeyDown={e => e.key == "Enter" && onSignIn()}
                             />
                             {errorMessage && <span className="alert">※ {errorMessage}</span>}
                         </div>
