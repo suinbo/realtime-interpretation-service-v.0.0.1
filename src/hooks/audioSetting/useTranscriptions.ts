@@ -13,7 +13,6 @@ export function useTranscriptions({
     hostId: string
     userId: string
     roomId: string
-    display: number
     langCd: string
     transLangCd: string
     isRecording: boolean
@@ -168,7 +167,7 @@ export function useTranscriptions({
                 console.error("Error accessing microphone:", error)
             }
         }
-    }, [isRecording])
+    }, [isRecording, userId, hostId, roomId, langCd, transLangCd])
 
     // 녹음 중단
     const stopRecording = async () => {
