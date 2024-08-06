@@ -1,5 +1,4 @@
-// hooks/useTranscriptions.ts
-import { useState, useEffect, useRef } from "react"
+import { useState, useRef, useCallback } from "react"
 import { supabase } from "@utils/superbase"
 import { API } from "@resources/constant"
 
@@ -7,9 +6,9 @@ export function useTranscriptions({
     hostId,
     userId,
     roomId,
-    display,
     langCd,
     transLangCd,
+    isRecording,
 }: {
     hostId: string
     userId: string
@@ -17,22 +16,17 @@ export function useTranscriptions({
     display: number
     langCd: string
     transLangCd: string
+    isRecording: boolean
 }) {
-    const [isRecording, setIsRecording] = useState(false) // 녹음 진행 여부
     const mediaRecorderRef = useRef<MediaRecorder | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(false) // 로딩 표시 활성화
 
-    // 타임아웃
-    const [lastDataTime, setLastDataTime] = useState<number>(Date.now())
-
     // 녹음 시작
-    const startRecording = async () => {
+    const startRecording = useCallback(async () => {
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
                 const mediaRecorder = new MediaRecorder(stream)
-
-                setLastDataTime(Date.now())
 
                 let audioChunks: Blob[] = []
                 mediaRecorder.ondataavailable = event => {
@@ -170,47 +164,21 @@ export function useTranscriptions({
 
                 mediaRecorder.start()
                 mediaRecorderRef.current = mediaRecorder
-                setIsRecording(true)
             } catch (error) {
                 console.error("Error accessing microphone:", error)
             }
         }
-    }
+    }, [isRecording])
 
     // 녹음 중단
     const stopRecording = async () => {
         if (mediaRecorderRef.current) {
             mediaRecorderRef.current.stop()
-            setIsRecording(false)
             setIsLoading(true)
         }
     }
 
-    // [TO-BE] 주기적으로 음성이 감지되지 않는 시간 체크
-    // [TO-BE] 4초 이상 음성이 감지되지 않으면 녹음 중단
-    // 1초마다 체크
-    // useEffect(() => {
-    //     if (isRecording) {
-    //         const checkInactiveTime = () => {
-    //             const currentTime = Date.now()
-
-    //             console.log("currentTime:: ", currentTime)
-    //             console.log("lastDataTime:: ", lastDataTime)
-
-    //             //TODO : 현재로서 4초동안 녹음 후 중단
-    //             //TODO : lastDataTime 업데이트 시점 미지정
-    //             if (currentTime - lastDataTime > 4000) {
-    //                 stopRecording()
-    //             }
-    //         }
-
-    //         const interval = setInterval(checkInactiveTime, 1000)
-    //         return () => clearInterval(interval)
-    //     }
-    // }, [isRecording, lastDataTime])
-
     return {
-        isRecording,
         isLoading,
         startRecording,
         stopRecording,

@@ -2,25 +2,28 @@ import { ChatroomProp } from "@hooks/chatroom/useRealtimeChatroom"
 import React, { useEffect, useMemo, useRef, useState } from "react"
 import { SingleChatMessage } from "./_component"
 import { useTranslation } from "next-i18next"
+import { useRecoilValue } from "recoil"
+import { UserAtom } from "@atoms/Atom"
 
 const Chatting = ({
     messages,
     isRecording,
+    setIsRecording,
     isLoading,
     startRecording,
     stopRecording,
-    userId,
     chatroom,
 }: {
     messages: any
     isRecording: boolean
+    setIsRecording: any
     isLoading: boolean
     startRecording: () => void
     stopRecording: () => void
-    userId: string
     chatroom: ChatroomProp | null
 }) => {
     const { t } = useTranslation()
+    const user = useRecoilValue(UserAtom)
     const refs = useRef<HTMLDivElement>(null)
     const [isAutoScroll, setIsAutoScroll] = useState<boolean>(true)
 
@@ -28,7 +31,7 @@ const Chatting = ({
         const newMessage = {
             msg_id: "new",
             msg_content: "",
-            speaker_id: userId,
+            speaker_id: user.id,
             msg_trans_content: "",
             msg_eng_content: "",
         }
@@ -69,7 +72,7 @@ const Chatting = ({
                         key={message.msg_id}
                         {...message}
                         isRecording={isRecording}
-                        userId={userId}
+                        setIsRecording={setIsRecording}
                         startRecording={startRecording}
                         stopRecording={stopRecording}
                         isLoading={isLoading}

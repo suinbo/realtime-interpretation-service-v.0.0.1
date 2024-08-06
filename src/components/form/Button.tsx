@@ -4,6 +4,7 @@ import React, { RefObject } from "react"
 const Button = ({
     refs,
     onClick,
+    onKeyUp,
     onKeyDown,
     text,
     disabled,
@@ -13,6 +14,7 @@ const Button = ({
 }: {
     refs?: RefObject<HTMLButtonElement>
     onClick: () => void
+    onKeyUp?: (e: React.KeyboardEvent<HTMLButtonElement>) => void
     onKeyDown?: (e: React.KeyboardEvent<HTMLButtonElement>) => void
     text?: string | React.ReactNode
     disabled?: boolean
@@ -25,6 +27,7 @@ const Button = ({
             ref={refs}
             className={cx("button", theme, classname)}
             onClick={() => !disabled && onClick()}
+            onKeyUp={e => onKeyUp && onKeyUp(e)}
             onKeyDown={e => onKeyDown && onKeyDown(e)}
             disabled={disabled}>
             {children ?? text}

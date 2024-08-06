@@ -34,21 +34,21 @@ const Chat = () => {
         transLangCd: "",
     })
 
+    /** 언어셋 초기화 */
     const [originLang, transLang] = (langs as string).split(",")
     const isHost = host == user.id
-
-    /** 언어셋 초기화 */
     const { t } = useInitLanguage(
         hasCookieLangSet ? (cookie.getItem("languageSet") as string) : isHost ? originLang : transLang
     )
 
     const { chatroom } = useRealtimeChatroom(id as string, user)
-
     const { messages } = useRealtimeMessage({ roomId: id as string })
 
     /** 언어 확인 모달 활성화 */
     const [activeCheckModal, setActiveCheckModal] = useState<boolean>(false)
 
+    /** 녹음 진행 여부 */
+    const [isRecording, setIsRecording] = useState<boolean>(false)
     const transcriptions = useTranscriptions({
         hostId: host as string,
         userId: user.id,
@@ -56,6 +56,7 @@ const Chat = () => {
         langCd: isHost ? langCd : transLangCd,
         transLangCd: isHost ? transLangCd : langCd,
         display: display as number,
+        isRecording,
     })
 
     useEffect(() => {
@@ -98,7 +99,13 @@ const Chat = () => {
         <div className="content">
             <div className="content__wrapper">
                 {start ? (
-                    <Chatting {...transcriptions} userId={user.id} chatroom={chatroom} messages={messages} />
+                    <Chatting
+                        {...transcriptions}
+                        chatroom={chatroom}
+                        messages={messages}
+                        isRecording={isRecording}
+                        setIsRecording={setIsRecording}
+                    />
                 ) : (
                     <div className="content__body--button">
                         <Button
@@ -112,7 +119,6 @@ const Chat = () => {
                                     })
                                     .eq("room_id", id)
                                     .select("*")
-                                //transcriptions.startRecording()
                             }}
                             classname="typo t38 w500"
                             theme="lined--2"

@@ -4,7 +4,7 @@ import LoadingDot from "@components/LoadingDot"
 import { useQueryParams } from "@hooks/useQueryParams"
 import cx from "classnames"
 import { useTranslation } from "next-i18next"
-import { useEffect, useRef } from "react"
+import { SetStateAction, useEffect, useRef } from "react"
 import { useRecoilValue } from "recoil"
 
 type ChatMessageProp = {
@@ -15,6 +15,7 @@ type ChatMessageProp = {
     msg_trans_content: string
     isRecording: boolean
     isLoading: boolean
+    setIsRecording: React.Dispatch<SetStateAction<boolean>>
     userId: string
     startRecording: () => void
     stopRecording: () => void
@@ -29,12 +30,14 @@ const SingleChatMessage = ({
     msg_eng_content,
     isRecording,
     isLoading,
-    userId,
+    //userId,
+    setIsRecording,
     startRecording,
     stopRecording,
 }: ChatMessageProp) => {
     const { id } = useRecoilValue(UserAtom)
     const { host, display } = useQueryParams()
+
     const { t } = useTranslation()
     const buttonRefs = useRef<HTMLButtonElement>(null)
 
@@ -48,11 +51,17 @@ const SingleChatMessage = ({
         <div className="active-item">
             <Button
                 refs={buttonRefs}
+                onKeyUp={e => {
+                    if (e.key == "V" || e.key == "v") {
+                        stopRecording()
+                        setIsRecording(false)
+                    }
+                }}
                 onKeyDown={e => {
-                    if (e.key == "z") startRecording()
-                    if (e.key == "x") stopRecording()
-                    // if (e.key == "c") startRecording()
-                    // if (e.key == "d") stopRecording()
+                    if (!isRecording && (e.key == "V" || e.key == "v")) {
+                        startRecording()
+                        setIsRecording(true)
+                    }
                 }}
                 text={isRecording ? t("stop") : isLoading ? "-" : t("start")}
                 onClick={isRecording ? stopRecording : startRecording}
@@ -72,7 +81,7 @@ const SingleChatMessage = ({
     )
 
     return (
-        <li key={msg_id} className={cx("chatting__item", { my: speaker_id == userId })}>
+        <li key={msg_id} className={cx("chatting__item", { my: speaker_id == id })}>
             <div className="chatting__item--user">
                 <span className="profile" />
             </div>
