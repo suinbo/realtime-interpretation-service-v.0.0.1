@@ -24,6 +24,7 @@ export const OptionAtom = atom({
 export const ChatroomAtom = atom({
     key: "ChatroomAtom",
     default: {
+        chat_id: "",
         chat_nm: "",
         chat_lang: [""],
         has_chat_pw: false,

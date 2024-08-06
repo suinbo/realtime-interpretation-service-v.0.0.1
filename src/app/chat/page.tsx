@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Button } from "@components/form"
 import { useQueryParams } from "@hooks/useQueryParams"
 import { useRecoilValue, useSetRecoilState } from "recoil"
@@ -18,9 +18,10 @@ import "@assets/styles/common.scss"
 import "./style.scss"
 
 const Chat = () => {
-    const { id, langs, display, host } = useQueryParams()
+    const { id, langs, host } = useQueryParams()
     const user = useRecoilValue(UserAtom)
     const setChatroom = useSetRecoilState(ChatroomAtom)
+    const chatrooms = useRecoilValue(ChatroomAtom)
     const [start, setStart] = useState<boolean>(false)
 
     /** 언어셋 쿠기 존재 여부 */
@@ -44,10 +45,40 @@ const Chat = () => {
     const { chatroom } = useRealtimeChatroom(id as string, user)
     const { messages } = useRealtimeMessage({ roomId: id as string })
 
+    console.log("chatroom:: ", chatroom)
+
     /** 언어 확인 모달 활성화 */
     const [activeCheckModal, setActiveCheckModal] = useState<boolean>(false)
 
-    /** 녹음 진행 여부 */
+    /** 녹음 진행 여부(display 1 - 1:2) */
+    const [myIsRecording, setMyIsRecording] = useState<boolean>(false)
+    const [yourIsRecording, setYourIsRecording] = useState<boolean>(false)
+
+    const [isMyLoading, setIsMyLoading] = useState<boolean>(false)
+    const [isYourLoading, setIsYourLoading] = useState<boolean>(false)
+    const recordStatus = {
+        my: {
+            isRecording: myIsRecording,
+            setIsRecording: setMyIsRecording,
+            isLoading: isMyLoading,
+            setIsLoading: setIsMyLoading,
+        },
+        your: {
+            isRecording: yourIsRecording,
+            setIsRecording: setYourIsRecording,
+            isLoading: isYourLoading,
+            setIsLoading: setIsYourLoading,
+        },
+    }
+
+    const mediaRecorderRef = useRef<MediaRecorder | null>(null)
+    const mediaRecorderRef2 = useRef<MediaRecorder | null>(null)
+    const mediaRefs = {
+        my: mediaRecorderRef,
+        your: mediaRecorderRef2,
+    }
+
+    /** 녹음 진행 여부(display 2 - 1:1) */
     const [isRecording, setIsRecording] = useState<boolean>(false)
     const transcriptions = useTranscriptions({
         hostId: host as string,
@@ -55,13 +86,13 @@ const Chat = () => {
         roomId: id as string,
         langCd: isHost ? langCd : transLangCd,
         transLangCd: isHost ? transLangCd : langCd,
-        display: display as number,
         isRecording,
     })
 
     useEffect(() => {
         if (chatroom) {
             const {
+                room_id,
                 room_title,
                 chat_language,
                 room_password,
@@ -75,6 +106,7 @@ const Chat = () => {
             } = chatroom
 
             setChatroom({
+                chat_id: room_id,
                 chat_nm: room_title,
                 chat_lang: chat_language,
                 chat_pw: room_password,
@@ -101,6 +133,8 @@ const Chat = () => {
                 {start ? (
                     <Chatting
                         {...transcriptions}
+                        recordStatus={recordStatus}
+                        mediaRefs={mediaRefs}
                         chatroom={chatroom}
                         messages={messages}
                         isRecording={isRecording}

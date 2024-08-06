@@ -223,6 +223,11 @@
                                     &--controller {
                                         width: 100px;
                                         padding: 5px 20px;
+
+                                        &.your {
+                                            background-color: #4f60ff;
+                                            color: #ffffff;
+                                        }
                                     }
                                 }
                             }

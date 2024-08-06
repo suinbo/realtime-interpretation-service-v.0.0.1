@@ -1,9 +1,12 @@
 import { ChatroomProp } from "@hooks/chatroom/useRealtimeChatroom"
-import React, { useEffect, useMemo, useRef, useState } from "react"
-import { SingleChatMessage } from "./_component"
+import React, { SetStateAction, useEffect, useMemo, useRef, useState } from "react"
+import { MultiChatMessage, SingleChatMessage } from "./_component"
 import { useTranslation } from "next-i18next"
 import { useRecoilValue } from "recoil"
 import { UserAtom } from "@atoms/Atom"
+import { useQueryParams } from "@hooks/useQueryParams"
+import InitChat from "./_component/messageList/multi/InitChat"
+import cx from "classnames"
 
 const Chatting = ({
     messages,
@@ -13,17 +16,31 @@ const Chatting = ({
     startRecording,
     stopRecording,
     chatroom,
+    recordStatus,
+    mediaRefs,
 }: {
     messages: any
     isRecording: boolean
-    setIsRecording: any
+    setIsRecording: React.Dispatch<SetStateAction<boolean>>
     isLoading: boolean
     startRecording: () => void
     stopRecording: () => void
     chatroom: ChatroomProp | null
+    recordStatus: {
+        [key: string]: {
+            isRecording: boolean
+            setIsRecording: React.Dispatch<SetStateAction<boolean>>
+            isLoading: boolean
+            setIsLoading: React.Dispatch<SetStateAction<boolean>>
+        }
+    }
+    mediaRefs: {
+        [key: string]: any
+    }
 }) => {
     const { t } = useTranslation()
     const user = useRecoilValue(UserAtom)
+    const { display } = useQueryParams()
     const refs = useRef<HTMLDivElement>(null)
     const [isAutoScroll, setIsAutoScroll] = useState<boolean>(true)
 
@@ -58,6 +75,17 @@ const Chatting = ({
         }
     }
 
+    const MessageContent = ({ type }: { type: string }) => (
+        <li key={`my_`} className={cx("chatting__item", type)}>
+            <div className="chatting__item--user">
+                <span className="profile" />
+            </div>
+            <div className="chatting__item--text">
+                <InitChat type={type} mediaRefs={mediaRefs} recordStatus={recordStatus} />
+            </div>
+        </li>
+    )
+
     return (
         <div className="content__body--chat" ref={refs} onScroll={handleScroll}>
             {/* 참여자 참여 여부 */}
@@ -67,17 +95,32 @@ const Chatting = ({
                 </div>
             )}
             <ul>
-                {messageList.map(message => (
-                    <SingleChatMessage
-                        key={message.msg_id}
-                        {...message}
-                        isRecording={isRecording}
-                        setIsRecording={setIsRecording}
-                        startRecording={startRecording}
-                        stopRecording={stopRecording}
-                        isLoading={isLoading}
-                    />
-                ))}
+                {messageList.map(message =>
+                    display == 1 ? (
+                        <MultiChatMessage
+                            key={message.msg_id}
+                            {...message}
+                            recordStatus={recordStatus}
+                            mediaRefs={mediaRefs}
+                        />
+                    ) : (
+                        <SingleChatMessage
+                            key={message.msg_id}
+                            {...message}
+                            isRecording={isRecording}
+                            setIsRecording={setIsRecording}
+                            startRecording={startRecording}
+                            stopRecording={stopRecording}
+                            isLoading={isLoading}
+                        />
+                    )
+                )}
+                {display == 1 && (
+                    <>
+                        <MessageContent type="my" />
+                        <MessageContent type="your" />
+                    </>
+                )}
             </ul>
         </div>
     )

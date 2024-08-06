@@ -15,10 +15,10 @@ type ChatMessageProp = {
     msg_trans_content: string
     isRecording: boolean
     isLoading: boolean
-    setIsRecording: React.Dispatch<SetStateAction<boolean>>
     userId: string
     startRecording: () => void
     stopRecording: () => void
+    setIsRecording: React.Dispatch<SetStateAction<boolean>>
 }
 
 /** Display 1대 (2인) */
@@ -30,7 +30,6 @@ const SingleChatMessage = ({
     msg_eng_content,
     isRecording,
     isLoading,
-    //userId,
     setIsRecording,
     startRecording,
     stopRecording,
@@ -58,13 +57,22 @@ const SingleChatMessage = ({
                     }
                 }}
                 onKeyDown={e => {
+                    e.stopPropagation()
                     if (!isRecording && (e.key == "V" || e.key == "v")) {
                         startRecording()
                         setIsRecording(true)
                     }
                 }}
                 text={isRecording ? t("stop") : isLoading ? "-" : t("start")}
-                onClick={isRecording ? stopRecording : startRecording}
+                onClick={() => {
+                    if (isRecording) {
+                        stopRecording()
+                        setIsRecording(false)
+                    } else {
+                        startRecording()
+                        setIsRecording(true)
+                    }
+                }}
                 classname="active-item--controller"
                 disabled={isLoading}
             />
@@ -85,35 +93,7 @@ const SingleChatMessage = ({
             <div className="chatting__item--user">
                 <span className="profile" />
             </div>
-            {/* <div className="chatting__item--text">
-                {msg_content ? (
-                    <div className="text-item">
-                        <div className="text-item--audio-text ">
-                            <span className="typo t17 w500">{id == host ? msg_content : msg_trans_content}</span>
-                            <span className="trans typo t14 w400">{msg_eng_content}</span>
-                        </div>
-                        {display == 1 && (
-                            <div className="text-item--translation-text">
-                                <span className="typo t12 w500">Translation</span>
-                                <p className="typo t17">{msg_trans_content}</p>
-                            </div>
-                        )}
-                    </div>
-                ) : isRecording ? (
-                    <LoadingDot />
-                ) : isLoading ? (
-                    <LoadingDot />
-                ) : (
-                    <div>
-                        {isRecording ? <LoadingDot /> : <>녹음 대기중</>}
-                        <Button
-                            text={isRecording ? "stop" : t("recording")}
-                            onClick={isRecording ? stopRecording : startRecording}
-                            classname="starter"
-                        />
-                    </div>
-                )}
-            </div> */}
+
             <div className="chatting__item--text">
                 {msg_content ? (
                     <div className="text-item">

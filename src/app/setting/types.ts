@@ -32,6 +32,7 @@ export type SettingContentProp = {
 }
 
 export type FormItemProp = {
+    chat_id: string
     chat_nm: string
     chat_lang: string[]
     has_chat_pw?: boolean

@@ -1,25 +1,26 @@
 import { API } from "@resources/constant"
 import { supabase } from "@utils/superbase"
-import { useState, useCallback, useRef } from "react"
+import { useState, useRef, useCallback } from "react"
 
-export function useTranscriptions({
+export function useTranscriptions2({
     hostId,
     userId,
     roomId,
     langCd,
     transLangCd,
     isRecording,
+    mediaRecorderRef,
+    setIsLoading,
 }: {
     hostId: string
-    userId: string
+    userId: string | null
     roomId: string
     langCd: string
     transLangCd: string
     isRecording: boolean
+    mediaRecorderRef: any
+    setIsLoading: any
 }) {
-    const mediaRecorderRef = useRef<MediaRecorder | null>(null)
-    const [isLoading, setIsLoading] = useState<boolean>(false) // 로딩 표시 활성화
-
     // 녹음 시작
     const startRecording = useCallback(async () => {
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -178,7 +179,7 @@ export function useTranscriptions({
     }, [isRecording, userId, hostId, roomId, langCd, transLangCd])
 
     return {
-        isLoading,
+        //isLoading,
         startRecording,
         stopRecording,
     }
