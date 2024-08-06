@@ -12,23 +12,16 @@ import { convertKoreaTime } from "@utils/common"
 import Popup from "@components/Popup"
 import ToastPopup from "@components/ToastPopup"
 import cookie from "@utils/cookie"
+import useWindow from "@hooks/useWindow"
 
 const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispatch<SetStateAction<string>> }) => {
     const { id, host } = useQueryParams()
+    const { url } = useWindow()
+
     const user = useRecoilValue(UserAtom)
     const { t } = useTranslation()
     const chatroomInfo = useRecoilValue(ChatroomAtom)
     const [activeToast, setActiveToast] = useState<boolean>(false)
-
-    useEffect(() => {
-        if (activeToast) {
-            const timerId = setTimeout(() => {
-                setActiveToast(false)
-            }, 1000)
-
-            return () => clearTimeout(timerId)
-        }
-    }, [activeToast, setActiveToast])
 
     const [{ chat_nm, chat_lang, has_chat_pw, chat_pw, host_auth, room_option }, setFormItem] =
         useState<FormItemProp>(chatroomInfo)
@@ -52,7 +45,7 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                     <div className="popup__content--title">
                         <p className="typo t18 notice">
                             <b>{t("copy_url")}</b>
-                            <span className="typo t14">※ {window.location.href}</span>
+                            <span className="typo t14">※ {url}</span>
                         </p>
                         <span className="inner-close-btn" onClick={() => setView("")} />
                     </div>
@@ -64,7 +57,7 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
                                 </div>
                             }
                             onClick={() => {
-                                navigator.clipboard.writeText(window.location.href).then(() => {
+                                navigator.clipboard.writeText(url).then(() => {
                                     setActiveToast(true)
                                     setView("")
                                 })
@@ -266,7 +259,7 @@ const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispat
 
     return (
         <>
-            {activeToast && <ToastPopup text={t("copied")} />}
+            {activeToast && <ToastPopup text={t("copied")} activeToast={activeToast} setActiveToast={setActiveToast} />}
             {!!view && contentModal[view]}
         </>
     )

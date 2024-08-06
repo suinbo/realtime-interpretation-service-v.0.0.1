@@ -13,9 +13,9 @@ import { useInitLanguage } from "@hooks/useInitLanguage"
 import ModalByLanguage from "./_component/modal/ModalByLanguage"
 import { supabase } from "@utils/superbase"
 import cookie from "@utils/cookie"
+import useRealtimeMessage from "@hooks/chatroom/useRealtimeMessage"
 import "@assets/styles/common.scss"
 import "./style.scss"
-import useRealtimeMessage from "@hooks/chatroom/useRealtimeMessage"
 
 const Chat = () => {
     const { id, langs, display, host } = useQueryParams()
