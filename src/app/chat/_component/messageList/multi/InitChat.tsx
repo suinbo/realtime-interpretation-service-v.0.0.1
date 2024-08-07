@@ -6,19 +6,12 @@ import { useQueryParams } from "@hooks/useQueryParams"
 import { useTranslation } from "next-i18next"
 import { useRef } from "react"
 import { useRecoilValue } from "recoil"
+import { InitChatProp } from "@app/chat/types"
+import { isPressController } from "@utils/common"
 import cx from "classnames"
 
-const InitChat = ({
-    type,
-    recordStatus,
-    mediaRefs,
-    speaker_id,
-}: {
-    type: string
-    recordStatus: any
-    mediaRefs: any
-    speaker_id?: any
-}) => {
+/** 말풍선 초기 레이아웃 */
+const InitChat = ({ type, recordStatus, mediaRefs }: InitChatProp) => {
     const user = useRecoilValue(UserAtom)
     const { id, host, langs } = useQueryParams()
     const { t } = useTranslation()
@@ -56,14 +49,14 @@ const InitChat = ({
             <Button
                 refs={buttonRefs}
                 onKeyUp={e => {
-                    if (e.key == "V" || e.key == "v") {
+                    if (isPressController(e, "v")) {
                         data[type].stopRecording()
                         setIsRecording(false)
                     }
                 }}
                 onKeyDown={e => {
                     e.stopPropagation()
-                    if (!isRecording && (e.key == "V" || e.key == "v")) {
+                    if (!isRecording && isPressController(e, "v")) {
                         data[type].startRecording()
                         setIsRecording(true)
                     }

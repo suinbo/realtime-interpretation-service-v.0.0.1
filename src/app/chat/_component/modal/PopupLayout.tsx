@@ -1,3 +1,4 @@
+import { ModalFormProp, ModalSimpleProp } from "@app/chat/types"
 import { Button } from "@components/form"
 import Popup from "@components/Popup"
 import cx from "classnames"
@@ -8,12 +9,7 @@ const SimpleLayout = ({
     hasTopIcon,
     text,
     controller,
-}: {
-    isActive?: boolean
-    hasTopIcon?: boolean
-    text: React.ReactNode
-    controller: React.ReactNode
-}) => (
+}: ModalSimpleProp) => (
     <Popup hasClosedBtn={false} hasTopIcon={hasTopIcon} style={{ width: 430 }} isActive={isActive}>
         <div className="popup__content">
             <div className="popup__content--title">
@@ -30,13 +26,7 @@ const FormLayout = ({
     isActive,
     onClose,
     onSave,
-}: {
-    title?: string
-    formElement: React.ReactNode
-    isActive?: boolean
-    onClose: () => void
-    onSave: () => void
-}) => {
+}: ModalFormProp) => {
     const { t } = useTranslation()
 
     return (

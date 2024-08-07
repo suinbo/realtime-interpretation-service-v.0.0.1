@@ -5,18 +5,14 @@ import { SimpleLayout } from "./PopupLayout"
 import PendintApproval from "@components/PendingApprovalView"
 import { useRouter } from "next/navigation"
 import { useTranslation } from "next-i18next"
-import { SetStateAction } from "react"
 import cookie from "@utils/cookie"
+import { ModalByApprovalProp } from "@app/chat/types"
 
 const Modal = ({
     roomId,
     viewOption: { showRequestPassword, showRequestApproval, showPendingApproval },
     setIsPassed,
-}: {
-    roomId: string
-    viewOption: { [key: string]: boolean }
-    setIsPassed: React.Dispatch<SetStateAction<string>>
-}) => {
+}: ModalByApprovalProp) => {
     const router = useRouter()
     const { t } = useTranslation()
 

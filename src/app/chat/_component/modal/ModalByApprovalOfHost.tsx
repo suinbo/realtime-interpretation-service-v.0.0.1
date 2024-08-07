@@ -1,20 +1,16 @@
 import { Button } from "@components/form"
-import { ChatroomProp } from "@hooks/chatroom/useRealtimeChatroom"
 import { supabase } from "@utils/superbase"
 import { SimpleLayout } from "./PopupLayout"
 import { useRouter } from "next/navigation"
 import { useTranslation } from "next-i18next"
 import cookie from "@utils/cookie"
+import { ModalByApprovalProp } from "@app/chat/types"
 
 const ModalByApprovalOfHost = ({
     chatroom,
     roomId,
     viewOption: { showResponseApproval, showInvalidRoom },
-}: {
-    chatroom: ChatroomProp
-    roomId: string
-    viewOption: { [key: string]: boolean }
-}) => {
+}: ModalByApprovalProp) => {
     const router = useRouter()
     const { t } = useTranslation()
 

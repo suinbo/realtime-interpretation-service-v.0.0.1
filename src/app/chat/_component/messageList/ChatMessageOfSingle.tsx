@@ -1,25 +1,12 @@
+import { ChatMessageProp } from "@app/chat/types"
 import { UserAtom } from "@atoms/Atom"
 import { Button } from "@components/form"
 import LoadingDot from "@components/LoadingDot"
 import { useQueryParams } from "@hooks/useQueryParams"
 import cx from "classnames"
 import { useTranslation } from "next-i18next"
-import { SetStateAction, useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 import { useRecoilValue } from "recoil"
-
-type ChatMessageProp = {
-    msg_id: string
-    msg_content: string
-    speaker_id: string
-    msg_eng_content: string
-    msg_trans_content: string
-    isRecording: boolean
-    isLoading: boolean
-    userId: string
-    startRecording: () => void
-    stopRecording: () => void
-    setIsRecording: React.Dispatch<SetStateAction<boolean>>
-}
 
 /** Display 1대 (2인) */
 const SingleChatMessage = ({

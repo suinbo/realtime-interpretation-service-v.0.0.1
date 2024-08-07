@@ -13,8 +13,9 @@ import Popup from "@components/Popup"
 import ToastPopup from "@components/ToastPopup"
 import cookie from "@utils/cookie"
 import useWindow from "@hooks/useWindow"
+import { ModalBySettingProp } from "@app/chat/types"
 
-const ModalBySetting = ({ view, setView }: { view: string; setView: React.Dispatch<SetStateAction<string>> }) => {
+const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
     const { id, host } = useQueryParams()
     const { url } = useWindow()
 
