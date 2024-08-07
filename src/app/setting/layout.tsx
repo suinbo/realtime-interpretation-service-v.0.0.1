@@ -1,7 +1,6 @@
 "use client"
 
 import { useSession } from "@hooks/useSession"
-import { notoSansKr } from "@app/Provider"
 import { supabase } from "@utils/superbase"
 import cookie from "@utils/cookie"
 import { useState } from "react"
@@ -11,6 +10,8 @@ import cx from "classnames"
 import { Button } from "@components/form"
 import { useRouter } from "next/navigation"
 import { isEmptyObject } from "@utils/common"
+import { notoSansKr } from "@app/Provider"
+import { useFontClass } from "@hooks/useInitFontClass"
 import "@assets/styles/common.scss"
 import "./style.scss"
 
@@ -23,10 +24,11 @@ const Layout = ({
     const router = useRouter()
     const [activeModal, setActiveModal] = useState<boolean>(false)
     const { user } = useSession()
+    const fontClass = useFontClass()
 
     return (
         !isEmptyObject(user) && (
-            <>
+            <div className={fontClass}>
                 <div className="dashboard">
                     <div className="dashboard__inner">
                         <div className={cx("header", notoSansKr.className)}>
@@ -82,7 +84,7 @@ const Layout = ({
                         }
                     />
                 )}
-            </>
+            </div>
         )
     )
 }

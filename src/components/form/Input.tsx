@@ -32,6 +32,7 @@ const Input = ({
             value={value}
             placeholder={placeholder}
             disabled={disabled}
+            autoComplete="current-password"
         />
     )
 }

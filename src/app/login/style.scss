@@ -144,13 +144,13 @@
                 gap: 12px;
 
                 .btn-naver {
-                    @include buttonIcon("../assets/images/naver.png");
+                    @include buttonIcon("../../assets/images/naver.png");
                 }
                 .btn-kakao {
-                    @include buttonIcon("../assets/images/kakao.png");
+                    @include buttonIcon("../../assets/images/kakao.png");
                 }
                 .btn-google {
-                    @include buttonIcon("../assets/images/google.png");
+                    @include buttonIcon("../../assets/images/google.png");
                 }
             }
         }
@@ -182,7 +182,7 @@
             content: "";
             width: 25px;
             height: 25px;
-            background: url("../assets/images/locker.png") no-repeat;
+            background: url("../../assets/images/locker.png") no-repeat;
         }
     }
 
@@ -190,7 +190,7 @@
         cursor: pointer;
         width: 35px;
         height: 35px;
-        background: url("../assets/images/arrow-next.png") no-repeat;
+        background: url("../../assets/images/arrow-next.png") no-repeat;
         background-size: 35px 35px;
     }
 

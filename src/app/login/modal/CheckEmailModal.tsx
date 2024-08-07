@@ -1,5 +1,5 @@
 import Popup from "@components/Popup"
-import { EmailInput } from "./chat/_component"
+import { EmailInput } from "../../chat/_component"
 import { SetStateAction } from "react"
 
 /** 이메일 확인 모달 */
