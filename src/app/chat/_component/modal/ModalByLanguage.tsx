@@ -7,6 +7,7 @@ import { SetStateAction, useMemo, useState } from "react"
 import { SelectboxItem } from "@components/form/Selectbox"
 import { useTranslation } from "next-i18next"
 import cookie from "@utils/cookie"
+import { parsedCookie } from "@utils/common"
 
 const ModalByLanguage = ({ setActive }: { setActive: React.Dispatch<SetStateAction<boolean>> }) => {
     const { id, langs } = useQueryParams()
@@ -35,8 +36,16 @@ const ModalByLanguage = ({ setActive }: { setActive: React.Dispatch<SetStateActi
                             onClick={() => {
                                 setActive(false)
 
-                                //쿠키에 저장
-                                cookie.setItem({ key: "languageSet", value: transLang })
+                                // 언어셋 쿠키에 저장
+                                cookie.setItem({
+                                    key: id as string,
+                                    value: JSON.stringify({
+                                        languageSet: transLang,
+                                        is_passed: parsedCookie(id as string)
+                                            ? parsedCookie(id as string).is_passed
+                                            : null,
+                                    }),
+                                })
                             }}
                             classname="lined--1 typo t17 w500"
                         />
@@ -77,7 +86,14 @@ const ModalByLanguage = ({ setActive }: { setActive: React.Dispatch<SetStateActi
 
                     // 설정 언어 쿠키에 저장
                     if (data?.length) {
-                        cookie.setItem({ key: "languageSet", value: selectedItem.id })
+                        cookie.setItem({
+                            key: id as string,
+                            value: JSON.stringify({
+                                languageSet: selectedItem.id,
+                                is_passed: parsedCookie(id as string) ? parsedCookie(id as string).is_passed : null,
+                            }),
+                        })
+
                         i18n.changeLanguage(selectedItem.id)
                     }
                 }}

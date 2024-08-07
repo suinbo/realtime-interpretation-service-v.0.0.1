@@ -5,10 +5,6 @@ const isNotUndefined = typeof window !== "undefined" && typeof parent !== "undef
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-    keys: {
-        expireTime: "expireTime",
-        credential: "credential",
-    },
     getItem(key: string) {
         if (isNotUndefined) {
             const result = decodeURIComponent(

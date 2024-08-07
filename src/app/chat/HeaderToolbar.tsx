@@ -6,12 +6,14 @@ import { useState } from "react"
 import { useRecoilValue } from "recoil"
 import ModalBySetting from "./_component/modal/ModalBySetting"
 import { useInitLanguage } from "@hooks/useInitLanguage"
+import { useQueryParams } from "@hooks/useQueryParams"
 
 const HeaderToolbar = () => {
     useSession()
 
     const { t } = useInitLanguage()
     const user = useRecoilValue(UserAtom)
+    const { host } = useQueryParams()
     const { chat_nm } = useRecoilValue(ChatroomAtom)
     const [view, setView] = useState<string>("")
 
@@ -27,7 +29,7 @@ const HeaderToolbar = () => {
                 <div className="header__toolbar--menu">
                     <span className="menu-share" onClick={() => setView("share")} />
                     <span className="menu-setting" onClick={() => setView("setting")} />
-                    <span className="menu-close" onClick={() => setView("close")} />
+                    {host == user.id && <span className="menu-close" onClick={() => setView("close")} />}
                 </div>
             </div>
             <ModalBySetting view={view} setView={setView} />

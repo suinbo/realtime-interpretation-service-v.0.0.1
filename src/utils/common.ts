@@ -1,4 +1,5 @@
 import { RefObject } from "react"
+import cookie from "./cookie"
 
 /** IE Browser 체크 */
 export const isInternetExplorer = () => {
@@ -31,6 +32,10 @@ export const convertKoreaTime = (timestamp: number) => {
 /** 빈 객체 여부 판단 */
 export const isEmptyObject = (obj: Object) => Object.entries(obj).length === 0
 
-/** 키 판단 */
+/** 키보드 키 판단 */
 export const isPressController = (e: React.KeyboardEvent<HTMLButtonElement> | KeyboardEvent, key: string) =>
     e.key.toLowerCase() === key
+
+/** 쿠키 파싱*/
+export const parsedCookie = (id: string) =>
+    cookie.getItem(id) ? JSON.parse(cookie.getItem(id as string) as string) : null

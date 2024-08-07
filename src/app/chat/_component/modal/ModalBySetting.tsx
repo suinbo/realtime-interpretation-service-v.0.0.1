@@ -239,7 +239,6 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
                                     // }
                                 }
 
-                                cookie.removeItem("languageSet")
                                 window.close()
                             }}
                             classname="lined--1 typo t15 w500"

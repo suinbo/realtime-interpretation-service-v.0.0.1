@@ -6,9 +6,12 @@ import { FLAG } from "@resources/constant"
 import cx from "classnames"
 import "./style.scss"
 import { PasswordInputProp } from "../types"
+import { useQueryParams } from "@hooks/useQueryParams"
+import { parsedCookie } from "@utils/common"
 
 const PasswordInput = ({ setIsPassed }: PasswordInputProp) => {
     const { t } = useTranslation()
+    const { id } = useQueryParams()
     const ref = useRef<HTMLInputElement>(null)
     const [alertMessage, setAlertMessage] = useState<string>("")
 
@@ -26,8 +29,15 @@ const PasswordInput = ({ setIsPassed }: PasswordInputProp) => {
             if (!equalPassword?.length) {
                 setAlertMessage(t("invalid_password"))
             } else {
-                // 암호 일치시 쿠키에 저장
-                cookie.setItem({ key: "is_passed", value: FLAG.Y })
+                // 암호 일치 여부 쿠키에 저장
+                cookie.setItem({
+                    key: id as string,
+                    value: JSON.stringify({
+                        is_passed: FLAG.Y,
+                        languageSet: parsedCookie(id as string) ? parsedCookie(id as string).languageSet : "",
+                    }),
+                })
+
                 setIsPassed(FLAG.Y)
 
                 // 자동 승인

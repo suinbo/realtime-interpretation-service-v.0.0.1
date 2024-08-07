@@ -2,7 +2,7 @@ import { UserAtom } from "@atoms/Atom"
 import { useTranscriptions } from "@hooks/audioSetting/single/useTranscriptions"
 import { useInitLanguage } from "@hooks/useInitLanguage"
 import { useQueryParams } from "@hooks/useQueryParams"
-import cookie from "@utils/cookie"
+import { parsedCookie } from "@utils/common"
 import { useState } from "react"
 import { useRecoilValue } from "recoil"
 
@@ -17,13 +17,13 @@ export const useSingleRecording = () => {
     })
 
     // 언어셋 쿠키 존재 여부
-    const hasCookieLangSet = cookie.hasItem("languageSet")
-    const getCookiePassedStatus = cookie.getItem("is_passed")
+    const hasCookieLangSet = parsedCookie(id as string) ? parsedCookie(id as string).languageSet : ""
+    const getCookiePassedStatus = parsedCookie(id as string) ? parsedCookie(id as string).is_passed : ""
 
     // 언어셋 초기화
     const [originLang, transLang] = (langs as string).split(",")
     const isHost = host == user.id
-    useInitLanguage(hasCookieLangSet ? (cookie.getItem("languageSet") as string) : isHost ? originLang : transLang)
+    useInitLanguage(hasCookieLangSet ? parsedCookie(id as string).languageSet : isHost ? originLang : transLang)
 
     // isRecording 상태
     const [isRecording, setIsRecording] = useState<boolean>(false)
