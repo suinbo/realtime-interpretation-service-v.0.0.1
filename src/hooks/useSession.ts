@@ -31,6 +31,7 @@ export const useSession = () => {
                 const { user } = session
                 setUser(user)
             } else {
+                localStorage.setItem("redirectTo", location.pathname + location.search)
                 router.push("/")
             }
         }
