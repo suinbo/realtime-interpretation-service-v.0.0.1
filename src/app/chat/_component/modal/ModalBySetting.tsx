@@ -147,7 +147,7 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
                                         onChange={has_chat_pw => setFormItem(prev => ({ ...prev, has_chat_pw }))}
                                     />
                                     {has_chat_pw && (
-                                        <div className="form__item--password-group">
+                                        <form className="form__item--password-group">
                                             <span className="typo t15">{t("password")}</span>
                                             <Input
                                                 type="password"
@@ -156,7 +156,7 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
                                                 placeholder={t("enter_password")}
                                                 onChange={chat_pw => setFormItem(prev => ({ ...prev, chat_pw }))}
                                             />
-                                        </div>
+                                        </form>
                                     )}
                                 </div>
                             </div>

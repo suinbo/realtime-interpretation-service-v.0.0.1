@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@components/form"
 import { useQueryParams } from "@hooks/useQueryParams"
 import { useRecoilValue, useSetRecoilState } from "recoil"
@@ -8,83 +8,38 @@ import { ChatroomAtom, UserAtom } from "@atoms/Atom"
 import useRealtimeChatroom from "@hooks/chatroom/useRealtimeChatroom"
 import Chatting from "./Chatting"
 import { ModalByApprovalOfMember, ModalByApprovalOfHost } from "./_component"
-import { useTranscriptions } from "@hooks/audioSetting/single/useTranscriptions"
-import { useInitLanguage } from "@hooks/useInitLanguage"
 import ModalByLanguage from "./_component/modal/ModalByLanguage"
 import { supabase } from "@utils/superbase"
-import cookie from "@utils/cookie"
 import useRealtimeMessage from "@hooks/chatroom/useRealtimeMessage"
+import { useMultiRecording } from "./_hook/useMultiRecording"
+import { useSingleRecording } from "./_hook/useSingleRecording"
+import { useTranslation } from "next-i18next"
 import "@assets/styles/common.scss"
 import "./style.scss"
 
 const Chat = () => {
-    const { id, langs, host } = useQueryParams()
+    const { id } = useQueryParams()
     const user = useRecoilValue(UserAtom)
     const setChatroom = useSetRecoilState(ChatroomAtom)
     const [start, setStart] = useState<boolean>(false)
+    const { t } = useTranslation()
 
-    /** 언어셋 쿠기 존재 여부 */
-    const hasCookieLangSet = cookie.hasItem("languageSet")
-    const getCookiePassedStatus = cookie.getItem("is_passed")
+    /** 상태 (display 1 - multi) */
+    const { mediaRefs, recordStatus } = useMultiRecording()
+
+    /** 상태 (display 2 - single) */
+    const { isRecording, setIsRecording, setLangCd, transcriptions, getCookiePassedStatus, hasCookieLangSet } =
+        useSingleRecording()
 
     /** 쿠키 관리 상태 데이터 (언어셋, 암호 확인 여부) */
     const [isPassed, setIsPassed] = useState<string>(getCookiePassedStatus as string)
-    const [{ langCd, transLangCd }, setLangCd] = useState<{ langCd: string; transLangCd: string }>({
-        langCd: "",
-        transLangCd: "",
-    })
 
-    /** 언어셋 초기화 */
-    const [originLang, transLang] = (langs as string).split(",")
-    const isHost = host == user.id
-    const { t } = useInitLanguage(
-        hasCookieLangSet ? (cookie.getItem("languageSet") as string) : isHost ? originLang : transLang
-    )
-
+    /** 실시간 구독 데이터 */
     const { chatroom } = useRealtimeChatroom(id as string, user)
     const { messages } = useRealtimeMessage({ roomId: id as string })
 
     /** 언어 확인 모달 활성화 */
     const [activeCheckModal, setActiveCheckModal] = useState<boolean>(false)
-
-    /** 녹음 진행 여부(display 1 - 1:2) */
-    const [myIsRecording, setMyIsRecording] = useState<boolean>(false)
-    const [yourIsRecording, setYourIsRecording] = useState<boolean>(false)
-
-    const [isMyLoading, setIsMyLoading] = useState<boolean>(false)
-    const [isYourLoading, setIsYourLoading] = useState<boolean>(false)
-    const recordStatus = {
-        my: {
-            isRecording: myIsRecording,
-            setIsRecording: setMyIsRecording,
-            isLoading: isMyLoading,
-            setIsLoading: setIsMyLoading,
-        },
-        your: {
-            isRecording: yourIsRecording,
-            setIsRecording: setYourIsRecording,
-            isLoading: isYourLoading,
-            setIsLoading: setIsYourLoading,
-        },
-    }
-
-    const mediaRecorderRef = useRef<MediaRecorder | null>(null)
-    const mediaRecorderRef2 = useRef<MediaRecorder | null>(null)
-    const mediaRefs = {
-        my: mediaRecorderRef,
-        your: mediaRecorderRef2,
-    }
-
-    /** 녹음 진행 여부(display 2 - 1:1) */
-    const [isRecording, setIsRecording] = useState<boolean>(false)
-    const transcriptions = useTranscriptions({
-        hostId: host as string,
-        userId: user.id,
-        roomId: id as string,
-        langCd: isHost ? langCd : transLangCd,
-        transLangCd: isHost ? transLangCd : langCd,
-        isRecording,
-    })
 
     useEffect(() => {
         if (chatroom) {

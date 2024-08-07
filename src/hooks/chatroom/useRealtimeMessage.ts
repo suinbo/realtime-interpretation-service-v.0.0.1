@@ -9,7 +9,7 @@ const useRealtimeMessage = ({ roomId }: { roomId: string }) => {
         const channel = supabase
             .channel("realtime:messages")
             .on("postgres_changes", { event: "*", schema: "public", table: "messages" }, payload => {
-                console.log("Change received!", payload)
+                //console.log("Change received!", payload)
                 setMessages(prevMessages => [...prevMessages, payload.new])
             })
             .subscribe()
