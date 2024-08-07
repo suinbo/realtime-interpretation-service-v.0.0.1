@@ -32,4 +32,5 @@ export const convertKoreaTime = (timestamp: number) => {
 export const isEmptyObject = (obj: Object) => Object.entries(obj).length === 0
 
 /** 키 판단 */
-export const isPressController = (e: React.KeyboardEvent<HTMLButtonElement>, key: string) => e.key.toLowerCase() === key
+export const isPressController = (e: React.KeyboardEvent<HTMLButtonElement> | KeyboardEvent, key: string) =>
+    e.key.toLowerCase() === key

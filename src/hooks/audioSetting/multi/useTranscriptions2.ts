@@ -2,7 +2,7 @@ import { API } from "@resources/constant"
 import { supabase } from "@utils/superbase"
 import { useState, useRef, useCallback } from "react"
 
-export function useTranscriptions2({
+export function useTranscriptionsOfMulti({
     hostId,
     userId,
     roomId,

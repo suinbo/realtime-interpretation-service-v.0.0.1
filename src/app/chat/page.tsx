@@ -8,7 +8,7 @@ import { ChatroomAtom, UserAtom } from "@atoms/Atom"
 import useRealtimeChatroom from "@hooks/chatroom/useRealtimeChatroom"
 import Chatting from "./Chatting"
 import { ModalByApprovalOfMember, ModalByApprovalOfHost } from "./_component"
-import { useTranscriptions } from "@hooks/audioSetting/useTranscriptions"
+import { useTranscriptions } from "@hooks/audioSetting/single/useTranscriptions"
 import { useInitLanguage } from "@hooks/useInitLanguage"
 import ModalByLanguage from "./_component/modal/ModalByLanguage"
 import { supabase } from "@utils/superbase"
@@ -21,7 +21,6 @@ const Chat = () => {
     const { id, langs, host } = useQueryParams()
     const user = useRecoilValue(UserAtom)
     const setChatroom = useSetRecoilState(ChatroomAtom)
-    const chatrooms = useRecoilValue(ChatroomAtom)
     const [start, setStart] = useState<boolean>(false)
 
     /** 언어셋 쿠기 존재 여부 */
@@ -44,8 +43,6 @@ const Chat = () => {
 
     const { chatroom } = useRealtimeChatroom(id as string, user)
     const { messages } = useRealtimeMessage({ roomId: id as string })
-
-    console.log("chatroom:: ", chatroom)
 
     /** 언어 확인 모달 활성화 */
     const [activeCheckModal, setActiveCheckModal] = useState<boolean>(false)
@@ -98,10 +95,7 @@ const Chat = () => {
                 room_password,
                 room_option,
                 approval_required,
-                approval_accepted,
                 member_id,
-                expired_at,
-                creator_id,
                 is_started,
             } = chatroom
 
