@@ -31,7 +31,8 @@ const Login = () => {
         password: useRef<HTMLInputElement>(null),
     }
 
-    const onSignIn = async () => {
+    const onSignIn = async (e?: React.KeyboardEvent<HTMLInputElement>) => {
+        e?.preventDefault() //form 기본 동작(제출) 방지
         focusOnEmpty(refs)
 
         if (email && password) {
@@ -106,7 +107,7 @@ const Login = () => {
                                 type="password"
                                 value={password}
                                 onChange={password => setInput(prev => ({ ...prev, password }))}
-                                onKeyDown={e => e.key == "Enter" && onSignIn()}
+                                onKeyDown={e => e.key == "Enter" && onSignIn(e)}
                             />
                             {errorMessage && <span className="alert">※ {errorMessage}</span>}
                         </form>
