@@ -6,13 +6,13 @@ import PendintApproval from "@components/PendingApprovalView"
 import { useRouter } from "next/navigation"
 import { useTranslation } from "next-i18next"
 import cookie from "@utils/cookie"
-import { ModalByApprovalProp } from "@app/chat/types"
+import { ModalByApprovalProp, PasswordInputProp } from "@app/chat/types"
 
 const Modal = ({
     roomId,
     viewOption: { showRequestPassword, showRequestApproval, showPendingApproval },
     setIsPassed,
-}: ModalByApprovalProp) => {
+}: ModalByApprovalProp & PasswordInputProp) => {
     const router = useRouter()
     const { t } = useTranslation()
 

@@ -5,8 +5,9 @@ import cookie from "@utils/cookie"
 import { FLAG } from "@resources/constant"
 import cx from "classnames"
 import "./style.scss"
+import { PasswordInputProp } from "../types"
 
-const PasswordInput = ({ setIsPassed }: { setIsPassed: React.Dispatch<SetStateAction<string>> }) => {
+const PasswordInput = ({ setIsPassed }: PasswordInputProp) => {
     const { t } = useTranslation()
     const ref = useRef<HTMLInputElement>(null)
     const [alertMessage, setAlertMessage] = useState<string>("")

@@ -1,19 +1,19 @@
-import { SetStateAction } from "react"
+import React, { SetStateAction } from "react"
 import { ChatroomProp } from "@hooks/chatroom/useRealtimeChatroom"
 
 export type ChatMessageProp = {
-    msg_id: string
-    msg_content: string
-    speaker_id: string
-    msg_eng_content: string
-    msg_trans_content: string
-    userId: string
-    isRecording: boolean
-    isLoading: boolean
-    startRecording: () => void
-    stopRecording: () => void
-    setIsRecording: React.Dispatch<SetStateAction<boolean>>
-    recordStatus: {
+    msg_id?: string
+    msg_content?: string
+    speaker_id?: string
+    msg_eng_content?: string
+    msg_trans_content?: string
+    userId?: string
+    isRecording?: boolean
+    isLoading?: boolean
+    startRecording?: () => void
+    stopRecording?: () => void
+    setIsRecording?: React.Dispatch<SetStateAction<boolean>>
+    recordStatus?: {
         [key: string]: {
             isRecording: boolean
             setIsRecording: React.Dispatch<SetStateAction<boolean>>
@@ -21,8 +21,16 @@ export type ChatMessageProp = {
             setIsLoading: React.Dispatch<SetStateAction<boolean>>
         }
     }
-    mediaRefs: {
+    mediaRefs?: {
         [key: string]: any
+    }
+    buttonRefs?: React.RefObject<HTMLButtonElement>
+    data: {
+        isRecording: boolean
+        isLoading: boolean
+        startRecording: () => void
+        stopRecording: () => void
+        setIsRecording: React.Dispatch<SetStateAction<boolean>>
     }
 }
 
@@ -42,9 +50,12 @@ export type InitChatProp = {
 }
 
 export type ModalByApprovalProp = {
-    chatroom: ChatroomProp
-    roomId: string
+    chatroom?: ChatroomProp
+    roomId?: string
     viewOption: { [key: string]: boolean }
+}
+
+export type PasswordInputProp = {
     setIsPassed: React.Dispatch<SetStateAction<string>>
 }
 

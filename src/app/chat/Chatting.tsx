@@ -107,11 +107,7 @@ const Chatting = ({
                         <SingleChatMessage
                             key={message.msg_id}
                             {...message}
-                            isRecording={isRecording}
-                            setIsRecording={setIsRecording}
-                            startRecording={startRecording}
-                            stopRecording={stopRecording}
-                            isLoading={isLoading}
+                            data={{ isRecording, isLoading, setIsRecording, startRecording, stopRecording }}
                         />
                     )
                 )}
