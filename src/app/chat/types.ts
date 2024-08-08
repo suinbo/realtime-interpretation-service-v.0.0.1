@@ -1,5 +1,31 @@
 import React, { SetStateAction } from "react"
 import { ChatroomProp } from "@hooks/chatroom/useRealtimeChatroom"
+import { MessageProp } from "@hooks/chatroom/useRealtimeMessage"
+
+type RecordStatusProp = {
+    [key: string]: {
+        isRecording: boolean
+        setIsRecording: React.Dispatch<SetStateAction<boolean>>
+        isLoading: boolean
+        setIsLoading: React.Dispatch<SetStateAction<boolean>>
+    }
+}
+
+type mediaRefsProp = {
+    [key: string]: React.RefObject<MediaRecorder | null>
+}
+
+export type ChatProp = {
+    messages: MessageProp[]
+    isRecording: boolean
+    setIsRecording: React.Dispatch<SetStateAction<boolean>>
+    isLoading: boolean
+    startRecording: () => void
+    stopRecording: () => void
+    chatroom: ChatroomProp | null
+    recordStatus: RecordStatusProp
+    mediaRefs: mediaRefsProp
+}
 
 export type ChatMessageProp = {
     msg_id?: string
@@ -13,19 +39,10 @@ export type ChatMessageProp = {
     startRecording?: () => void
     stopRecording?: () => void
     setIsRecording?: React.Dispatch<SetStateAction<boolean>>
-    recordStatus?: {
-        [key: string]: {
-            isRecording: boolean
-            setIsRecording: React.Dispatch<SetStateAction<boolean>>
-            isLoading: boolean
-            setIsLoading: React.Dispatch<SetStateAction<boolean>>
-        }
-    }
-    mediaRefs?: {
-        [key: string]: any
-    }
+    recordStatus?: RecordStatusProp
+    mediaRefs?: mediaRefsProp
     buttonRefs?: React.RefObject<HTMLButtonElement>
-    data: {
+    data?: {
         isRecording: boolean
         isLoading: boolean
         startRecording: () => void
@@ -36,17 +53,8 @@ export type ChatMessageProp = {
 
 export type InitChatProp = {
     type: string
-    recordStatus: {
-        [key: string]: {
-            isRecording: boolean
-            setIsRecording: React.Dispatch<SetStateAction<boolean>>
-            isLoading: boolean
-            setIsLoading: React.Dispatch<SetStateAction<boolean>>
-        }
-    }
-    mediaRefs: {
-        [key: string]: any
-    }
+    recordStatus: RecordStatusProp
+    mediaRefs: mediaRefsProp
 }
 
 export type ModalByApprovalProp = {

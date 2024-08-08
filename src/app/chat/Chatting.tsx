@@ -1,5 +1,4 @@
-import { ChatroomProp } from "@hooks/chatroom/useRealtimeChatroom"
-import React, { SetStateAction, useEffect, useMemo, useRef, useState } from "react"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 import { MultiChatMessage, SingleChatMessage } from "./_component"
 import { useTranslation } from "next-i18next"
 import { useRecoilValue } from "recoil"
@@ -7,37 +6,19 @@ import { UserAtom } from "@atoms/Atom"
 import { useQueryParams } from "@hooks/useQueryParams"
 import InitChat from "./_component/messageList/multi/InitChat"
 import cx from "classnames"
+import { ChatProp } from "./types"
 
 const Chatting = ({
     messages,
+    chatroom,
     isRecording,
     setIsRecording,
     isLoading,
     startRecording,
     stopRecording,
-    chatroom,
     recordStatus,
     mediaRefs,
-}: {
-    messages: any
-    isRecording: boolean
-    setIsRecording: React.Dispatch<SetStateAction<boolean>>
-    isLoading: boolean
-    startRecording: () => void
-    stopRecording: () => void
-    chatroom: ChatroomProp | null
-    recordStatus: {
-        [key: string]: {
-            isRecording: boolean
-            setIsRecording: React.Dispatch<SetStateAction<boolean>>
-            isLoading: boolean
-            setIsLoading: React.Dispatch<SetStateAction<boolean>>
-        }
-    }
-    mediaRefs: {
-        [key: string]: any
-    }
-}) => {
+}: ChatProp) => {
     const { t } = useTranslation()
     const user = useRecoilValue(UserAtom)
     const { display } = useQueryParams()
