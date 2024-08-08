@@ -49,5 +49,6 @@
     "stop": "Stop",
     "listening": "Listening",
     "translating": "Translating",
-    "logout": "Would you like to log out?"
+    "logout": "Would you like to log out?",
+    "permission_denied": "Microphone access is required. \nPlease allow microphone access in the [Site Settings]."
 }

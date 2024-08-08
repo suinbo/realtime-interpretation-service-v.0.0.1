@@ -15,6 +15,7 @@ import { useMultiRecording } from "./_hook/useMultiRecording"
 import { useSingleRecording } from "./_hook/useSingleRecording"
 import { useTranslation } from "next-i18next"
 import { useView } from "./_hook/useView"
+import { useAudioDevices } from "@hooks/audioSetting/useAudioDevices"
 import "@assets/styles/common.scss"
 import "./style.scss"
 
@@ -41,6 +42,9 @@ const Chat = () => {
     /** 요청/응답 모달 활성화 */
     const { view, setView, setIsPassed } = useView(chatroom, user.id)
 
+    /** 오디오 장치 리스트(권한 검사) */
+    const audioDevices = useAudioDevices()
+
     useEffect(() => {
         if (chatroom) {
             const {
@@ -54,7 +58,6 @@ const Chat = () => {
                 is_started,
                 expired_at,
             } = chatroom
-
             setChatroom({
                 chat_id: room_id,
                 chat_nm: room_title,
@@ -64,10 +67,8 @@ const Chat = () => {
                 host_auth: approval_required,
                 room_option,
             })
-
             setActiveCheckModal(user.id === member_id && !hasCookieLangSet && !expired_at)
             setStart(Boolean(is_started))
-
             // 언어셋 설정
             const [langCd, transLangCd] = (chat_language as any).split(",")
             setLangCd({ langCd, transLangCd })
@@ -92,14 +93,17 @@ const Chat = () => {
                         <Button
                             text={t("do_start")}
                             onClick={async () => {
-                                setStart(!start)
-                                await supabase
-                                    .from("chatroom")
-                                    .update({
-                                        is_started: 1,
-                                    })
-                                    .eq("room_id", id)
-                                    .select("*")
+                                if (!audioDevices.length) alert(t("permission_denied"))
+                                else {
+                                    setStart(!start)
+                                    await supabase
+                                        .from("chatroom")
+                                        .update({
+                                            is_started: 1,
+                                        })
+                                        .eq("room_id", id)
+                                        .select("*")
+                                }
                             }}
                             classname="typo t38 w500"
                             theme="lined--2"
@@ -109,9 +113,7 @@ const Chat = () => {
             </div>
         </div>
     )
-
     if (!chatroom) return
-
     return (
         <>
             {/* 참여자 + 생성자 (대화방 내용) */}
