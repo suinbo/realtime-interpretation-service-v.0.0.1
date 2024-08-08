@@ -1,5 +1,5 @@
 import { UserAtom } from "@atoms/Atom"
-import { useTranscriptions } from "@hooks/audioSetting/single/useTranscriptions"
+import { useSingleTrans } from "@hooks/audioSetting"
 import { useInitLanguage } from "@hooks/useInitLanguage"
 import { useQueryParams } from "@hooks/useQueryParams"
 import { parsedCookie } from "@utils/common"
@@ -27,7 +27,7 @@ export const useSingleRecording = () => {
     // isRecording 상태
     const [isRecording, setIsRecording] = useState<boolean>(false)
 
-    const transcriptions = useTranscriptions({
+    const transcriptions = useSingleTrans({
         hostId: host as string,
         userId: user.id,
         roomId: id as string,

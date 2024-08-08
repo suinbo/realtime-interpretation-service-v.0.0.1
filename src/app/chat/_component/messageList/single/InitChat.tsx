@@ -1,13 +1,14 @@
-import { ChatMessageProp } from "@app/chat/types"
+import { SingleInitChatProp } from "@app/chat/types"
 import { Button } from "@components/form"
 import LoadingDot from "@components/LoadingDot"
+import { isPressController } from "@utils/common"
 import { useTranslation } from "next-i18next"
 
 /** 말풍선 초기 레이아웃 */
 const InitChat = ({
     buttonRefs,
     data: { isRecording, isLoading, setIsRecording, startRecording, stopRecording },
-}: ChatMessageProp) => {
+}: SingleInitChatProp) => {
     const { t } = useTranslation()
 
     return (
@@ -15,14 +16,14 @@ const InitChat = ({
             <Button
                 refs={buttonRefs}
                 onKeyUp={e => {
-                    if (e.key == "V" || e.key == "v") {
+                    if (isPressController(e, "v")) {
                         stopRecording()
                         setIsRecording(false)
                     }
                 }}
                 onKeyDown={e => {
                     e.stopPropagation()
-                    if (!isRecording && (e.key == "V" || e.key == "v")) {
+                    if (!isRecording && isPressController(e, "v")) {
                         startRecording()
                         setIsRecording(true)
                     }

@@ -1,11 +1,10 @@
 import { ChatMessageProp } from "@app/chat/types"
 import { UserAtom } from "@atoms/Atom"
 import { useQueryParams } from "@hooks/useQueryParams"
-import cx from "classnames"
-import { useTranslation } from "next-i18next"
 import { useEffect, useRef } from "react"
 import { useRecoilValue } from "recoil"
 import InitChat from "./InitChat"
+import cx from "classnames"
 
 /** Display 1대 (2인) */
 const SingleChatMessage = ({
@@ -15,11 +14,9 @@ const SingleChatMessage = ({
     msg_trans_content,
     msg_eng_content,
     data,
-}: ChatMessageProp) => {
+}: ChatMessageProp & { data: any }) => {
     const { id } = useRecoilValue(UserAtom)
     const { host, display } = useQueryParams()
-
-    const { t } = useTranslation()
     const buttonRefs = useRef<HTMLButtonElement>(null)
 
     useEffect(() => {

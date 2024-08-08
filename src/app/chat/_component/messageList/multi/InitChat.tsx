@@ -5,13 +5,13 @@ import { useQueryParams } from "@hooks/useQueryParams"
 import { useTranslation } from "next-i18next"
 import React, { useEffect, useRef } from "react"
 import { useRecoilValue } from "recoil"
-import { InitChatProp } from "@app/chat/types"
 import { isPressController } from "@utils/common"
-import { useTranscriptionsOfMulti } from "@hooks/audioSetting/multi/useTranscriptions2"
+import { useMultiTrans } from "@hooks/audioSetting"
 import cx from "classnames"
+import { MultiInitChatProp } from "@app/chat/types"
 
 /** 말풍선 초기 레이아웃 */
-const InitChat = ({ type, recordStatus, mediaRefs }: InitChatProp) => {
+const InitChat = ({ type, recordStatus, mediaRefs }: MultiInitChatProp) => {
     const user = useRecoilValue(UserAtom)
     const { id, host, langs } = useQueryParams()
     const [originLang, transLang] = (langs as string).split(",")
@@ -44,7 +44,7 @@ const InitChat = ({ type, recordStatus, mediaRefs }: InitChatProp) => {
     }, [])
 
     const data: { [key: string]: any } = {
-        my: useTranscriptionsOfMulti({
+        my: useMultiTrans({
             hostId: host as string,
             userId: user.id,
             roomId: id as string,
@@ -54,7 +54,7 @@ const InitChat = ({ type, recordStatus, mediaRefs }: InitChatProp) => {
             mediaRecorderRef: mediaRef,
             setIsLoading,
         }),
-        your: useTranscriptionsOfMulti({
+        your: useMultiTrans({
             hostId: host as string,
             userId: null,
             roomId: id as string,

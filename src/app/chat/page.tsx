@@ -5,12 +5,12 @@ import { Button } from "@components/form"
 import { useQueryParams } from "@hooks/useQueryParams"
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import { ChatroomAtom, UserAtom } from "@atoms/Atom"
-import useRealtimeChatroom, { ChatroomProp } from "@hooks/chatroom/useRealtimeChatroom"
+import useRealtimeChatroom from "@hooks/chatroom/useRealtimeChatroom"
 import Chatting from "./Chatting"
 import { ModalByApprovalOfMember, ModalByApprovalOfHost } from "./_component"
 import ModalByLanguage from "./_component/modal/ModalByLanguage"
 import { supabase } from "@utils/superbase"
-import useRealtimeMessage, { MessageProp } from "@hooks/chatroom/useRealtimeMessage"
+import useRealtimeMessage from "@hooks/chatroom/useRealtimeMessage"
 import { useMultiRecording } from "./_hook/useMultiRecording"
 import { useSingleRecording } from "./_hook/useSingleRecording"
 import { useTranslation } from "next-i18next"
@@ -25,15 +25,15 @@ const Chat = () => {
     const [start, setStart] = useState<boolean>(false)
     const { t } = useTranslation()
 
+    /** 실시간 구독 데이터 */
+    const { chatroom } = useRealtimeChatroom(id as string, user)
+    const { messages } = useRealtimeMessage({ roomId: id as string })
+
     /** 상태 (display 1 - multi) */
     const { mediaRefs, recordStatus } = useMultiRecording()
 
     /** 상태 (display 2 - single) */
     const { isRecording, setIsRecording, setLangCd, transcriptions, hasCookieLangSet } = useSingleRecording()
-
-    /** 실시간 구독 데이터 */
-    const { chatroom } = useRealtimeChatroom(id as string, user)
-    const { messages } = useRealtimeMessage({ roomId: id as string })
 
     /** 언어 확인 모달 활성화 */
     const [activeCheckModal, setActiveCheckModal] = useState<boolean>(false)
@@ -113,11 +113,17 @@ const Chat = () => {
     if (!chatroom) return
 
     return (
-        <div>
+        <>
             {/* 참여자 + 생성자 (대화방 내용) */}
             {!view && <Content />}
 
-            {/* 참여자 */}
+            {/* 생성자 */}
+            {<ModalByApprovalOfHost chatroom={chatroom} roomId={id as string} view={view} setView={setView} />}
+
+            {/* 참여자 (언어셋 설정 전) */}
+            {activeCheckModal && <ModalByLanguage setActive={setActiveCheckModal} />}
+
+            {/* 참여자 (언어셋 설정 후) */}
             {!!hasCookieLangSet && (
                 <ModalByApprovalOfMember
                     roomId={id as string}
@@ -126,13 +132,7 @@ const Chat = () => {
                     setIsPassed={setIsPassed}
                 />
             )}
-
-            {/* 생성자 */}
-            {<ModalByApprovalOfHost chatroom={chatroom} roomId={id as string} view={view} setView={setView} />}
-
-            {/* 참여자 (언어셋 체크) */}
-            {activeCheckModal && <ModalByLanguage setActive={setActiveCheckModal} />}
-        </div>
+        </>
     )
 }
 

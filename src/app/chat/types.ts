@@ -42,7 +42,11 @@ export type ChatMessageProp = {
     recordStatus?: RecordStatusProp
     mediaRefs?: mediaRefsProp
     buttonRefs?: React.RefObject<HTMLButtonElement>
-    data?: {
+}
+
+export type SingleInitChatProp = {
+    buttonRefs: React.RefObject<HTMLButtonElement>
+    data: {
         isRecording: boolean
         isLoading: boolean
         startRecording: () => void
@@ -51,7 +55,7 @@ export type ChatMessageProp = {
     }
 }
 
-export type InitChatProp = {
+export type MultiInitChatProp = {
     type: string
     recordStatus: RecordStatusProp
     mediaRefs: mediaRefsProp

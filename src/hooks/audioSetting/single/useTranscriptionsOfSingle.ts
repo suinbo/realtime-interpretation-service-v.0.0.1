@@ -2,7 +2,7 @@ import { API } from "@resources/constant"
 import { supabase } from "@utils/superbase"
 import { useState, useCallback, useRef } from "react"
 
-export function useTranscriptions({
+function useTranscriptionsOfSingle({
     hostId,
     userId,
     roomId,
@@ -11,7 +11,7 @@ export function useTranscriptions({
     isRecording,
 }: {
     hostId: string
-    userId: string
+    userId: string | null
     roomId: string
     langCd: string
     transLangCd: string
@@ -183,3 +183,5 @@ export function useTranscriptions({
         stopRecording,
     }
 }
+
+export default useTranscriptionsOfSingle

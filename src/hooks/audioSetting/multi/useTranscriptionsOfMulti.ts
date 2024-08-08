@@ -1,8 +1,8 @@
 import { API } from "@resources/constant"
 import { supabase } from "@utils/superbase"
-import { useState, useRef, useCallback } from "react"
+import { useCallback } from "react"
 
-export function useTranscriptionsOfMulti({
+function useTranscriptionsOfMulti({
     hostId,
     userId,
     roomId,
@@ -184,3 +184,5 @@ export function useTranscriptionsOfMulti({
         stopRecording,
     }
 }
+
+export default useTranscriptionsOfMulti
