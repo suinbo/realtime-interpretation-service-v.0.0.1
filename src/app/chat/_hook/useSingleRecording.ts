@@ -18,7 +18,6 @@ export const useSingleRecording = () => {
 
     // 언어셋 쿠키 존재 여부
     const hasCookieLangSet = parsedCookie(id as string) ? parsedCookie(id as string).languageSet : ""
-    const getCookiePassedStatus = parsedCookie(id as string) ? parsedCookie(id as string).is_passed : ""
 
     // 언어셋 초기화
     const [originLang, transLang] = (langs as string).split(",")
@@ -43,6 +42,5 @@ export const useSingleRecording = () => {
         transcriptions,
         setLangCd,
         hasCookieLangSet,
-        getCookiePassedStatus,
     }
 }

@@ -52,7 +52,6 @@ export type InitChatProp = {
 export type ModalByApprovalProp = {
     chatroom?: ChatroomProp
     roomId?: string
-    viewOption: { [key: string]: boolean }
 }
 
 export type PasswordInputProp = {

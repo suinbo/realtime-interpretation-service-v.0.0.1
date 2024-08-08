@@ -3,20 +3,17 @@ import { supabase } from "@utils/superbase"
 import { SimpleLayout } from "./PopupLayout"
 import { useRouter } from "next/navigation"
 import { useTranslation } from "next-i18next"
+import { ModalByApprovalProp, ModalBySettingProp } from "@app/chat/types"
 import cookie from "@utils/cookie"
-import { ModalByApprovalProp } from "@app/chat/types"
 
-const ModalByApprovalOfHost = ({
-    chatroom,
-    roomId,
-    viewOption: { showResponseApproval, showInvalidRoom },
-}: ModalByApprovalProp) => {
+const ModalByApprovalOfHost = ({ chatroom, roomId, view, setView }: ModalByApprovalProp & ModalBySettingProp) => {
     const router = useRouter()
     const { t } = useTranslation()
 
-    const contentModal = {
+    const contentModal: { [key: string]: React.ReactNode } = {
         approvalResponse: (
             <SimpleLayout
+                isActive={view == "approvalResponse"}
                 hasTopIcon={true}
                 text={
                     <>
@@ -36,6 +33,7 @@ const ModalByApprovalOfHost = ({
                                     })
                                     .eq("room_id", roomId)
                                     .select("*")
+                                setView("")
                             }}
                             classname="lined--1 typo t17 w500"
                         />
@@ -49,6 +47,7 @@ const ModalByApprovalOfHost = ({
                                     })
                                     .eq("room_id", roomId)
                                     .select("*")
+                                setView("")
                             }}
                             classname="secondary typo t17 w500 "
                         />
@@ -81,10 +80,7 @@ const ModalByApprovalOfHost = ({
         ),
     }
 
-    if (showResponseApproval) return contentModal["approvalResponse"]
-    if (showInvalidRoom) return contentModal["invalidRoom"]
-
-    return null
+    return contentModal[view]
 }
 
 export default ModalByApprovalOfHost

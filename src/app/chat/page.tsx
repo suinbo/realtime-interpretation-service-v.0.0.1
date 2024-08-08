@@ -14,6 +14,7 @@ import useRealtimeMessage from "@hooks/chatroom/useRealtimeMessage"
 import { useMultiRecording } from "./_hook/useMultiRecording"
 import { useSingleRecording } from "./_hook/useSingleRecording"
 import { useTranslation } from "next-i18next"
+import { useView } from "./_hook/useView"
 import "@assets/styles/common.scss"
 import "./style.scss"
 
@@ -28,11 +29,7 @@ const Chat = () => {
     const { mediaRefs, recordStatus } = useMultiRecording()
 
     /** 상태 (display 2 - single) */
-    const { isRecording, setIsRecording, setLangCd, transcriptions, getCookiePassedStatus, hasCookieLangSet } =
-        useSingleRecording()
-
-    /** 쿠키 관리 상태 데이터 (언어셋, 암호 확인 여부) */
-    const [isPassed, setIsPassed] = useState<string>(getCookiePassedStatus as string)
+    const { isRecording, setIsRecording, setLangCd, transcriptions, hasCookieLangSet } = useSingleRecording()
 
     /** 실시간 구독 데이터 */
     const { chatroom } = useRealtimeChatroom(id as string, user)
@@ -40,6 +37,9 @@ const Chat = () => {
 
     /** 언어 확인 모달 활성화 */
     const [activeCheckModal, setActiveCheckModal] = useState<boolean>(false)
+
+    /** 요청/응답 모달 활성화 */
+    const { view, setView, setIsPassed } = useView(chatroom, user.id)
 
     useEffect(() => {
         if (chatroom) {
@@ -52,6 +52,7 @@ const Chat = () => {
                 approval_required,
                 member_id,
                 is_started,
+                expired_at,
             } = chatroom
 
             setChatroom({
@@ -64,17 +65,14 @@ const Chat = () => {
                 room_option,
             })
 
-            setActiveCheckModal(user.id === member_id && !hasCookieLangSet)
+            setActiveCheckModal(user.id === member_id && !hasCookieLangSet && !expired_at)
             setStart(Boolean(is_started))
 
             // 언어셋 설정
             const [langCd, transLangCd] = (chat_language as any).split(",")
             setLangCd({ langCd, transLangCd })
-
-            // 암호 통과 여부 (초기화)
-            setIsPassed(getCookiePassedStatus as string)
         }
-    }, [chatroom, hasCookieLangSet, isPassed])
+    }, [chatroom, hasCookieLangSet])
 
     const Content = () => (
         <div className="content">
@@ -114,43 +112,23 @@ const Chat = () => {
 
     if (!chatroom) return
 
-    const isAccepted = Boolean(chatroom.approval_accepted)
-    const isRequired = Boolean(chatroom.approval_required)
-    const isRequested = Boolean(chatroom.approval_requested)
-    const isExpired = !!chatroom.expired_at
-
-    const viewOption = {
-        /* 암호 코드 요청 (참여자) - 계정이 참여자 and 암호 활성화 and 암호 입력 전 */
-        showRequestPassword: user.id === chatroom.member_id && !!chatroom.room_password && !isPassed,
-
-        /* 승인 요청 (참여자) - 계정이 참여자 and 승인 활성화 and 미승인 */
-        showRequestApproval: user.id === chatroom.member_id && isRequired && !isRequested && !isAccepted,
-
-        /* 승인 수락 요청 (생성자) - 계정이 생성자 and 승인 활성화 and 미승인 */
-        showResponseApproval: user.id === chatroom.creator_id && isRequired && !isAccepted && isRequested,
-
-        /* 승인 수락 요청 대기 (참여자) - 계정이 참여자 and 승인 요청 and 미승인 */
-        showPendingApproval: user.id === chatroom.member_id && isRequired && isRequested && !isAccepted,
-
-        showInvalidRoom: isExpired,
-    }
-
-    // 모달을 제외한 콘텐츠 렌더링 (참여자)
-    // 생성자에게는 [시작하기] 버튼 항상 노출
-    const shouldShowContent = !Object.values(viewOption).some(Boolean)
-
     return (
         <div>
             {/* 참여자 + 생성자 (대화방 내용) */}
-            {shouldShowContent && <Content />}
+            {!view && <Content />}
 
             {/* 참여자 */}
             {!!hasCookieLangSet && (
-                <ModalByApprovalOfMember roomId={id as string} viewOption={viewOption} setIsPassed={setIsPassed} />
+                <ModalByApprovalOfMember
+                    roomId={id as string}
+                    view={view}
+                    setView={setView}
+                    setIsPassed={setIsPassed}
+                />
             )}
 
             {/* 생성자 */}
-            {<ModalByApprovalOfHost chatroom={chatroom} roomId={id as string} viewOption={viewOption} />}
+            {<ModalByApprovalOfHost chatroom={chatroom} roomId={id as string} view={view} setView={setView} />}
 
             {/* 참여자 (언어셋 체크) */}
             {activeCheckModal && <ModalByLanguage setActive={setActiveCheckModal} />}

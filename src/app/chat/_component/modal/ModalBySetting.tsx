@@ -11,7 +11,6 @@ import { useTranslation } from "next-i18next"
 import { convertKoreaTime } from "@utils/common"
 import Popup from "@components/Popup"
 import ToastPopup from "@components/ToastPopup"
-import cookie from "@utils/cookie"
 import useWindow from "@hooks/useWindow"
 import { ModalBySettingProp } from "@app/chat/types"
 
@@ -41,7 +40,7 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
 
     const contentModal: { [key: string]: React.ReactNode } = {
         share: (
-            <Popup hasClosedBtn={false} style={{ width: 480 }} isActive={true}>
+            <Popup hasClosedBtn={false} style={{ width: 480 }} isActive={view == "share"}>
                 <div className="popup__content">
                     <div className="popup__content--title">
                         <p className="typo t18 notice">
@@ -72,7 +71,7 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
         setting:
             room_option == 1 ? (
                 <FormLayout
-                    isActive={true}
+                    isActive={view == "setting"}
                     formElement={
                         <>
                             <div className="form__item">
@@ -124,7 +123,7 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
                 />
             ) : (
                 <FormLayout
-                    isActive={true}
+                    isActive={view == "setting"}
                     formElement={
                         <>
                             <div className="form__item">
@@ -200,7 +199,7 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
 
         close: (
             <SimpleLayout
-                isActive={true}
+                isActive={view == "close"}
                 hasTopIcon={false}
                 text={
                     <>

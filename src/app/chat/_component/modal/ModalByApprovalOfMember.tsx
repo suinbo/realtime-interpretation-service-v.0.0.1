@@ -3,20 +3,18 @@ import PasswordInput from "../PasswordInput"
 import { supabase } from "@utils/superbase"
 import { SimpleLayout } from "./PopupLayout"
 import PendintApproval from "@components/PendingApprovalView"
-import { useRouter } from "next/navigation"
 import { useTranslation } from "next-i18next"
-import cookie from "@utils/cookie"
-import { ModalByApprovalProp, PasswordInputProp } from "@app/chat/types"
+import { ModalByApprovalProp, ModalBySettingProp, PasswordInputProp } from "@app/chat/types"
 
-const Modal = ({
+const ModalByApprovalOfMember = ({
     roomId,
-    viewOption: { showRequestPassword, showRequestApproval, showPendingApproval },
     setIsPassed,
-}: ModalByApprovalProp & PasswordInputProp) => {
-    const router = useRouter()
+    view,
+    setView,
+}: ModalByApprovalProp & PasswordInputProp & ModalBySettingProp) => {
     const { t } = useTranslation()
 
-    const contentModal = {
+    const contentModal: { [key: string]: React.ReactNode } = {
         approvalRequest: (
             <SimpleLayout
                 hasTopIcon={true}
@@ -62,36 +60,9 @@ const Modal = ({
             />
         ),
         pendingApproval: <PendintApproval />,
-        invalidRoom: (
-            <SimpleLayout
-                isActive={true}
-                text={
-                    <>
-                        {/* <span className="typo w500">유효하지 않은</span> 링크 입니다. */}
-                        {t("invalid_url")}
-                    </>
-                }
-                controller={
-                    <div className="popup__content--btn">
-                        <Button
-                            text={t("go_home")}
-                            onClick={() => {
-                                cookie.clear()
-                                router.push("/setting")
-                            }}
-                            classname="secondary typo t17 w500"
-                        />
-                    </div>
-                }
-            />
-        ),
     }
 
-    if (showRequestPassword) return contentModal["passwordRequest"]
-    if (showRequestApproval) return contentModal["approvalRequest"]
-    if (showPendingApproval) return contentModal["pendingApproval"]
-
-    return null
+    return contentModal[view]
 }
 
-export default Modal
+export default ModalByApprovalOfMember

@@ -7,6 +7,7 @@ import { useRecoilValue } from "recoil"
 import ModalBySetting from "./_component/modal/ModalBySetting"
 import { useInitLanguage } from "@hooks/useInitLanguage"
 import { useQueryParams } from "@hooks/useQueryParams"
+import { useView } from "./_hook/useView"
 
 const HeaderToolbar = () => {
     useSession()
@@ -15,7 +16,7 @@ const HeaderToolbar = () => {
     const user = useRecoilValue(UserAtom)
     const { host } = useQueryParams()
     const { chat_nm } = useRecoilValue(ChatroomAtom)
-    const [view, setView] = useState<string>("")
+    const { view, setView } = useView()
 
     return (
         <div className="header">
