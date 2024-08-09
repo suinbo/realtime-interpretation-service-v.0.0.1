@@ -164,10 +164,29 @@
     }
 }
 
+$colors: (
+    my: #ffd84f,
+    your: #4f60ff,
+);
+
 // 로딩 닷
 .loading-wrap {
     display: flex;
     gap: 14px;
+
+    @each $name, $color in $colors {
+        &.#{$name} {
+            .loading {
+                &.dot div {
+                    background-color: $color;
+                }
+
+                &.text {
+                    color: $color;
+                }
+            }
+        }
+    }
 
     .loading {
         display: flex;

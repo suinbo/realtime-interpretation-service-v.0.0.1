@@ -1,8 +1,9 @@
+import cx from "classnames"
 import "./style.scss"
 
-const LoadingDot = ({ text }: { text?: string }) => {
+const LoadingDot = ({ text, type }: { text?: string; type?: string }) => {
     return (
-        <div className="loading-wrap">
+        <div className={cx("loading-wrap", type)}>
             <div className="loading dot">
                 <div>Loading dot1</div>
                 <div>Loading dot2</div>

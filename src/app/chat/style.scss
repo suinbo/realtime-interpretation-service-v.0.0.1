@@ -227,6 +227,12 @@
                                         &.your {
                                             background-color: #4f60ff;
                                             color: #ffffff;
+
+                                            // TODO 버튼 스타일 (disabled 와 중복)
+                                            &:disabled {
+                                                background-color: #efefef;
+                                                color: #a8a8a8;
+                                            }
                                         }
                                     }
                                 }

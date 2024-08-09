@@ -99,11 +99,11 @@ const InitChat = ({ type, recordStatus, mediaRefs }: MultiInitChatProp) => {
             />
             {isRecording ? (
                 <div className="active-item--loading">
-                    <LoadingDot text={t("listening")} />
+                    <LoadingDot text={t("listening")} type={type} />
                 </div>
             ) : isLoading ? (
                 <div className="active-item--loading">
-                    <LoadingDot text={t("translating")} />
+                    <LoadingDot text={t("translating")} type={type} />
                 </div>
             ) : null}
         </div>
