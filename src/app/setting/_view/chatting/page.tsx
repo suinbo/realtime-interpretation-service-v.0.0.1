@@ -29,6 +29,7 @@ const ChattingView = () => {
     }
 
     const [formItem, setFormItem] = useState<FormItemProp>({
+        chat_id: "",
         chat_nm: "",
         chat_pw: "",
         has_chat_pw: false,

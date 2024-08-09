@@ -9,17 +9,6 @@ export const useSession = () => {
     const router = useRouter()
     const [user, setUser] = useRecoilState<User>(UserAtom)
 
-    // 로그인 없이 채팅방 접속시
-    // useEffect(() => {
-    //     console.log("!!")
-    //     const previousUrl = document.referrer
-    //     const currentUrl = window.location.href
-
-    //     if (previousUrl.includes("/chat") && !currentUrl.includes("/chat")) {
-    //         router.back()
-    //     }
-    // }, [router])
-
     useEffect(() => {
         const fetchUser = async () => {
             const {
@@ -27,10 +16,13 @@ export const useSession = () => {
                 error,
             } = await supabase.auth.getSession()
 
+            if (error) throw new Error(error.message)
             if (session) {
                 const { user } = session
                 setUser(user)
+                console.log("session:: ", session)
             } else {
+                console.log("세션 없음")
                 localStorage.setItem("redirectTo", location.pathname + location.search)
                 router.push("/")
             }

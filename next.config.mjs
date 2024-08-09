@@ -9,8 +9,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 const nextConfig = {
-    output: "export",
-    reactStrictMode: false, // 개발 모드
+    // output: "export",
     images: {
         unoptimized: true,
     },
