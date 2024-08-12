@@ -103,9 +103,10 @@
         }
 
         .checker-item {
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 1fr 4fr;
             align-items: center;
+            gap: 10px;
 
             &-checkbox {
                 width: 18px;
@@ -119,6 +120,18 @@
                     border: none;
                     filter: none;
                     background: #000 url("../../assets/images/check.png") no-repeat center center;
+                }
+
+                @media (max-width: 1024px) {
+                    width: 15px;
+                    height: 15px;
+                    background: url("../../assets/images/check-small.png") no-repeat center center;
+
+                    &.active {
+                        border: none;
+                        filter: none;
+                        background: #000 url("../../assets/images/check-small.png") no-repeat center center;
+                    }
                 }
             }
         }
@@ -154,23 +167,11 @@
                 transform: rotate(180deg);
             }
         }
-
-        // 새 대화 셀렉터
-        &--newchat {
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            border-radius: 60px;
-            padding: 16px 30px;
-            background-color: #ffd84f;
-        }
     }
 
     &__item {
         position: absolute;
-        top: 68px;
+        top: 62px;
         width: 100%;
         z-index: 1;
 
@@ -180,16 +181,6 @@
         &-list {
             overflow-y: scroll;
             @include scrollStyle;
-
-            > li {
-                cursor: pointer;
-                padding: 12px;
-            }
-        }
-
-        // 새 대화 셀렉터
-        &--newchat {
-            top: 14px;
 
             > li {
                 cursor: pointer;

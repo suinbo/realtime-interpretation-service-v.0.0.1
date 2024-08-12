@@ -17,6 +17,10 @@
         height: 100%;
         padding: 20px 56px;
 
+        @media (max-width: 768px) {
+            padding: 20px 24px;
+        }
+
         .header {
             display: flex;
             justify-content: space-between;
@@ -90,7 +94,20 @@
                         display: grid;
                         grid-template-columns: repeat(4, 1fr);
                         grid-template-rows: auto;
+                        align-items: stretch;
                         gap: 12px;
+
+                        li > button {
+                            height: 100%;
+                        }
+
+                        @media (max-width: 1024px) and (min-width: 769px) {
+                            grid-template-columns: repeat(3, 1fr);
+                        }
+
+                        @media (max-width: 768px) {
+                            grid-template-columns: repeat(2, 1fr);
+                        }
                     }
                 }
 

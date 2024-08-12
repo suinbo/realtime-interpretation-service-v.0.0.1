@@ -59,8 +59,8 @@ const ChatSetter = ({
     }
 
     const SelectboxList = () => (
-        <div className="selectbox__item">
-            <ul className="selectbox__item--newchat typo t18">
+        <div className="selectbox__item--newchat">
+            <ul className="selectbox__item--newchat-list typo t18">
                 {items.map(item => (
                     <li
                         id={item.id}
