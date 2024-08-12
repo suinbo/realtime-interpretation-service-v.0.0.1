@@ -151,6 +151,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: 10px;
 
         &.focus {
             border: 1px solid #ffd84f;

@@ -26,10 +26,15 @@
     display: grid;
     grid-template-columns: 2fr 8fr;
     align-items: center;
+    gap: 16px;
+
+    @media (max-width: 1024x) {
+        grid-template-columns: 1fr;
+    }
 
     &__button {
         .audio-test {
-            width: 80%;
+            width: 105px;
             padding: 6px;
             background-color: #ebebeb;
         }
@@ -49,6 +54,10 @@
         &--stream {
             display: flex;
             gap: 10px;
+
+            @media (max-width: 1280px) {
+                gap: 5px;
+            }
 
             > div {
                 width: 100%;

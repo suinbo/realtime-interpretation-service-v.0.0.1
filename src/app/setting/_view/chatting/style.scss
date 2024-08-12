@@ -53,6 +53,10 @@
                         .sub-text {
                             color: #c6c6c6;
                             margin-right: 26px;
+
+                            @media (max-width: 1280px) {
+                                display: none;
+                            }
                         }
                     }
                 }

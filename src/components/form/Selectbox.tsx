@@ -26,7 +26,7 @@ export default function Selectbox({
 }) {
     const selectBoxRef = useRef<HTMLDivElement>(null)
     const [active, setActive] = useState<boolean>(false)
-    const [selectedItem, setSelectedItem] = useState<SelectboxItem>()
+    const [, setSelectedItem] = useState<SelectboxItem>()
 
     useClickOutside(selectBoxRef, () => setActive(false))
 
@@ -37,6 +37,7 @@ export default function Selectbox({
                     <li
                         id={item.id}
                         key={item.id}
+                        className="typo t16"
                         onClick={() => {
                             setSelectedItem(item)
                             onSelect(item)
