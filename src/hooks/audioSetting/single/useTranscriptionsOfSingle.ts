@@ -127,9 +127,6 @@ function useTranscriptionsOfSingle({
                         const { choices: englishChoices } = await englishResponse.json()
                         const translatedEngText = englishChoices[0].message.content.trim()
 
-                        // TODO 영어로 녹음된 경우
-                        const isAlreadyTranslated = translatedEngText.includes("is already in English")
-
                         // Supabase에 텍스트 저장
                         const isHost = userId == hostId
 
@@ -141,7 +138,7 @@ function useTranscriptionsOfSingle({
                                     room_id: roomId,
                                     msg_content: isHost ? text : translatedText,
                                     msg_trans_content: isHost ? translatedText : text,
-                                    msg_eng_content: isAlreadyTranslated ? text : translatedEngText,
+                                    msg_eng_content: translatedEngText,
                                 },
                             ])
                             .select("*")

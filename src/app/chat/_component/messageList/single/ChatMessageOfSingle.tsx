@@ -1,6 +1,5 @@
 import { ChatMessageProp } from "@app/chat/types"
-import { UserAtom } from "@atoms/Atom"
-import { useQueryParams } from "@hooks/useQueryParams"
+import { ChatroomAtom, UserAtom } from "@atoms/Atom"
 import { useEffect, useRef } from "react"
 import { useRecoilValue } from "recoil"
 import InitChat from "./InitChat"
@@ -15,8 +14,8 @@ const SingleChatMessage = ({
     msg_eng_content,
     data,
 }: ChatMessageProp & { data: any }) => {
-    const { id } = useRecoilValue(UserAtom)
-    const { host, display } = useQueryParams()
+    const user = useRecoilValue(UserAtom)
+    const { creator_id, room_option } = useRecoilValue(ChatroomAtom)
     const buttonRefs = useRef<HTMLButtonElement>(null)
 
     useEffect(() => {
@@ -26,7 +25,7 @@ const SingleChatMessage = ({
     }, [])
 
     return (
-        <li key={msg_id} className={cx("chatting__item", { my: speaker_id == id })}>
+        <li key={msg_id} className={cx("chatting__item", { my: speaker_id == user.id })}>
             <div className="chatting__item--user">
                 <span className="profile" />
             </div>
@@ -35,10 +34,12 @@ const SingleChatMessage = ({
                 {msg_content ? (
                     <div className="text-item">
                         <div className="text-item--audio-text">
-                            <span className="typo t17 w500">{id == host ? msg_content : msg_trans_content}</span>
+                            <span className="typo t17 w500">
+                                {user.id == creator_id ? msg_content : msg_trans_content}
+                            </span>
                             <span className="trans typo t14 w400">{msg_eng_content}</span>
                         </div>
-                        {display == 1 && (
+                        {room_option == 1 && (
                             <div className="text-item--translation-text">
                                 <span className="typo t12 w500">Translation</span>
                                 <p className="typo t17">{msg_trans_content}</p>

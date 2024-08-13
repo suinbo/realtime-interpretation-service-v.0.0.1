@@ -17,11 +17,8 @@ type mediaRefsProp = {
 
 export type ChatProp = {
     messages: MessageProp[]
-    isRecording: boolean
-    setIsRecording: React.Dispatch<SetStateAction<boolean>>
-    isLoading: boolean
-    startRecording: () => void
-    stopRecording: () => void
+    langCd: { langCd: string; transLangCd: string }
+    data: any
     chatroom: ChatroomProp | null
     recordStatus: RecordStatusProp
     mediaRefs: mediaRefsProp
@@ -44,8 +41,7 @@ export type ChatMessageProp = {
     buttonRefs?: React.RefObject<HTMLButtonElement>
 }
 
-export type SingleInitChatProp = {
-    buttonRefs: React.RefObject<HTMLButtonElement>
+export type ChattingDataProp = {
     data: {
         isRecording: boolean
         isLoading: boolean
@@ -55,8 +51,13 @@ export type SingleInitChatProp = {
     }
 }
 
+export type SingleInitChatProp = {
+    buttonRefs: React.RefObject<HTMLButtonElement>
+} & ChattingDataProp
+
 export type MultiInitChatProp = {
-    type: string
+    messages?: MessageProp[]
+    langCd: { langCd: string; transLangCd: string }
     recordStatus: RecordStatusProp
     mediaRefs: mediaRefsProp
 }

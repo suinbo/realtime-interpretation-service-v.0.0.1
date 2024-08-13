@@ -3,10 +3,10 @@ import { SelectboxItemProp } from "../../../types"
 import { Selectbox } from "@components/form"
 import { VolumeTester } from "@app/setting/_component"
 import { useControlVolume } from "@hooks/audioSetting/useControlVolume"
-import { useInitLanguage } from "@hooks/useInitLanguage"
+import { useTranslation } from "next-i18next"
 
 const MultiAudioForm = () => {
-    const { t } = useInitLanguage()
+    const { t } = useTranslation()
 
     const [selectedItem, setSelectedItem] = useState<SelectboxItemProp>({ id: "", name: "" })
 

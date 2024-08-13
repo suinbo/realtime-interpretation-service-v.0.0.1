@@ -32,12 +32,14 @@ const Popup = ({
         !!window && window.addEventListener("click", isOutsideClick, true)
         !!window && window.addEventListener("mousedown", isOutsideClick, true)
         !!window && window.addEventListener("keydown", isOutsideClick, true)
+        !!window && window.addEventListener("wheel", isOutsideClick, { passive: false }) // 스크롤 기본 동작 차단
 
         return () => {
             if (!window) return
             window.removeEventListener("click", isOutsideClick, true)
             window.removeEventListener("mousedown", isOutsideClick, true)
             window.removeEventListener("keydown", isOutsideClick, true)
+            window.removeEventListener("wheel", isOutsideClick, true)
         }
     }, [])
 

@@ -20,9 +20,7 @@ export const useSession = () => {
             if (session) {
                 const { user } = session
                 setUser(user)
-                console.log("session:: ", session)
             } else {
-                console.log("세션 없음")
                 localStorage.setItem("redirectTo", location.pathname + location.search)
                 router.push("/")
             }

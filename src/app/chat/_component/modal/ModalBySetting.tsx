@@ -1,11 +1,9 @@
-import React, { SetStateAction, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Button, Checkbox, Input, RadioGroup, Selectbox } from "@components/form"
-import { FormItemProp } from "@app/setting/types"
 import { languages } from "@resources/data"
 import { useRecoilValue } from "recoil"
 import { ChatroomAtom, UserAtom } from "@atoms/Atom"
 import { supabase } from "@utils/superbase"
-import { useQueryParams } from "@hooks/useQueryParams"
 import { FormLayout, SimpleLayout } from "./PopupLayout"
 import { useTranslation } from "next-i18next"
 import { convertKoreaTime } from "@utils/common"
@@ -13,28 +11,37 @@ import Popup from "@components/Popup"
 import ToastPopup from "@components/ToastPopup"
 import useWindow from "@hooks/useWindow"
 import { ModalBySettingProp } from "@app/chat/types"
+import { ChatroomProp } from "@hooks/chatroom/useRealtimeChatroom"
 
 const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
-    const { id, host } = useQueryParams()
     const { url } = useWindow()
+    const { t, i18n } = useTranslation()
 
     const user = useRecoilValue(UserAtom)
-    const { t } = useTranslation()
     const chatroomInfo = useRecoilValue(ChatroomAtom)
     const [activeToast, setActiveToast] = useState<boolean>(false)
 
-    const [{ chat_nm, chat_lang, has_chat_pw, chat_pw, host_auth, room_option }, setFormItem] =
-        useState<FormItemProp>(chatroomInfo)
+    const [
+        { room_id, room_title, chat_language, creator_id, room_password, approval_required, has_password },
+        setFormItem,
+    ] = useState<ChatroomProp & { has_password: boolean }>({
+        ...chatroomInfo,
+        has_password: false,
+    })
 
     useEffect(() => {
-        setFormItem({ ...chatroomInfo, chat_lang: String(chatroomInfo.chat_lang).split(",") })
+        setFormItem(prev => ({
+            ...chatroomInfo,
+            chat_language: String(chatroomInfo.chat_language).split(","),
+            has_password: !!chatroomInfo.room_password,
+        }))
     }, [view, chatroomInfo])
 
     const onSelect = (id: string, index: number) =>
         setFormItem(prev => {
             const newFormItem = { ...prev }
-            newFormItem.chat_lang = [...prev.chat_lang]
-            newFormItem.chat_lang[index] = id
+            newFormItem.chat_language = [...prev.chat_language]
+            newFormItem.chat_language[index] = id
             return newFormItem
         })
 
@@ -69,36 +76,36 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
             </Popup>
         ),
         setting:
-            room_option == 1 ? (
+            chatroomInfo.room_option == 1 ? (
                 <FormLayout
                     isActive={view == "setting"}
                     formElement={
                         <>
                             <div className="form__item">
-                                <p className="form__item-label typo w500">{t("chat_title")}</p>
+                                <p className="form__item-label typo t17 w500">{t("chat_title")}</p>
                                 <Input
                                     type="text"
                                     classname="typo t15"
-                                    value={chat_nm}
+                                    value={room_title}
                                     placeholder={t("")}
                                     onChange={chat_nm => setFormItem(prev => ({ ...prev, chat_nm }))}
                                 />
                             </div>
                             <div className="form__item">
-                                <p className="form__item-label typo w500">{t("trans_language")} 1</p>
+                                <p className="form__item-label typo t17 w500">{t("trans_language")} 1</p>
                                 <Selectbox
                                     style={{ height: 260 }}
                                     items={languages}
-                                    selectedId={String(chat_lang).split(",")[0]}
+                                    selectedId={String(chat_language).split(",")[0]}
                                     onSelect={({ id }) => onSelect(id, 0)}
                                 />
                             </div>
                             <div className="form__item">
-                                <p className="form__item-label typo w500">{t("trans_language")} 2</p>
+                                <p className="form__item-label typo t17 w500">{t("trans_language")} 2</p>
                                 <Selectbox
                                     style={{ height: 260 }}
                                     items={languages}
-                                    selectedId={String(chat_lang).split(",")[1]}
+                                    selectedId={String(chat_language).split(",")[1]}
                                     onSelect={({ id }) => onSelect(id, 1)}
                                 />
                             </div>
@@ -108,17 +115,18 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
                         const { data } = await supabase
                             .from("chatroom")
                             .update({
-                                room_title: chat_nm,
-                                chat_language: chat_lang.join(","),
+                                room_title,
+                                chat_language: chat_language.join(","),
                             })
-                            .eq("room_id", id)
+                            .eq("room_id", room_id)
                             .select("*")
 
                         data?.length && setView("")
+                        i18n.changeLanguage(chat_language[0])
                     }}
                     onClose={() => {
                         setView("")
-                        setFormItem(chatroomInfo)
+                        //setFormItem({ ...chatroomInfo, has_password: !!chatroomInfo.room_password })
                     }}
                 />
             ) : (
@@ -131,9 +139,9 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
                                 <Input
                                     type="text"
                                     classname="typo t15"
-                                    value={chat_nm}
+                                    value={room_title}
                                     placeholder={t("enter_chat_title")}
-                                    onChange={chat_nm => setFormItem(prev => ({ ...prev, chat_nm }))}
+                                    onChange={room_title => setFormItem(prev => ({ ...prev, room_title }))}
                                 />
                             </div>
                             <div className="form__item--password">
@@ -142,18 +150,20 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
                                     <Checkbox
                                         id="password-check"
                                         label={t("setting")}
-                                        isCheck={has_chat_pw}
-                                        onChange={has_chat_pw => setFormItem(prev => ({ ...prev, has_chat_pw }))}
+                                        isCheck={has_password}
+                                        onChange={has_password => setFormItem(prev => ({ ...prev, has_password }))}
                                     />
-                                    {has_chat_pw && (
+                                    {has_password && (
                                         <form className="form__item--password-group">
                                             <span className="typo t15">{t("password")}</span>
                                             <Input
                                                 type="password"
                                                 classname="typo t15"
-                                                value={chat_pw as string}
+                                                value={room_password as string}
                                                 placeholder={t("enter_password")}
-                                                onChange={chat_pw => setFormItem(prev => ({ ...prev, chat_pw }))}
+                                                onChange={room_password =>
+                                                    setFormItem(prev => ({ ...prev, room_password }))
+                                                }
                                             />
                                         </form>
                                     )}
@@ -168,9 +178,9 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
                                             { id: "1", value: t("active") },
                                             { id: "0", value: t("inactive") },
                                         ]}
-                                        selectedId={String(host_auth)}
+                                        selectedId={String(approval_required)}
                                         onChange={selectedId =>
-                                            setFormItem(prev => ({ ...prev, host_auth: Number(selectedId) }))
+                                            setFormItem(prev => ({ ...prev, approval_required: Number(selectedId) }))
                                         }
                                     />
                                 </div>
@@ -181,18 +191,18 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
                         const { data } = await supabase
                             .from("chatroom")
                             .update({
-                                room_title: chat_nm,
-                                room_password: chat_pw,
-                                approval_required: host_auth,
+                                room_title,
+                                room_password: has_password ? room_password : "",
+                                approval_required,
                             })
-                            .eq("room_id", id)
+                            .eq("room_id", room_id)
                             .select("*")
 
                         data?.length && setView("")
                     }}
                     onClose={() => {
                         setView("")
-                        setFormItem(chatroomInfo)
+                        //setFormItem({ ...chatroomInfo, has_password: !!chatroomInfo.room_password })
                     }}
                 />
             ),
@@ -214,30 +224,16 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
                             onClick={async () => {
                                 setView("")
 
-                                if (host == user.id) {
+                                if (creator_id == user.id) {
                                     // 호스트일 경우 대화방 만료
                                     await supabase
                                         .from("chatroom")
                                         .update({
                                             expired_at: convertKoreaTime(Date.now()),
                                         })
-                                        .eq("room_id", id)
+                                        .eq("room_id", room_id)
                                         .select("*")
-                                } else {
-                                    //  참여자일 경우 그냥 방 나가기
-                                    // const { data } = await supabase
-                                    //     .from("chatroom")
-                                    //     .update({
-                                    //         member_id: null,
-                                    //         member_email: null,
-                                    //     })
-                                    //     .eq("room_id", id)
-                                    //     .select("*")
-                                    // if (data?.length) {
-                                    //     setView("")
-                                    // }
                                 }
-
                                 window.close()
                             }}
                             classname="lined--1 typo t15 w500"
@@ -246,7 +242,7 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
                             text={t("no")}
                             onClick={() => {
                                 setView("")
-                                setFormItem(chatroomInfo)
+                                //setFormItem({ ...chatroomInfo, has_password: !!chatroomInfo.room_password })
                             }}
                             classname="secondary typo t15 w500 "
                         />

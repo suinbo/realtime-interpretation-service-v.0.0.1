@@ -4,7 +4,6 @@ import { useTranslation } from "next-i18next"
 import cookie from "@utils/cookie"
 import { FLAG } from "@resources/constant"
 import cx from "classnames"
-
 import { PasswordInputProp } from "../types"
 import { useQueryParams } from "@hooks/useQueryParams"
 import { parsedCookie } from "@utils/common"
@@ -13,6 +12,7 @@ import "./style.scss"
 const PasswordInput = ({ setIsPassed }: PasswordInputProp) => {
     const { t } = useTranslation()
     const { id } = useQueryParams()
+
     const ref = useRef<HTMLInputElement>(null)
     const [alertMessage, setAlertMessage] = useState<string>("")
 
@@ -40,15 +40,6 @@ const PasswordInput = ({ setIsPassed }: PasswordInputProp) => {
                 })
 
                 setIsPassed(FLAG.Y)
-
-                // 자동 승인
-                // const { data } = await supabase
-                //     .from("chatroom")
-                //     .update({
-                //         approval_accepted: 1,
-                //     })
-                //     .eq("room_id", roomId)
-                //     .select("*")
             }
         } else {
             setAlertMessage(t("enter_password"))

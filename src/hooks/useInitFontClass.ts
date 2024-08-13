@@ -10,7 +10,7 @@ export const useFontClass = () => {
         const locale = i18n.language
 
         switch (locale) {
-            case "em":
+            case "en":
                 setFontClass(roboto.variable)
                 break
             case "ja":

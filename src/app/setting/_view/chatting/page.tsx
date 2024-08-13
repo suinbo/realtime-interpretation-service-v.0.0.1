@@ -10,12 +10,12 @@ import { ChatSetter, Navigation } from "@app/setting/_component"
 import { FormItemProp, LabelOfStepProp, SettingContentProp, StepProp } from "@app/setting/types"
 import { focusOnEmpty } from "@utils/common"
 import cx from "classnames"
-import { useInitLanguage } from "@hooks/useInitLanguage"
+import { useTranslation } from "next-i18next"
 import "@assets/styles/common.scss"
 import "./style.scss"
 
 const ChattingView = () => {
-    const { t } = useInitLanguage()
+    const { t } = useTranslation()
     const [{ language, display }, setOption] = useRecoilState(OptionAtom)
 
     const [step, setStep] = useState<StepProp>(STEP[1])

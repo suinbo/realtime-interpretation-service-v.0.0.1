@@ -2,16 +2,22 @@ import { Button, Selectbox } from "@components/form"
 import { FormLayout, SimpleLayout } from "./PopupLayout"
 import { languages } from "@resources/data"
 import { supabase } from "@utils/superbase"
-import { useQueryParams } from "@hooks/useQueryParams"
 import { SetStateAction, useMemo, useState } from "react"
 import { SelectboxItem } from "@components/form/Selectbox"
 import { useTranslation } from "next-i18next"
 import cookie from "@utils/cookie"
 import { parsedCookie } from "@utils/common"
+import { useRecoilValue } from "recoil"
+import { ChatroomAtom } from "@atoms/Atom"
 
-const ModalByLanguage = ({ setActive }: { setActive: React.Dispatch<SetStateAction<boolean>> }) => {
-    const { id, langs } = useQueryParams()
-    const [originLang, transLang] = (langs as string).split(",")
+const ModalByLanguage = ({
+    setActive,
+    langCd: { langCd, transLangCd },
+}: {
+    setActive: React.Dispatch<SetStateAction<boolean>>
+    langCd: { langCd: string; transLangCd: string }
+}) => {
+    const { room_id } = useRecoilValue(ChatroomAtom)
     const { t, i18n } = useTranslation()
 
     const language = useMemo(() => languages.find(lang => lang.id == i18n.language), [i18n])
@@ -38,12 +44,10 @@ const ModalByLanguage = ({ setActive }: { setActive: React.Dispatch<SetStateActi
 
                                 // 언어셋 쿠키에 저장
                                 cookie.setItem({
-                                    key: id as string,
+                                    key: room_id as string,
                                     value: JSON.stringify({
-                                        languageSet: transLang,
-                                        is_passed: parsedCookie(id as string)
-                                            ? parsedCookie(id as string).is_passed
-                                            : null,
+                                        languageSet: transLangCd,
+                                        is_passed: parsedCookie(room_id) ? parsedCookie(room_id).is_passed : null,
                                     }),
                                 })
                             }}
@@ -79,18 +83,18 @@ const ModalByLanguage = ({ setActive }: { setActive: React.Dispatch<SetStateActi
                     const { data } = await supabase
                         .from("chatroom")
                         .update({
-                            chat_language: [originLang, selectedItem.id].join(","),
+                            chat_language: [langCd, selectedItem.id].join(","),
                         })
-                        .eq("room_id", id)
+                        .eq("room_id", room_id)
                         .select("*")
 
                     // 설정 언어 쿠키에 저장
                     if (data?.length) {
                         cookie.setItem({
-                            key: id as string,
+                            key: room_id,
                             value: JSON.stringify({
                                 languageSet: selectedItem.id,
-                                is_passed: parsedCookie(id as string) ? parsedCookie(id as string).is_passed : null,
+                                is_passed: parsedCookie(room_id) ? parsedCookie(room_id).is_passed : null,
                             }),
                         })
 

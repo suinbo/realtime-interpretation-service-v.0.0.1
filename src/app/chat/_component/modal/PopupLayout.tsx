@@ -35,7 +35,6 @@ const FormLayout = ({
             title={title ?? t("chat_setting")}
             hasClosedBtn={true}
             hasTopIcon={false}
-            style={{ width: 900 }}
             onClose={onClose}>
             <div className="popup__content">
                 <div className="popup__content--form">{formElement}</div>

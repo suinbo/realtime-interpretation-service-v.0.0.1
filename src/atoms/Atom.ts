@@ -1,7 +1,8 @@
 import { atom } from "recoil"
 import { VIEW } from "../resources/constant"
-import { FormItemProp, LoginProp, OptionProp } from "src/app/setting/types"
+import { OptionProp } from "src/app/setting/types"
 import { User } from "@supabase/supabase-js"
+import { ChatroomProp } from "@hooks/chatroom/useRealtimeChatroom"
 
 /** 화면 옵션 */
 export const OptionAtom = atom({
@@ -23,15 +24,16 @@ export const OptionAtom = atom({
 /** 채팅방 설정 */
 export const ChatroomAtom = atom({
     key: "ChatroomAtom",
-    default: {
-        chat_id: "",
-        chat_nm: "",
-        chat_lang: [""],
-        has_chat_pw: false,
-        chat_pw: null,
-        host_auth: 0,
-        room_option: 0,
-    } as FormItemProp,
+    // default: {
+    //     chat_id: "",
+    //     chat_nm: "",
+    //     chat_lang: [""],
+    //     has_chat_pw: false,
+    //     chat_pw: null,
+    //     host_auth: 0,
+    //     room_option: 0,
+    // } as FormItemProp,
+    default: {} as ChatroomProp,
 })
 
 /** 유저 */

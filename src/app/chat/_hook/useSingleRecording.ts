@@ -1,38 +1,46 @@
 import { UserAtom } from "@atoms/Atom"
 import { useSingleTrans } from "@hooks/audioSetting"
+import { ChatroomProp } from "@hooks/chatroom/useRealtimeChatroom"
 import { useInitLanguage } from "@hooks/useInitLanguage"
-import { useQueryParams } from "@hooks/useQueryParams"
 import { parsedCookie } from "@utils/common"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRecoilValue } from "recoil"
 
 /** 상태 관리 훅 */
-export const useSingleRecording = () => {
-    const { id, langs, host } = useQueryParams()
+export const useSingleRecording = (chatroom: ChatroomProp | null) => {
     const user = useRecoilValue(UserAtom)
-
-    const [{ langCd, transLangCd }, setLangCd] = useState<{ langCd: string; transLangCd: string }>({
+    const [langCd, setLangCd] = useState<{ langCd: string; transLangCd: string }>({
         langCd: "",
         transLangCd: "",
     })
 
-    // 언어셋 쿠키 존재 여부
-    const hasCookieLangSet = parsedCookie(id as string) ? parsedCookie(id as string).languageSet : ""
-
-    // 언어셋 초기화
-    const [originLang, transLang] = (langs as string).split(",")
-    const isHost = host == user.id
-    useInitLanguage(hasCookieLangSet ? parsedCookie(id as string).languageSet : isHost ? originLang : transLang)
+    const [{ room_id, creator_id }, setData] = useState<{ room_id: string; creator_id: string }>({
+        room_id: "",
+        creator_id: "",
+    })
 
     // isRecording 상태
     const [isRecording, setIsRecording] = useState<boolean>(false)
 
+    useEffect(() => {
+        if (chatroom) {
+            setData({ room_id: chatroom.room_id, creator_id: chatroom.creator_id })
+        }
+    }, [chatroom])
+
+    // 언어셋 쿠키 존재 여부
+    const hasCookieLangSet = parsedCookie(room_id) ? parsedCookie(room_id).languageSet : ""
+
+    // 언어셋 초기화
+    const isHost = creator_id == user.id
+    useInitLanguage(hasCookieLangSet ? parsedCookie(room_id).languageSet : isHost ? langCd.langCd : langCd.transLangCd)
+
     const transcriptions = useSingleTrans({
-        hostId: host as string,
+        hostId: creator_id,
         userId: user.id,
-        roomId: id as string,
-        langCd: isHost ? langCd : transLangCd,
-        transLangCd: isHost ? transLangCd : langCd,
+        roomId: room_id,
+        langCd: isHost ? langCd.langCd : langCd.transLangCd,
+        transLangCd: isHost ? langCd.transLangCd : langCd.langCd,
         isRecording,
     })
 
@@ -40,6 +48,7 @@ export const useSingleRecording = () => {
         isRecording,
         setIsRecording,
         transcriptions,
+        langCd,
         setLangCd,
         hasCookieLangSet,
     }

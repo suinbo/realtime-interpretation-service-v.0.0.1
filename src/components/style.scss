@@ -1,12 +1,17 @@
 @mixin formGridStyle {
     display: grid;
-    grid-template-columns: 1fr 4fr;
+    grid-template-columns: 1fr 5fr;
     grid-template-rows: 48px;
     align-items: center;
 }
 
 // 팝업
 .popup {
+    width: 900px;
+    @media (max-width: 1024px) {
+        width: calc(100% - 80px);
+    }
+
     position: absolute;
     top: 50%;
     left: 50%;

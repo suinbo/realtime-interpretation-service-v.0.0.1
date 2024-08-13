@@ -16,8 +16,10 @@ import { useSingleRecording } from "./_hook/useSingleRecording"
 import { useTranslation } from "next-i18next"
 import { useView } from "./_hook/useView"
 import { useAudioDevices } from "@hooks/audioSetting/useAudioDevices"
+import { useFontClass } from "@hooks/useInitFontClass"
 import "@assets/styles/common.scss"
 import "./style.scss"
+import { useParams } from "next/navigation"
 
 const Chat = () => {
     const { id } = useQueryParams()
@@ -25,6 +27,7 @@ const Chat = () => {
     const setChatroom = useSetRecoilState(ChatroomAtom)
     const [start, setStart] = useState<boolean>(false)
     const { t } = useTranslation()
+    const fontClass = useFontClass()
 
     /** 실시간 구독 데이터 */
     const { chatroom } = useRealtimeChatroom(id as string, user)
@@ -34,7 +37,8 @@ const Chat = () => {
     const { mediaRefs, recordStatus } = useMultiRecording()
 
     /** 상태 (display 2 - single) */
-    const { isRecording, setIsRecording, setLangCd, transcriptions, hasCookieLangSet } = useSingleRecording()
+    const { isRecording, setIsRecording, langCd, setLangCd, transcriptions, hasCookieLangSet } =
+        useSingleRecording(chatroom)
 
     /** 언어 확인 모달 활성화 */
     const [activeCheckModal, setActiveCheckModal] = useState<boolean>(false)
@@ -47,28 +51,12 @@ const Chat = () => {
 
     useEffect(() => {
         if (chatroom) {
-            const {
-                room_id,
-                room_title,
-                chat_language,
-                room_password,
-                room_option,
-                approval_required,
-                member_id,
-                is_started,
-                expired_at,
-            } = chatroom
-            setChatroom({
-                chat_id: room_id,
-                chat_nm: room_title,
-                chat_lang: chat_language,
-                chat_pw: room_password,
-                has_chat_pw: !!room_password,
-                host_auth: approval_required,
-                room_option,
-            })
+            const { chat_language, member_id, is_started, expired_at } = chatroom
+
+            setChatroom(chatroom)
             setActiveCheckModal(user.id === member_id && !hasCookieLangSet && !expired_at)
             setStart(Boolean(is_started))
+
             // 언어셋 설정
             const [langCd, transLangCd] = (chat_language as any).split(",")
             setLangCd({ langCd, transLangCd })
@@ -80,13 +68,12 @@ const Chat = () => {
             <div className="content__wrapper">
                 {start ? (
                     <Chatting
-                        {...transcriptions}
                         recordStatus={recordStatus}
                         mediaRefs={mediaRefs}
                         chatroom={chatroom}
+                        langCd={langCd}
                         messages={messages}
-                        isRecording={isRecording}
-                        setIsRecording={setIsRecording}
+                        data={{ isRecording, setIsRecording, ...transcriptions }}
                     />
                 ) : (
                     <div className="content__body--button">
@@ -115,7 +102,7 @@ const Chat = () => {
     )
     if (!chatroom) return
     return (
-        <>
+        <div className={fontClass}>
             {/* 참여자 + 생성자 (대화방 내용) */}
             {!view && <Content />}
 
@@ -123,7 +110,7 @@ const Chat = () => {
             {<ModalByApprovalOfHost chatroom={chatroom} roomId={id as string} view={view} setView={setView} />}
 
             {/* 참여자 (언어셋 설정 전) */}
-            {activeCheckModal && <ModalByLanguage setActive={setActiveCheckModal} />}
+            {activeCheckModal && <ModalByLanguage setActive={setActiveCheckModal} langCd={langCd} />}
 
             {/* 참여자 (언어셋 설정 후) */}
             {!!hasCookieLangSet && (
@@ -134,7 +121,7 @@ const Chat = () => {
                     setIsPassed={setIsPassed}
                 />
             )}
-        </>
+        </div>
     )
 }
 

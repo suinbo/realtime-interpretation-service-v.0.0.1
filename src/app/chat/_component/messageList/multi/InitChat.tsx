@@ -1,20 +1,23 @@
-import { UserAtom } from "@atoms/Atom"
+import { ChatroomAtom, UserAtom } from "@atoms/Atom"
 import { Button } from "@components/form"
 import LoadingDot from "@components/LoadingDot"
-import { useQueryParams } from "@hooks/useQueryParams"
 import { useTranslation } from "next-i18next"
 import React, { useEffect, useRef } from "react"
 import { useRecoilValue } from "recoil"
 import { isPressController } from "@utils/common"
 import { useMultiTrans } from "@hooks/audioSetting"
-import cx from "classnames"
 import { MultiInitChatProp } from "@app/chat/types"
+import cx from "classnames"
 
 /** 말풍선 초기 레이아웃 */
-const InitChat = ({ type, recordStatus, mediaRefs }: MultiInitChatProp) => {
+const InitChat = ({
+    langCd: { langCd, transLangCd },
+    type,
+    recordStatus,
+    mediaRefs,
+}: MultiInitChatProp & { type: string }) => {
     const user = useRecoilValue(UserAtom)
-    const { id, host, langs } = useQueryParams()
-    const [originLang, transLang] = (langs as string).split(",")
+    const { id, creator_id } = useRecoilValue(ChatroomAtom)
     const { t } = useTranslation()
 
     const refs: { [key: string]: React.RefObject<HTMLButtonElement> } = {
@@ -45,21 +48,21 @@ const InitChat = ({ type, recordStatus, mediaRefs }: MultiInitChatProp) => {
 
     const data: { [key: string]: any } = {
         my: useMultiTrans({
-            hostId: host as string,
+            hostId: creator_id,
             userId: user.id,
-            roomId: id as string,
-            langCd: originLang,
-            transLangCd: transLang,
+            roomId: id,
+            langCd,
+            transLangCd,
             isRecording,
             mediaRecorderRef: mediaRef,
             setIsLoading,
         }),
         your: useMultiTrans({
-            hostId: host as string,
+            hostId: creator_id,
             userId: null,
-            roomId: id as string,
-            langCd: transLang,
-            transLangCd: originLang,
+            roomId: id,
+            langCd: transLangCd,
+            transLangCd: langCd,
             isRecording,
             mediaRecorderRef: mediaRef,
             setIsLoading,

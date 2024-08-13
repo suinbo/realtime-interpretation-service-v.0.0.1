@@ -5,7 +5,7 @@ import { useRecoilValue } from "recoil"
 import { OptionAtom, UserAtom } from "@atoms/Atom"
 import cx from "classnames"
 import { supabase } from "@utils/superbase"
-import { useInitLanguage } from "@hooks/useInitLanguage"
+import { useTranslation } from "next-i18next"
 
 const ChatSetter = ({
     items = [],
@@ -16,7 +16,7 @@ const ChatSetter = ({
     formItem: FormItemProp
     onClick: (cb: any) => any
 }) => {
-    const { t } = useInitLanguage()
+    const { t } = useTranslation()
     const selectBoxRef = useRef<HTMLDivElement>(null)
     const [active, setActive] = useState<boolean>(false)
 
@@ -44,14 +44,7 @@ const ChatSetter = ({
 
         if (data) {
             const roomId = data?.[0]?.room_id
-            const params = new URLSearchParams({
-                id: roomId,
-                langs: formItem.chat_lang.join(","),
-                display: options.display,
-                host: id,
-            } as {
-                [key: string]: any
-            })
+            const params = new URLSearchParams({ id: roomId } as { [key: string]: any })
 
             //window.open(`/chat?${encodeURIComponent(params.toString())}`, "_blank", "noopener,noreferrer")
             window.open(`/chat?${params.toString()}`, "_blank", "noopener,noreferrer")

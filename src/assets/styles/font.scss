@@ -16,6 +16,10 @@
             @media (max-width: 1600px) {
                 font-size: #{calc(#{$i}px - 2px)};
             }
+
+            @media (max-width: 1024px) {
+                font-size: #{calc(#{$i}px - 3px)};
+            }
         }
     }
 

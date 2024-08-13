@@ -6,7 +6,6 @@ import { useEffect, useState } from "react"
 /** 모달 상태 관리 훅 */
 export const useView = (chatroom?: ChatroomProp | null, userId?: string) => {
     const { id } = useQueryParams()
-
     const [view, setView] = useState<string>("")
 
     // 쿠키 (is_passed)

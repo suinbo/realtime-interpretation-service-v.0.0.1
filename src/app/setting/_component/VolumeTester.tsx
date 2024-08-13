@@ -1,7 +1,7 @@
 import { RefObject, useState } from "react"
 import { Button } from "@components/form"
+import { useTranslation } from "next-i18next"
 import "./style.scss"
-import { useInitLanguage } from "@hooks/useInitLanguage"
 
 const VolumeTester = ({
     volumeBarsRef,
@@ -12,14 +12,7 @@ const VolumeTester = ({
     startRecording: () => void
     stopRecording: () => void
 }) => {
-    //TODO 버튼이 없을때 화면 이동시 자동으로 오디오 감지 종료
-    // useEffect(() => {
-    //     startRecording()
-    //     return () => {
-    //         stopRecording()
-    //     }
-    // }, [startRecording, stopRecording])
-    const { t } = useInitLanguage()
+    const { t } = useTranslation()
     const [recording, setRecording] = useState<boolean>(false)
 
     const handleToggleRecording = () => {
