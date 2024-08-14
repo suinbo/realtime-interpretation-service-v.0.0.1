@@ -1,4 +1,4 @@
-import { API } from "@resources/constant"
+import { API, MIN_BLOB_SIZE } from "@resources/constant"
 import { supabase } from "@utils/superbase"
 import { useState, useCallback, useRef } from "react"
 
@@ -41,6 +41,14 @@ function useTranscriptionsOfSingle({
                     formData.append("file", audioBlob, "audio.webm")
                     formData.append("language", langCd)
                     formData.append("response_format", "json")
+
+                    // 1초 미만으로 인식된 경우
+                    if (mediaRecorderRef.current && audioBlob.size < MIN_BLOB_SIZE) {
+                        mediaRecorderRef.current.stop()
+                        mediaRecorderRef.current = null
+                        setIsLoading(false)
+                        return
+                    }
 
                     try {
                         const response = await fetch(API.WHISPER_API, {

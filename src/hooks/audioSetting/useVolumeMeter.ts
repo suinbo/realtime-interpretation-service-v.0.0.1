@@ -29,7 +29,7 @@ export const useVolumeMeter = () => {
         })
 
         const numberOfChildToColor = normalizeToInteger(volume, 0, VOL_METER_MAX)
-        const coloredChild = volumeBarsRef.current.slice(0, numberOfChildToColor)
+        const coloredChild = volumeBarsRef.current.slice(0, numberOfChildToColor) // 0 ~ 30
 
         coloredChild.forEach(ref => {
             if (ref.current) {

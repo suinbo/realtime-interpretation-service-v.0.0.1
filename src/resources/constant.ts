@@ -1,5 +1,7 @@
 export const FLAG = { Y: "Y", N: "N" }
 
+export const MIN_BLOB_SIZE = 3000
+
 export const VIEW = {
     LANGUAGE: "language" as const,
     DISPLAY: "display" as const,

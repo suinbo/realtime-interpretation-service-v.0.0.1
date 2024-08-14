@@ -17,7 +17,6 @@ export const useAudioStream = (deviceId?: string) => {
         navigator.mediaDevices
             .getUserMedia(constraints)
             .then(stream => {
-                console.log("stream:: ", stream)
                 setIsRecording(true)
                 setAudioStream(stream)
             })
