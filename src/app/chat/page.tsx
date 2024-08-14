@@ -46,14 +46,14 @@ const Chat = () => {
     const { view, setView, setIsPassed } = useView(chatroom, user.id)
 
     /** 오디오 장치 리스트(권한 검사) */
-    const audioDevices = useAudioDevices()
+    const audioDevices = useAudioDevices(chatroom?.room_option == 1)
 
     useEffect(() => {
         if (chatroom) {
-            const { chat_language, member_id, is_started, expired_at } = chatroom
+            const { chat_language, member_id, is_started, expired_at, room_option } = chatroom
 
             setChatroom(chatroom)
-            setActiveCheckModal(user.id === member_id && !hasCookieLangSet && !expired_at)
+            setActiveCheckModal(user.id === member_id && !hasCookieLangSet && !expired_at && room_option == 2)
             setStart(Boolean(is_started))
 
             // 언어셋 설정

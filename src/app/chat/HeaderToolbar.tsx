@@ -7,10 +7,12 @@ import { useTranslation } from "next-i18next"
 const HeaderToolbar = () => {
     const { t } = useTranslation()
     const { id, email } = useRecoilValue(UserAtom)
-    const { room_title, creator_id } = useRecoilValue(ChatroomAtom)
+    const { room_title, creator_id, room_option } = useRecoilValue(ChatroomAtom)
     const { view, setView } = useView()
 
     if (!room_title) return
+
+    if (room_option == 1 && creator_id !== id) return
 
     return (
         <div className="header">

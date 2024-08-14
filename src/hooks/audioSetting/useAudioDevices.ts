@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback } from "react"
  * 오디오 장치 목록 가져오기
  * @returns audioDevices [오디오 장치 목록]
  */
-export const useAudioDevices = () => {
+export const useAudioDevices = (noAlert = false) => {
     const { t } = useTranslation()
     const [audioDevices, setAudioDevices] = useState<{ id: string; name: string }[]>([])
 
@@ -22,7 +22,7 @@ export const useAudioDevices = () => {
     }, [])
 
     useEffect(() => {
-        fetchAudioDevices()
+        noAlert && fetchAudioDevices()
 
         const handleVisibilityChange = () => {
             if (!document.hidden) {
