@@ -126,7 +126,6 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
                     }}
                     onClose={() => {
                         setView("")
-                        //setFormItem({ ...chatroomInfo, has_password: !!chatroomInfo.room_password })
                     }}
                 />
             ) : (
@@ -202,7 +201,6 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
                     }}
                     onClose={() => {
                         setView("")
-                        //setFormItem({ ...chatroomInfo, has_password: !!chatroomInfo.room_password })
                     }}
                 />
             ),
@@ -242,7 +240,6 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
                             text={t("no")}
                             onClick={() => {
                                 setView("")
-                                //setFormItem({ ...chatroomInfo, has_password: !!chatroomInfo.room_password })
                             }}
                             classname="secondary typo t15 w500 "
                         />

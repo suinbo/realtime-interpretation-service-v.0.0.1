@@ -6,26 +6,17 @@ import { parsedCookie } from "@utils/common"
 import { useEffect, useState } from "react"
 import { useRecoilValue } from "recoil"
 
+type SingleChatProp = Pick<ChatroomProp, "room_id" | "creator_id">
+
 /** 상태 관리 훅 */
 export const useSingleRecording = (chatroom: ChatroomProp | null) => {
     const user = useRecoilValue(UserAtom)
-    const [langCd, setLangCd] = useState<{ langCd: string; transLangCd: string }>({
-        langCd: "",
-        transLangCd: "",
-    })
-
-    const [{ room_id, creator_id }, setData] = useState<{ room_id: string; creator_id: string }>({
-        room_id: "",
-        creator_id: "",
-    })
-
-    // isRecording 상태
     const [isRecording, setIsRecording] = useState<boolean>(false)
+    const [langCd, setLangCd] = useState<{ langCd: string; transLangCd: string }>({ langCd: "", transLangCd: "" })
+    const [{ room_id, creator_id }, setData] = useState<SingleChatProp>({ room_id: "", creator_id: "" })
 
     useEffect(() => {
-        if (chatroom) {
-            setData({ room_id: chatroom.room_id, creator_id: chatroom.creator_id })
-        }
+        chatroom && setData({ room_id: chatroom.room_id, creator_id: chatroom.creator_id })
     }, [chatroom])
 
     // 언어셋 쿠키 존재 여부

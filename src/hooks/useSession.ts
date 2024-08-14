@@ -16,7 +16,6 @@ export const useSession = () => {
                 error,
             } = await supabase.auth.getSession()
 
-            if (error) throw new Error(error.message)
             if (session) {
                 const { user } = session
                 setUser(user)

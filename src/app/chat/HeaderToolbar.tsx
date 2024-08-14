@@ -1,7 +1,4 @@
-"use client"
-
-import { ChatroomAtom } from "@atoms/Atom"
-import { useSession } from "@hooks/useSession"
+import { ChatroomAtom, UserAtom } from "@atoms/Atom"
 import { useRecoilValue } from "recoil"
 import ModalBySetting from "./_component/modal/ModalBySetting"
 import { useView } from "./_hook/useView"
@@ -9,9 +6,11 @@ import { useTranslation } from "next-i18next"
 
 const HeaderToolbar = () => {
     const { t } = useTranslation()
-    const { user } = useSession()
+    const { id, email } = useRecoilValue(UserAtom)
     const { room_title, creator_id } = useRecoilValue(ChatroomAtom)
     const { view, setView } = useView()
+
+    if (!room_title) return
 
     return (
         <div className="header">
@@ -20,12 +19,12 @@ const HeaderToolbar = () => {
             </div>
             <div className="header__toolbar">
                 <div className="header__toolbar--user">
-                    <span className="user-name typo t16">{user?.email}</span>
+                    <span className="user-name typo t16">{email}</span>
                 </div>
                 <div className="header__toolbar--menu">
                     <span className="menu-share" onClick={() => setView("share")} />
                     <span className="menu-setting" onClick={() => setView("setting")} />
-                    {creator_id == user.id && <span className="menu-close" onClick={() => setView("close")} />}
+                    {creator_id == id && <span className="menu-close" onClick={() => setView("close")} />}
                 </div>
             </div>
             <ModalBySetting view={view} setView={setView} />

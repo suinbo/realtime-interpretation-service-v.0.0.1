@@ -58,12 +58,7 @@ const ModalByApprovalOfHost = ({ chatroom, roomId, view, setView }: ModalByAppro
         invalidRoom: (
             <SimpleLayout
                 isActive={true}
-                text={
-                    <>
-                        {/* <span className="typo w500">유효하지 않은</span> 링크 입니다. */}
-                        {t("invalid_url")}
-                    </>
-                }
+                text={t("invalid_url")}
                 controller={
                     <div className="popup__content--btn">
                         <Button
@@ -72,7 +67,7 @@ const ModalByApprovalOfHost = ({ chatroom, roomId, view, setView }: ModalByAppro
                                 cookie.clear()
                                 router.push("/setting")
                             }}
-                            classname="secondary typo t17 w500"
+                            classname="secondary typo t15 w500"
                         />
                     </div>
                 }

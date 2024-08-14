@@ -22,7 +22,7 @@ const ToastPopup = ({
 
     return (
         <div className="toast-popup">
-            <span>{text}</span>
+            <span className="typo t15">{text}</span>
         </div>
     )
 }

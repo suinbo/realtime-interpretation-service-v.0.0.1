@@ -21,32 +21,33 @@ export interface ChatroomProp {
 }
 
 /**
- * 주어진 roomId에 대한 채팅방 데이터를 가져오는 함수
- * @param roomId 채팅방 ID
- * @returns 채팅방 데이터 또는 null
- */
-const fetchChatroomData = async (roomId: string): Promise<ChatroomProp | null> => {
-    try {
-        const { data, error } = await supabase.from("chatroom").select("*").eq("room_id", roomId)
-        if (error) {
-            console.error("Failed to fetch chatroom data:", error)
-            return null
-        }
-        return data.length ? data[0] : null
-    } catch (error) {
-        console.error("Unexpected error:", error)
-        return null
-    }
-}
-
-/**
  * 실시간 채팅방 구독 및 데이터 관리
  * @param roomId 입장한 채팅방 ID
  * @param user 로그인한 계정
  * @returns { chatroom } 현재 채팅방 데이터
  */
-const useRealtimeChatroom = (roomId: string, user: User) => {
+const useRealtimeChatroom = (roomId: string, user?: User) => {
     const [chatroom, setChatroom] = useState<ChatroomProp | null>(null)
+    const [isInvalidRoom, setIsInvalidRoom] = useState<boolean>(false)
+
+    /**
+     * 주어진 roomId에 대한 채팅방 데이터를 가져오는 함수
+     * @param roomId 채팅방 ID
+     * @returns 채팅방 데이터 또는 null
+     */
+    const fetchChatroomData = async (roomId: string) => {
+        try {
+            const { data, error } = await supabase.from("chatroom").select("*").eq("room_id", roomId)
+            if (error) {
+                setIsInvalidRoom(true)
+                return
+            }
+            return data.length ? data[0] : null
+        } catch (error) {
+            console.error("Unexpected error:", error)
+            return null
+        }
+    }
 
     const handleDataUpdate = useCallback(async () => {
         const data = await fetchChatroomData(roomId)
@@ -72,7 +73,7 @@ const useRealtimeChatroom = (roomId: string, user: User) => {
     }, [roomId])
 
     const updateChatroomWithUser = async (chatroom: ChatroomProp) => {
-        if (!chatroom.member_id) {
+        if (user && !chatroom.member_id) {
             // 로그인 계정이 생성자가 아닐 때
             if (chatroom.creator_id !== user.id) {
                 const { data, error } = await supabase
@@ -99,6 +100,7 @@ const useRealtimeChatroom = (roomId: string, user: User) => {
 
     return {
         chatroom,
+        isInvalidRoom,
     }
 }
 

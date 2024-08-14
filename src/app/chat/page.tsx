@@ -19,7 +19,6 @@ import { useAudioDevices } from "@hooks/audioSetting/useAudioDevices"
 import { useFontClass } from "@hooks/useInitFontClass"
 import "@assets/styles/common.scss"
 import "./style.scss"
-import { useParams } from "next/navigation"
 
 const Chat = () => {
     const { id } = useQueryParams()
@@ -30,7 +29,7 @@ const Chat = () => {
     const fontClass = useFontClass()
 
     /** 실시간 구독 데이터 */
-    const { chatroom } = useRealtimeChatroom(id as string, user)
+    const { chatroom, isInvalidRoom } = useRealtimeChatroom(id as string, user)
     const { messages } = useRealtimeMessage({ roomId: id as string })
 
     /** 상태 (display 1 - multi) */
@@ -61,6 +60,8 @@ const Chat = () => {
             const [langCd, transLangCd] = (chat_language as any).split(",")
             setLangCd({ langCd, transLangCd })
         }
+
+        if (isInvalidRoom) setView("invalidRoom")
     }, [chatroom, hasCookieLangSet])
 
     const Content = () => (
@@ -100,7 +101,11 @@ const Chat = () => {
             </div>
         </div>
     )
+
+    if (isInvalidRoom) return <ModalByApprovalOfHost view={view} setView={setView} />
+
     if (!chatroom) return
+
     return (
         <div className={fontClass}>
             {/* 참여자 + 생성자 (대화방 내용) */}

@@ -14,11 +14,11 @@
             font-size: #{$i}px;
 
             @media (max-width: 1600px) {
-                font-size: #{calc(#{$i}px - 2px)};
+                font-size: #{calc(#{$i}px - 1px)};
             }
 
             @media (max-width: 1024px) {
-                font-size: #{calc(#{$i}px - 3px)};
+                font-size: #{calc(#{$i}px - 2px)};
             }
         }
     }
