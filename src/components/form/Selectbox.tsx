@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import cx from "classnames"
 import useClickOutside from "@hooks/useClickOutside"
 
@@ -27,11 +27,42 @@ export default function Selectbox({
     const selectBoxRef = useRef<HTMLDivElement>(null)
     const [active, setActive] = useState<boolean>(false)
     const [, setSelectedItem] = useState<SelectboxItem>()
+    const [{ top, width }, setPosition] = useState<any>({ top: 0, width: 0 })
 
     useClickOutside(selectBoxRef, () => setActive(false))
 
+    const controlPosition = () => {
+        if (selectBoxRef.current) {
+            const { top, width, height } = selectBoxRef.current.getBoundingClientRect()
+            setPosition({ top: top + height + 10, width })
+        }
+    }
+
+    // 최상단 부모 노드 찾기
+    const findScrollParent = (node: HTMLElement | null) => {
+        if (!node) return null
+        if (node.scrollHeight > node.clientHeight) {
+            return node
+        }
+        return findScrollParent(node.parentElement)
+    }
+
+    useEffect(() => {
+        controlPosition()
+
+        const scrollParent = findScrollParent(selectBoxRef.current)
+
+        if (scrollParent) {
+            scrollParent.addEventListener("scroll", controlPosition)
+
+            return () => {
+                scrollParent.removeEventListener("scroll", controlPosition)
+            }
+        }
+    }, [])
+
     const SelectboxList = () => (
-        <div className="selectbox__item">
+        <div className="selectbox__item" style={{ top, width }}>
             <ul className="selectbox__item-list typo t15" style={style}>
                 {items.map(item => (
                     <li
