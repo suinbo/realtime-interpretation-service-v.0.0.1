@@ -32,13 +32,13 @@ const Layout = ({
                 <div className="dashboard">
                     <div className="dashboard__inner">
                         <div className={cx("header", notoSansKr.className)}>
-                            <div className="header__title">
+                            <div className="header__title typo t16">
                                 <span>실시간 동시통역 서비스</span>
                             </div>
                             <div className="header__profile">
                                 <div className="header__profile-item">
                                     <span className="header__profile-image"></span>
-                                    <span className="header__profile-name">{user?.email}</span>
+                                    <span className="header__profile-name typo t16">{user?.email}</span>
                                     <span
                                         className="header__profile-logout"
                                         onClick={() => setActiveModal(true)}></span>

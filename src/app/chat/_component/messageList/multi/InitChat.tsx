@@ -17,7 +17,7 @@ const InitChat = ({
     mediaRefs,
 }: MultiInitChatProp & { type: string }) => {
     const user = useRecoilValue(UserAtom)
-    const { id, creator_id } = useRecoilValue(ChatroomAtom)
+    const { room_id, creator_id } = useRecoilValue(ChatroomAtom)
     const { t } = useTranslation()
 
     const refs: { [key: string]: React.RefObject<HTMLButtonElement> } = {
@@ -50,7 +50,7 @@ const InitChat = ({
         my: useMultiTrans({
             hostId: creator_id,
             userId: user.id,
-            roomId: id,
+            roomId: room_id,
             langCd,
             transLangCd,
             isRecording,
@@ -60,7 +60,7 @@ const InitChat = ({
         your: useMultiTrans({
             hostId: creator_id,
             userId: null,
-            roomId: id,
+            roomId: room_id,
             langCd: transLangCd,
             transLangCd: langCd,
             isRecording,

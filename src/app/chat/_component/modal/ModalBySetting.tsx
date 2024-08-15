@@ -145,7 +145,7 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
                             </div>
                             <div className="form__item--password">
                                 <p className="form__item--label typo w500">{t("set_password")}</p>
-                                <div>
+                                <div className="typo t15">
                                     <Checkbox
                                         id="password-check"
                                         label={t("setting")}
@@ -170,7 +170,7 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
                             </div>
                             <div className="form__item">
                                 <p className="form__item-label typo w500">{t("host_approval")}</p>
-                                <div>
+                                <div className="typo t15">
                                     <RadioGroup
                                         name="host_auth"
                                         items={[
