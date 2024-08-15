@@ -32,12 +32,11 @@ export default function Selectbox({
 
     const SelectboxList = () => (
         <div className="selectbox__item">
-            <ul className="selectbox__item-list" style={style}>
+            <ul className="selectbox__item-list typo t15" style={style}>
                 {items.map(item => (
                     <li
                         id={item.id}
                         key={item.id}
-                        className="typo t16"
                         onClick={() => {
                             setSelectedItem(item)
                             onSelect(item)
@@ -56,7 +55,7 @@ export default function Selectbox({
                 ref={selectBoxRef}
                 className={cx("selectbox__opener", { focus: isFocused && !active })}
                 onClick={() => setActive(!active)}>
-                <div className="typo t16">
+                <div className="typo t15">
                     {innerElement}
                     {selectedId ? items.find(item => item.id == selectedId)?.name : "-"}
                 </div>

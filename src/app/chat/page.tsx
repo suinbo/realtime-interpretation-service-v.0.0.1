@@ -17,6 +17,7 @@ import { useTranslation } from "next-i18next"
 import { useView } from "./_hook/useView"
 import { useAudioDevices } from "@hooks/audioSetting/useAudioDevices"
 import { useFontClass } from "@hooks/useInitFontClass"
+import cx from "classnames"
 import "@assets/styles/common.scss"
 import "./style.scss"
 
@@ -107,7 +108,7 @@ const Chat = () => {
     if (!chatroom) return
 
     return (
-        <div className={fontClass}>
+        <div className={cx("body", fontClass)}>
             {/* 참여자 + 생성자 (대화방 내용) */}
             {!view && <Content />}
 

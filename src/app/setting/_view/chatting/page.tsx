@@ -119,8 +119,8 @@ const ChattingView = () => {
                         <div className="setting-board__form">
                             <div>
                                 <div className="form__title">
-                                    <span className="typo t28 w600 yello-200">{step.toUpperCase()}</span>
-                                    <span className="typo t28 w500">{labelOfStep[step].title}</span>
+                                    <span className="typo t24 w600 yello-200">{step.toUpperCase()}</span>
+                                    <span className="typo t24 w500">{labelOfStep[step].title}</span>
                                 </div>
                                 {settingContent[display][step]}
                             </div>

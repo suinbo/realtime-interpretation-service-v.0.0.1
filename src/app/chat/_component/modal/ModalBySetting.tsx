@@ -87,8 +87,8 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
                                     type="text"
                                     classname="typo t15"
                                     value={room_title}
-                                    placeholder={t("")}
-                                    onChange={chat_nm => setFormItem(prev => ({ ...prev, chat_nm }))}
+                                    placeholder={t("enter_chat_title")}
+                                    onChange={room_title => setFormItem(prev => ({ ...prev, room_title }))}
                                 />
                             </div>
                             <div className="form__item">

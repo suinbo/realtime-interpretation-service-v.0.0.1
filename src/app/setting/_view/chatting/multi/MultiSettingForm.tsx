@@ -31,18 +31,18 @@ const MultiSettingForm = ({
         <>
             <div className="form__content">
                 <div className="form__item--name">
-                    <span className="typo t18 w500">{t("chat_title")}</span>
+                    <span className="typo t17 w500">{t("chat_title")}</span>
                     <Input
                         refs={refs.name}
                         type="text"
-                        classname="typo t17"
+                        classname="typo t15"
                         value={chat_nm}
                         placeholder={t("enter_chat_title")}
                         onChange={chat_nm => setFormItem(prev => ({ ...prev, chat_nm }))}
                     />
                 </div>
                 <div className="form__item--language">
-                    <span className="typo t18 w500">{t("trans_language")}</span>
+                    <span className="typo t17 w500">{t("trans_language")}</span>
                     <div>
                         <Selectbox
                             isFocused={isFocused}
@@ -54,7 +54,7 @@ const MultiSettingForm = ({
                     </div>
                 </div>
                 <div className="form__item--password">
-                    <span className="typo t18 w500">{t("set_password")}</span>
+                    <span className="typo t17 w500">{t("set_password")}</span>
                     <div className="typo t15">
                         <Checkbox
                             id="password-check"
@@ -78,7 +78,7 @@ const MultiSettingForm = ({
                     </div>
                 </div>
                 <div className="form__item--auth">
-                    <span className="typo t18 w500">{t("host_approval")}</span>
+                    <span className="typo t17 w500">{t("host_approval")}</span>
                     <div className="typo t15">
                         <RadioGroup
                             name="host_auth"

@@ -4,10 +4,6 @@
     border-radius: $radius;
     padding: $padding;
     background-color: #fff;
-
-    @media (max-width: 1600px) {
-        padding: 14px 30px;
-    }
 }
 
 @mixin scrollStyle {
@@ -172,7 +168,7 @@
 
     &__item {
         position: absolute;
-        top: 62px;
+        top: 52px;
         width: 100%;
         z-index: 1;
 

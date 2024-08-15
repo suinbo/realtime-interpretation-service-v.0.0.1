@@ -20,7 +20,7 @@ const MultiAudioForm = () => {
     return (
         <div className="form__content">
             <div className="form__item--microphone">
-                <span className="typo t20 w500">{t("mic")}</span>
+                <span className="typo t17 w500">{t("mic")}</span>
                 <div>
                     <Selectbox
                         items={audioDevices}

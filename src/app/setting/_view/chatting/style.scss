@@ -14,6 +14,18 @@
     }
 }
 
+@mixin scrollStyle {
+    &::-webkit-scrollbar {
+        width: 4px; /* 스크롤바의 너비 */
+    }
+
+    &::-webkit-scrollbar-thumb {
+        height: 20%; /* 스크롤바의 길이 */
+        border-radius: 2px;
+        background: #f1f1f1;
+    }
+}
+
 .setting-board {
     &__button {
         width: 250px;
@@ -31,7 +43,7 @@
         padding: 36px 50px;
 
         @media (max-width: 1024px) {
-            height: 570px;
+            padding: 26px 40px;
         }
 
         .form {
@@ -40,6 +52,13 @@
                 span:first-of-type {
                     margin-right: 20px;
                 }
+            }
+
+            &__content {
+                height: 300px;
+                overflow: scroll;
+                @include scrollStyle;
+                padding-right: 20px;
             }
 
             &__item {
@@ -65,15 +84,15 @@
                     @include formGridStyle;
                     > div {
                         display: grid;
-                        grid-template-columns: 1fr 4fr;
+                        grid-template-columns: 1fr 3fr;
                         align-items: center;
-                        gap: 20px;
                     }
 
                     &-group {
                         display: grid;
                         grid-template-columns: 2fr 5fr;
                         align-items: center;
+                        gap: 20px;
 
                         > span {
                             display: flex;
