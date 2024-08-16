@@ -81,7 +81,7 @@ const ChatSetter = ({
                 }}>
                 <div className="typo t18">
                     <div className="selector-item">
-                        <span className="typo t20">{t("new_chat")}</span>
+                        <span className="typo t18">{t("new_chat")}</span>
                     </div>
                 </div>
                 <span className={cx("selectbox__opener-arrow", { active })} />
