@@ -30,7 +30,7 @@ const MultiAudioForm = () => {
                 </div>
             </div>
             <div className="form__item--tester">
-                <VolumeTester {...data} />
+                <VolumeTester {...data} disabled={!audioDevices.length} />
             </div>
         </div>
     )

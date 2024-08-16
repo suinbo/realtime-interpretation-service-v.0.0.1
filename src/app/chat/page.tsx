@@ -47,7 +47,7 @@ const Chat = () => {
     const { view, setView, setIsPassed } = useView(chatroom, user.id)
 
     /** 오디오 장치 리스트(권한 검사) */
-    const audioDevices = useAudioDevices(chatroom?.room_option == 1)
+    const audioDevices = useAudioDevices()
 
     useEffect(() => {
         if (chatroom) {

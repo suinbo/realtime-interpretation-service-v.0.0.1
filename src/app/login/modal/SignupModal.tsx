@@ -44,7 +44,6 @@ const SignupModal = ({ setActiveModal }: { setActiveModal: React.Dispatch<SetSta
                 console.error(error.message)
             } else {
                 setActiveModal("")
-                console.log("data:: ", data)
             }
         }
 

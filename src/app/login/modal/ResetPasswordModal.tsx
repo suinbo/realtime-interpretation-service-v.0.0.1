@@ -36,7 +36,6 @@ const ResetPasswordModal = ({ setActiveModal }: { setActiveModal: React.Dispatch
                 console.error(error.message)
             } else {
                 setActiveModal("")
-                console.log("data:: ", data)
             }
         }
     }
