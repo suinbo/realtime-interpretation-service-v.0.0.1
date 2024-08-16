@@ -28,16 +28,9 @@ export default function Selectbox({
     const [active, setActive] = useState<boolean>(false)
     const [, setSelectedItem] = useState<SelectboxItem>()
     const [{ top, width }, setPosition] = useState<any>({ top: 0, width: 0 })
-    const [focus, setFocus] = useState<boolean>(false)
 
-    useEffect(() => {
-        isFocused && setFocus(isFocused)
-    }, [isFocused])
-
-    // 드롭다운 리스트 외부영역 클릭시
     useClickOutside(selectBoxRef, () => {
         setActive(false)
-        setFocus(false)
     })
 
     const controlPosition = () => {
@@ -93,7 +86,7 @@ export default function Selectbox({
         <div className="selectbox">
             <div
                 ref={selectBoxRef}
-                className={cx("selectbox__opener", { focus: focus && !active })}
+                className={cx("selectbox__opener", { focus: isFocused && !active })}
                 onClick={() => setActive(!active)}>
                 <div className="typo t15">
                     {innerElement}

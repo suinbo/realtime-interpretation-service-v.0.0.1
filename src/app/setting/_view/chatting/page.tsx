@@ -1,6 +1,6 @@
 import SingleSettingForm from "./single/SingleSettingForm"
 import { useRecoilState } from "recoil"
-import { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import SingleAudioForm from "./single/SingleAudioForm"
 import MultiAudioForm from "./multi/MultiAudioForm"
 import MultiSettingForm from "./multi/MultiSettingForm"
@@ -23,10 +23,31 @@ const ChattingView = () => {
     /** 셀렉박스 포커싱 */
     const [isFocused, setIsFocused] = useState<boolean>(false)
 
-    const refs = {
+    const refs: { [key: string]: React.RefObject<HTMLInputElement> } = {
         name: useRef<HTMLInputElement>(null),
         password: useRef<HTMLInputElement>(null),
     }
+
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            const target = e.target as Element
+
+            for (const field of Object.keys(refs)) {
+                const ref = refs[field]
+
+                if (ref.current && ref.current.contains(target)) {
+                    setIsFocused(false)
+                    return
+                }
+            }
+        }
+
+        window.addEventListener("click", handleClickOutside)
+
+        return () => {
+            window.removeEventListener("click", handleClickOutside)
+        }
+    }, [refs])
 
     const [formItem, setFormItem] = useState<FormItemProp>({
         chat_id: "",
@@ -77,7 +98,7 @@ const ChattingView = () => {
                     className={cx("form__nav__item-icon", step)}
                     onClick={() => {
                         focusOnEmpty(refs, () => {
-                            if (display == 1 && !formItem.chat_lang[1]) {
+                            if (!formItem.chat_lang[1]) {
                                 setIsFocused(true)
                                 return
                             }
