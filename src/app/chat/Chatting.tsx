@@ -11,7 +11,6 @@ const Chatting = ({ messages, chatroom, langCd, data, recordStatus, mediaRefs }:
     const { t } = useTranslation()
     const user = useRecoilValue(UserAtom)
     const refs = useRef<HTMLDivElement>(null)
-    const [isAutoScroll, setIsAutoScroll] = useState<boolean>(true)
 
     const messageList = useMemo(() => {
         const newMessage = {
@@ -26,26 +25,8 @@ const Chatting = ({ messages, chatroom, langCd, data, recordStatus, mediaRefs }:
         else return [...messages, newMessage]
     }, [messages, chatroom?.expired_at])
 
-    useEffect(() => {
-        const container = refs.current
-
-        // 메시지 업데이트 후 자동 스크롤 로직
-        if (container && isAutoScroll) {
-            container.scrollTop = container.scrollHeight
-        }
-    }, [messages, isAutoScroll])
-
-    const handleScroll = () => {
-        const container = refs.current
-
-        if (container) {
-            const isAtBottom = container.scrollHeight - container.scrollTop === container.clientHeight
-            setIsAutoScroll(isAtBottom)
-        }
-    }
-
     return (
-        <div className="content__body--chat" ref={refs} onScroll={handleScroll}>
+        <div className="content__body--chat" ref={refs}>
             {/* 참여자 참여 여부 */}
             {chatroom?.room_option == 2 && (
                 <div className="content__body--chat--noti typo t16">
