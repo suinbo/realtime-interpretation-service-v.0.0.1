@@ -1,5 +1,6 @@
 import { API, MIN_BLOB_SIZE } from "@resources/constant"
 import { supabase } from "@utils/superbase"
+import OpenAI from "openai"
 import { useState, useCallback, useRef } from "react"
 
 function useTranscriptionsOfSingle({
@@ -37,10 +38,10 @@ function useTranscriptionsOfSingle({
 
                 mediaRecorder.onstop = async () => {
                     const audioBlob = new Blob(audioChunks, { type: "audio/webm" })
-                    const formData = new FormData()
-                    formData.append("file", audioBlob, "audio.webm")
-                    formData.append("language", langCd)
-                    formData.append("response_format", "json")
+                    const audioFile = new File([audioBlob], "audio.webm", {
+                        type: "audio/webm",
+                        lastModified: Date.now(),
+                    })
 
                     // 1초 미만으로 인식된 경우
                     if (mediaRecorderRef.current && audioBlob.size < MIN_BLOB_SIZE) {
@@ -51,23 +52,20 @@ function useTranscriptionsOfSingle({
                     }
 
                     try {
-                        const response = await fetch(API.WHISPER_API, {
-                            method: "POST",
-                            headers: {
-                                Authorization: `Bearer ${process.env.NEXT_PUBLIC_WHISPER_API_KEY}`,
-                            },
-                            body: formData,
+                        const openai = new OpenAI({
+                            apiKey: process.env.NEXT_PUBLIC_WHISPER_API_KEY,
+                            dangerouslyAllowBrowser: true,
                         })
 
-                        if (!response.ok) {
-                            const errorText = await response.text()
-                            throw new Error(errorText)
-                        }
-
-                        const { text } = await response.json()
+                        const text = await openai.audio.transcriptions.create({
+                            file: audioFile,
+                            model: "whisper-1",
+                            response_format: "text",
+                            language: langCd,
+                        })
 
                         // 3. 영어 번역 API 호출
-                        const englishResponse = await fetch(API.GPT_TRANSLATION_API, {
+                        const englishResponse = await fetch(API.TRANSLATION_API, {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
@@ -92,7 +90,7 @@ function useTranscriptionsOfSingle({
                         })
 
                         // 3-1. 선택 언어 번역 API 호출
-                        const translationResponse = await fetch(API.GPT_TRANSLATION_API, {
+                        const translationResponse = await fetch(API.TRANSLATION_API, {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",

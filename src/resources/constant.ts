@@ -19,8 +19,8 @@ export const STEP = {
 }
 
 export const API = {
-    WHISPER_API: "https://api.lemonfox.ai/v1/audio/transcriptions",
-    GPT_TRANSLATION_API: "https://api.openai.com/v1/chat/completions",
+    WHISPER_API: "https://api.openai.com/v1/audio/transcriptions",
+    TRANSLATION_API: "https://api.openai.com/v1/chat/completions",
 }
 
 export const COOKIE_DOMAIN =
