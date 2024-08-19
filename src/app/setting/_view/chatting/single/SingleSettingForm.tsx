@@ -52,7 +52,6 @@ const SingleSettingForm = ({
                         style={{ height: 214 }}
                     />
                     <Selectbox
-                        isFocused={isFocused}
                         items={selectboxItems}
                         selectedId={chat_lang[1]}
                         innerElement={<span className="sub-text typo t15">{t("language_2")}</span>}

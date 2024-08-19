@@ -36,7 +36,8 @@ export default function Selectbox({
     const controlPosition = () => {
         if (selectBoxRef.current) {
             const { top, width, height } = selectBoxRef.current.getBoundingClientRect()
-            setPosition({ top: top + height + 10, width })
+            const parentRect = selectBoxRef.current.offsetParent?.getBoundingClientRect()
+            setPosition({ top: top - (parentRect?.top || 0) + height + 10, width })
         }
     }
 

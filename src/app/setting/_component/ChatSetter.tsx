@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import useClickOutside from "@hooks/useClickOutside"
 import { FormItemProp, SelectboxItemProp } from "../types"
 import { useRecoilValue } from "recoil"
@@ -22,8 +22,40 @@ const ChatSetter = ({
 
     const options = useRecoilValue(OptionAtom)
     const { id, email } = useRecoilValue(UserAtom)
+    const [{ top, width }, setPosition] = useState<any>({ top: 0, width: 0 })
 
     useClickOutside(selectBoxRef, () => setActive(false))
+
+    const controlPosition = () => {
+        if (selectBoxRef.current) {
+            const { top, width, height } = selectBoxRef.current.getBoundingClientRect()
+            const parentRect = selectBoxRef.current.offsetParent?.getBoundingClientRect()
+            setPosition({ top: top - (parentRect?.top || 0) + height + 10, width })
+        }
+    }
+
+    // 최상단 부모 노드 찾기
+    const findScrollParent = (node: HTMLElement | null) => {
+        if (!node) return null
+        if (node.scrollHeight > node.clientHeight) {
+            return node
+        }
+        return findScrollParent(node.parentElement)
+    }
+
+    useEffect(() => {
+        controlPosition()
+
+        const scrollParent = findScrollParent(selectBoxRef.current)
+
+        if (scrollParent) {
+            scrollParent.addEventListener("scroll", controlPosition)
+
+            return () => {
+                scrollParent.removeEventListener("scroll", controlPosition)
+            }
+        }
+    }, [])
 
     const fetchMessages = async () => {
         // 방 생성
@@ -52,7 +84,7 @@ const ChatSetter = ({
     }
 
     const SelectboxList = () => (
-        <div className="selectbox__item--newchat">
+        <div className="selectbox__item--newchat" style={{ top, width }}>
             <ul className="selectbox__item--newchat-list typo t18">
                 {items.map(item => (
                     <li
