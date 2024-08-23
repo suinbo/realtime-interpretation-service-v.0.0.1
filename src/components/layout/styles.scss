@@ -1,0 +1,180 @@
+@mixin formGridStyle {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: 70px;
+    align-items: center;
+
+    @media (max-width: 1024px) {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 36px 64px;
+        align-items: center;
+        gap: 0;
+
+        > div:empty {
+            display: none;
+        }
+    }
+
+    @media (max-width: 768px) {
+        grid-template-rows: 50px;
+    }
+}
+
+@mixin scrollStyle {
+    &::-webkit-scrollbar {
+        width: 4px; /* 스크롤바의 너비 */
+    }
+
+    &::-webkit-scrollbar-thumb {
+        height: 20%; /* 스크롤바의 길이 */
+        border-radius: 2px;
+        background: #f1f1f1;
+    }
+}
+
+.form {
+    &__title {
+        margin-bottom: 30px;
+        span:first-of-type {
+            margin-right: 20px;
+        }
+    }
+
+    &__content {
+        height: 300px;
+        overflow: scroll;
+        overflow-x: hidden;
+        @include scrollStyle;
+        padding-right: 20px;
+
+        @media (max-width: 768px) {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+    }
+
+    &__item {
+        @include formGridStyle;
+
+        &-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+
+            .re-check {
+                display: flex;
+
+                background: url("../../assets/images/recheck.png") no-repeat center;
+                width: 25px;
+                height: 25px;
+                content: "";
+            }
+        }
+
+        &--language {
+            > div {
+                display: flex;
+                gap: 20px;
+
+                @media (max-width: 768px) {
+                    flex-direction: column;
+                }
+
+                .sub-text {
+                    color: #c6c6c6;
+                    margin-right: 26px;
+
+                    @media (max-width: 1280px) {
+                        display: none;
+                    }
+                }
+            }
+        }
+
+        &--password {
+            @include formGridStyle;
+            > div {
+                display: grid;
+                grid-template-columns: 1fr 3fr;
+                align-items: center;
+
+                @media (max-width: 1024px) {
+                    gap: 20px;
+                }
+
+                @media (max-width: 768px) {
+                    grid-template-columns: none;
+                }
+            }
+
+            &-group {
+                display: grid;
+                grid-template-columns: 2fr 5fr;
+                align-items: center;
+                gap: 20px;
+
+                @media (max-width: 1024px) {
+                    grid-template-columns: 1fr;
+                }
+
+                > span {
+                    display: flex;
+                    align-items: center;
+
+                    @media (max-width: 1024px) {
+                        display: none;
+                    }
+
+                    &::before {
+                        content: "|";
+                        font-size: 22px;
+                        margin-left: 5px;
+                        margin-right: 28px;
+                        color: #e0e0e0;
+                    }
+                }
+            }
+        }
+
+        &--name,
+        &--language,
+        &--password,
+        &--auth,
+        &--microphone,
+        &--tester {
+            @include formGridStyle;
+        }
+    }
+
+    &__nav {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        &__inner {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            &.step-2 {
+                flex-direction: row-reverse;
+            }
+        }
+
+        &__item {
+            &-icon {
+                position: relative;
+                cursor: pointer;
+                width: 52px;
+                height: 52px;
+                background: url("../../assets/images/arrow-next.png") no-repeat;
+
+                &.step-2 {
+                    transform: rotateY(180deg);
+                }
+            }
+        }
+    }
+}

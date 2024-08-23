@@ -1,4 +1,5 @@
-import React, { CSSProperties, useEffect, useRef } from "react"
+import React, { useEffect, useRef } from "react"
+import cx from "classnames"
 import "./style.scss"
 
 const Popup = ({
@@ -7,7 +8,7 @@ const Popup = ({
     hasClosedBtn = true,
     title,
     hasTopIcon = false,
-    style,
+    classname,
     onClose,
 }: {
     isActive?: boolean
@@ -15,7 +16,7 @@ const Popup = ({
     title?: string
     hasClosedBtn?: boolean
     hasTopIcon?: boolean
-    style?: CSSProperties
+    classname?: string
     onClose?: () => void
 }) => {
     const popupRef = useRef<HTMLDivElement>(null)
@@ -44,7 +45,7 @@ const Popup = ({
     }, [])
 
     return (
-        <div className="popup" ref={popupRef} style={style}>
+        <div className={cx("popup", classname)} ref={popupRef}>
             {hasTopIcon && (
                 <div className="popup__icon">
                     <span></span>
@@ -53,7 +54,7 @@ const Popup = ({
             <div className="popup__inner">
                 {hasClosedBtn && (
                     <div className="popup__header">
-                        {title && <span className="typo t22 w500">{title}</span>}
+                        {title && <span className="typo t20 w500">{title}</span>}
                         <div className="popup__header--button" onClick={onClose}>
                             <span className="close-btn"></span>
                         </div>

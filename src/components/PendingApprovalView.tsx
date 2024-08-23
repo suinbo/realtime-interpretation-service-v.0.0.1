@@ -6,7 +6,6 @@ import { useEffect, useRef } from "react"
  */
 const PendintApproval = () => {
     const { t } = useTranslation()
-
     const spinnerRef = useRef<HTMLDivElement>(null)
 
     /** 외부 영역 클릭 방지 */

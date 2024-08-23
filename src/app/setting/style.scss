@@ -58,6 +58,26 @@
             grid-template-columns: 1fr 5fr 1fr;
             grid-template-rows: auto;
 
+            @media (max-width: 768px) {
+                grid-template-columns: 1fr;
+                grid-template-rows: 3fr;
+                padding-bottom: 50px;
+
+                &__wrapper {
+                    order: 1;
+                }
+
+                &__wrapper-nav {
+                    order: 2;
+                }
+
+                &__wrapper,
+                &__wrapper-nav {
+                    display: flex;
+                    flex-direction: column;
+                }
+            }
+
             &__wrapper {
                 display: flex;
                 flex-direction: column;
@@ -88,6 +108,10 @@
                     padding-right: 40px;
                     overflow-y: scroll;
                     @include scrollStyle;
+
+                    @media (max-width: 768px) {
+                        padding-right: 10px;
+                    }
 
                     &-list {
                         width: 100%;

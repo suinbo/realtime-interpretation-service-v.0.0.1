@@ -4,16 +4,16 @@ import { useSession } from "@hooks/useSession"
 import { supabase } from "@utils/superbase"
 import cookie from "@utils/cookie"
 import { useState } from "react"
-import { SimpleLayout } from "@app/chat/_component/modal/PopupLayout"
 import { useTranslation } from "next-i18next"
 import cx from "classnames"
 import { Button } from "@components/form"
 import { useRouter } from "next/navigation"
 import { isEmptyObject } from "@utils/common"
-import { notoSansKr } from "@app/Provider"
 import { useFontClass } from "@hooks/useInitFontClass"
+import { notoSansKr } from "@utils/font"
 import "@assets/styles/common.scss"
 import "./style.scss"
+import { Modal } from "@components/layout"
 
 const Layout = ({
     children,
@@ -49,7 +49,7 @@ const Layout = ({
                     </div>
                 </div>
                 {activeModal && (
-                    <SimpleLayout
+                    <Modal.SimpleLayout
                         isActive={true}
                         hasTopIcon={false}
                         text={<>{t("logout")}</>}

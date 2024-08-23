@@ -2,13 +2,19 @@ import React, { SetStateAction } from "react"
 import { ChatroomProp } from "@hooks/chatroom/useRealtimeChatroom"
 import { MessageProp } from "@hooks/chatroom/useRealtimeMessage"
 
-type RecordStatusProp = {
-    [key: string]: {
-        isRecording: boolean
-        setIsRecording: React.Dispatch<SetStateAction<boolean>>
-        isLoading: boolean
-        setIsLoading: React.Dispatch<SetStateAction<boolean>>
-    }
+type RecordStatusDetails = {
+    isRecording: boolean
+    setIsRecording: React.Dispatch<React.SetStateAction<boolean>>
+    isLoading: boolean
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export type RecordStatusProp = {
+    [key: string]: any
+    my: RecordStatusDetails
+    your: RecordStatusDetails
+    message: string
+    setMessage: React.Dispatch<SetStateAction<string>>
 }
 
 type mediaRefsProp = {
@@ -89,4 +95,26 @@ export type ModalSimpleProp = {
     hasTopIcon?: boolean
     text: React.ReactNode
     controller: React.ReactNode
+}
+
+export type ModalInputCheckProp = {
+    isActive: boolean
+    title: string
+    formElement?: React.ReactNode
+    onClose?: () => void
+}
+
+export type ModalNoticeProp = {
+    isActive: boolean
+    title: string
+    subtitle: string
+    formElement?: React.ReactNode
+    onClose?: () => void
+}
+
+export type ModalCustomProp = {
+    isActive: boolean
+    formElement?: React.ReactNode
+    titleElement: React.ReactNode
+    onClose?: () => void
 }

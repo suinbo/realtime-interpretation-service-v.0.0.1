@@ -39,3 +39,12 @@ export const isPressController = (e: React.KeyboardEvent<HTMLButtonElement> | Ke
 /** 쿠키 파싱*/
 export const parsedCookie = (id: string) =>
     cookie.getItem(id) ? JSON.parse(cookie.getItem(id as string) as string) : null
+
+/** 모바일 기기 확인 */
+export const isMobileDevice = () => {
+    if (typeof window === "undefined") {
+        // SSR에서 navigator 인지하지 못하므로
+        return false
+    }
+    return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+}

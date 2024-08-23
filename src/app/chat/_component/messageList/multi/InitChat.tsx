@@ -56,6 +56,7 @@ const InitChat = ({
             isRecording,
             mediaRecorderRef: mediaRef,
             setIsLoading,
+            setMessage: recordStatus.setMessage,
         }),
         your: useMultiTrans({
             hostId: creator_id,
@@ -66,6 +67,7 @@ const InitChat = ({
             isRecording,
             mediaRecorderRef: mediaRef,
             setIsLoading,
+            setMessage: recordStatus.setMessage,
         }),
     }
 

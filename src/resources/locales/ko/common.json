@@ -50,5 +50,6 @@
     "listening": "듣는 중",
     "translating": "번역 중",
     "logout": "로그아웃 하시겠습니까?",
-    "permission_denied": "마이크 접근 권한이 필요합니다. \n[사이트 설정] 에서 마이크 접근을 허용해 주세요."
+    "permission_denied": "마이크 접근 권한이 필요합니다. \n[사이트 설정] 에서 마이크 접근을 허용해 주세요.",
+    "empty_record": "음성을 인식하지 못했습니다."
 }

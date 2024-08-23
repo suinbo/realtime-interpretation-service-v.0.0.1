@@ -1,10 +1,9 @@
 import { Button, Input } from "@components/form"
-import Popup from "@components/Popup"
 import { SetStateAction, useMemo, useRef, useState } from "react"
 import { LoginProp } from "../../setting/types"
 import { supabase } from "@utils/superbase"
-import { SimpleLayout } from "../../chat/_component/modal/PopupLayout"
 import { focusOnEmpty } from "@utils/common"
+import { FormItem, Modal } from "@components/layout"
 
 /** 비밀번호 업데이트 모달 */
 const ResetPasswordModal = ({ setActiveModal }: { setActiveModal: React.Dispatch<SetStateAction<string>> }) => {
@@ -42,12 +41,14 @@ const ResetPasswordModal = ({ setActiveModal }: { setActiveModal: React.Dispatch
 
     return (
         <>
-            <Popup title="Reset Password" onClose={() => setActiveModal("")} style={{ width: 800 }}>
-                <div className="popup__content">
-                    <div className="popup__content--form">
-                        <div className="form__item">
-                            <p className="form__item-label typo t16 w500">Password</p>
-                            <div>
+            <Modal.FormLayout
+                title="Reset Password"
+                isActive={false}
+                formElement={
+                    <>
+                        <FormItem
+                            title="Password"
+                            element={
                                 <Input
                                     refs={refs.password}
                                     type="password"
@@ -56,31 +57,31 @@ const ResetPasswordModal = ({ setActiveModal }: { setActiveModal: React.Dispatch
                                     placeholder="ex. Asdf12345*"
                                     onChange={password => setFormItem(prev => ({ ...prev, password }))}
                                 />
-                            </div>
-                        </div>
-                        <div className="form__item">
-                            <p className="form__item-label typo t16 w500">Verify Password</p>
-                            <div className="form__item-wrapper">
-                                <Input
-                                    refs={refs.rePassword}
-                                    type="password"
-                                    classname="typo t15"
-                                    value={rePassword}
-                                    placeholder="Please check your password."
-                                    onChange={rePassword => setFormItem(prev => ({ ...prev, rePassword }))}
-                                />
-                                {password && isCorrect && <div className="re-check" />}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="popup__content--btn--login">
-                        <Button text="Submit" onClick={onReset} classname="lined--1 typo t14" />
-                        <Button text="Cancel" onClick={() => setActiveModal("")} classname="secondary typo t14" />
-                    </div>
-                </div>
-            </Popup>
+                            }
+                        />
+                        <FormItem
+                            title="Verify Password"
+                            element={
+                                <div className="form__item-wrapper">
+                                    <Input
+                                        refs={refs.rePassword}
+                                        type="password"
+                                        classname="typo t15"
+                                        value={rePassword}
+                                        placeholder="Please check your password."
+                                        onChange={rePassword => setFormItem(prev => ({ ...prev, rePassword }))}
+                                    />
+                                    {password && isCorrect && <div className="re-check" />}
+                                </div>
+                            }
+                        />
+                    </>
+                }
+                onSave={onReset}
+                onClose={() => setActiveModal("")}
+            />
             {activeMiniModal && (
-                <SimpleLayout
+                <Modal.SimpleLayout
                     isActive={activeMiniModal}
                     text={
                         <>

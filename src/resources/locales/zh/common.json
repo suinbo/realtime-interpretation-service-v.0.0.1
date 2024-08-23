@@ -50,5 +50,6 @@
     "listening": "正在听",
     "translating": "正在翻译",
     "logout": "您想要登出吗？",
-    "permission_denied": "需要麦克风权限。 \n请在[网站设置]中允许麦克风访问。"
+    "permission_denied": "需要麦克风权限。 \n请在[网站设置]中允许麦克风访问。",
+    "empty_record": "未能识别声音。"
 }

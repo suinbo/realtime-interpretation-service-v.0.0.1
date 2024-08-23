@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import { useInitLanguage } from "./useInitLanguage"
-import { notoSansJp, notoSansKr, notoSansSc, roboto } from "@app/Provider"
+import { notoSansJp, notoSansKr, notoSansSc, roboto } from "@utils/font"
 
 export const useFontClass = () => {
     const { i18n } = useInitLanguage()
-    const [fontClass, setFontClass] = useState<string>("")
+    const [fontClass, setFontClass] = useState<string>(notoSansKr.className)
 
     useEffect(() => {
         const locale = i18n.language

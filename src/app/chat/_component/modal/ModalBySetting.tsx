@@ -4,14 +4,13 @@ import { languages } from "@resources/data"
 import { useRecoilValue } from "recoil"
 import { ChatroomAtom, UserAtom } from "@atoms/Atom"
 import { supabase } from "@utils/superbase"
-import { FormLayout, SimpleLayout } from "./PopupLayout"
 import { useTranslation } from "next-i18next"
 import { convertKoreaTime } from "@utils/common"
-import Popup from "@components/Popup"
 import ToastPopup from "@components/ToastPopup"
 import useWindow from "@hooks/useWindow"
 import { ModalBySettingProp } from "@app/chat/types"
 import { ChatroomProp } from "@hooks/chatroom/useRealtimeChatroom"
+import { FormItem, Modal } from "@components/layout"
 
 const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
     const { url } = useWindow()
@@ -47,68 +46,69 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
 
     const contentModal: { [key: string]: React.ReactNode } = {
         share: (
-            <Popup hasClosedBtn={false} style={{ width: 480 }} isActive={view == "share"}>
-                <div className="popup__content">
-                    <div className="popup__content--title">
-                        <p className="typo t18 notice">
-                            <b>{t("copy_url")}</b>
-                            <span className="typo t14">※ {url}</span>
-                        </p>
-                        <span className="inner-close-btn" onClick={() => setView("")} />
-                    </div>
-                    <div className="popup__content--btn">
-                        <Button
-                            text={
-                                <div className="copy-text">
-                                    <span className="typo t15">URL {t("copy")}</span>
-                                </div>
-                            }
-                            onClick={() => {
-                                navigator.clipboard.writeText(url).then(() => {
-                                    setActiveToast(true)
-                                    setView("")
-                                })
-                            }}
-                            classname="typo t15 w500 grayed"
-                        />
-                    </div>
-                </div>
-            </Popup>
+            <Modal.NoticeLayout
+                title={t("copy_url")}
+                subtitle={`※ ${url}`}
+                isActive={view == "share"}
+                formElement={
+                    <Button
+                        text={
+                            <div className="copy-text">
+                                <span className="typo t15">URL {t("copy")}</span>
+                            </div>
+                        }
+                        onClick={() => {
+                            navigator.clipboard.writeText(url).then(() => {
+                                setActiveToast(true)
+                                setView("")
+                            })
+                        }}
+                        classname="typo t15 w500 grayed"
+                    />
+                }
+                onClose={() => setView("")}
+            />
         ),
         setting:
             chatroomInfo.room_option == 1 ? (
-                <FormLayout
+                <Modal.FormLayout
                     isActive={view == "setting"}
                     formElement={
                         <>
-                            <div className="form__item">
-                                <p className="form__item-label typo t17 w500">{t("chat_title")}</p>
-                                <Input
-                                    type="text"
-                                    classname="typo t15"
-                                    value={room_title}
-                                    placeholder={t("enter_chat_title")}
-                                    onChange={room_title => setFormItem(prev => ({ ...prev, room_title }))}
-                                />
-                            </div>
-                            <div className="form__item">
-                                <p className="form__item-label typo t17 w500">{t("trans_language")} 1</p>
-                                <Selectbox
-                                    style={{ height: 260 }}
-                                    items={languages}
-                                    selectedId={String(chat_language).split(",")[0]}
-                                    onSelect={({ id }) => onSelect(id, 0)}
-                                />
-                            </div>
-                            <div className="form__item">
-                                <p className="form__item-label typo t17 w500">{t("trans_language")} 2</p>
-                                <Selectbox
-                                    style={{ height: 260 }}
-                                    items={languages}
-                                    selectedId={String(chat_language).split(",")[1]}
-                                    onSelect={({ id }) => onSelect(id, 1)}
-                                />
-                            </div>
+                            <FormItem
+                                title={t("chat_title")}
+                                element={
+                                    <Input
+                                        type="text"
+                                        classname="typo t15"
+                                        value={room_title}
+                                        placeholder={t("enter_chat_title")}
+                                        onChange={room_title => setFormItem(prev => ({ ...prev, room_title }))}
+                                    />
+                                }
+                            />
+                            <FormItem
+                                title={`${t("trans_language")} 1`}
+                                element={
+                                    <Selectbox
+                                        style={{ height: 260 }}
+                                        items={languages}
+                                        selectedId={String(chat_language).split(",")[0]}
+                                        onSelect={({ id }) => onSelect(id, 0)}
+                                    />
+                                }
+                            />
+                            <FormItem
+                                title={`${t("trans_language")} 2`}
+                                element={
+                                    <Selectbox
+                                        style={{ height: 260 }}
+                                        items={languages}
+                                        selectedId={String(chat_language).split(",")[1]}
+                                        onSelect={({ id }) => onSelect(id, 1)}
+                                    />
+                                }
+                            />
                         </>
                     }
                     onSave={async () => {
@@ -129,61 +129,71 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
                     }}
                 />
             ) : (
-                <FormLayout
+                <Modal.FormLayout
                     isActive={view == "setting"}
                     formElement={
                         <>
-                            <div className="form__item">
-                                <p className="form__item-label typo w500">{t("chat_title")}</p>
-                                <Input
-                                    type="text"
-                                    classname="typo t15"
-                                    value={room_title}
-                                    placeholder={t("enter_chat_title")}
-                                    onChange={room_title => setFormItem(prev => ({ ...prev, room_title }))}
-                                />
-                            </div>
-                            <div className="form__item--password">
-                                <p className="form__item--label typo w500">{t("set_password")}</p>
-                                <div className="typo t15">
-                                    <Checkbox
-                                        id="password-check"
-                                        label={t("setting")}
-                                        isCheck={has_password}
-                                        onChange={has_password => setFormItem(prev => ({ ...prev, has_password }))}
+                            <FormItem
+                                title={t("chat_title")}
+                                element={
+                                    <Input
+                                        type="text"
+                                        classname="typo t15"
+                                        value={room_title}
+                                        placeholder={t("enter_chat_title")}
+                                        onChange={room_title => setFormItem(prev => ({ ...prev, room_title }))}
                                     />
-                                    {has_password && (
-                                        <form className="form__item--password-group">
-                                            <span className="typo t15">{t("password")}</span>
-                                            <Input
-                                                type="password"
-                                                classname="typo t15"
-                                                value={room_password as string}
-                                                placeholder={t("enter_password")}
-                                                onChange={room_password =>
-                                                    setFormItem(prev => ({ ...prev, room_password }))
-                                                }
-                                            />
-                                        </form>
-                                    )}
-                                </div>
-                            </div>
-                            <div className="form__item">
-                                <p className="form__item-label typo w500">{t("host_approval")}</p>
-                                <div className="typo t15">
-                                    <RadioGroup
-                                        name="host_auth"
-                                        items={[
-                                            { id: "1", value: t("active") },
-                                            { id: "0", value: t("inactive") },
-                                        ]}
-                                        selectedId={String(approval_required)}
-                                        onChange={selectedId =>
-                                            setFormItem(prev => ({ ...prev, approval_required: Number(selectedId) }))
-                                        }
-                                    />
-                                </div>
-                            </div>
+                                }
+                            />
+                            <FormItem
+                                id="password"
+                                title={t("set_password")}
+                                element={
+                                    <div className="typo t15">
+                                        <Checkbox
+                                            id="password-check"
+                                            label={t("setting")}
+                                            isCheck={has_password}
+                                            onChange={has_password => setFormItem(prev => ({ ...prev, has_password }))}
+                                        />
+                                        {has_password && (
+                                            <form className="form__item--password-group">
+                                                <span className="typo t15">{t("password")}</span>
+                                                <Input
+                                                    type="password"
+                                                    classname="typo t15"
+                                                    value={room_password as string}
+                                                    placeholder={t("enter_password")}
+                                                    onChange={room_password =>
+                                                        setFormItem(prev => ({ ...prev, room_password }))
+                                                    }
+                                                />
+                                            </form>
+                                        )}
+                                    </div>
+                                }
+                            />
+                            <FormItem
+                                title={t("host_approval")}
+                                element={
+                                    <div className="typo t15">
+                                        <RadioGroup
+                                            name="host_auth"
+                                            items={[
+                                                { id: "1", value: t("active") },
+                                                { id: "0", value: t("inactive") },
+                                            ]}
+                                            selectedId={String(approval_required)}
+                                            onChange={selectedId =>
+                                                setFormItem(prev => ({
+                                                    ...prev,
+                                                    approval_required: Number(selectedId),
+                                                }))
+                                            }
+                                        />
+                                    </div>
+                                }
+                            />
                         </>
                     }
                     onSave={async () => {
@@ -206,15 +216,10 @@ const ModalBySetting = ({ view, setView }: ModalBySettingProp) => {
             ),
 
         close: (
-            <SimpleLayout
+            <Modal.SimpleLayout
                 isActive={view == "close"}
                 hasTopIcon={false}
-                text={
-                    <>
-                        {/* 대화를<span className="typo w500"> 종료</span>하시겠습니까? */}
-                        {t("end_chat")}
-                    </>
-                }
+                text={t("end_chat")}
                 controller={
                     <div className="popup__content--btn">
                         <Button

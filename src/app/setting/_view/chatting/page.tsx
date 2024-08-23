@@ -76,9 +76,7 @@ const ChattingView = () => {
     // 디스플레이 옵션-스텝 별 컨텐츠
     const settingContent: SettingContentProp = {
         [1]: {
-            [STEP[1]]: (
-                <SingleSettingForm formItem={formItem} setFormItem={setFormItem} refs={refs} isFocused={isFocused} />
-            ),
+            [STEP[1]]: <SingleSettingForm formItem={formItem} setFormItem={setFormItem} refs={refs} />,
             [STEP[2]]: <SingleAudioForm />,
         },
         [2]: {
@@ -93,7 +91,7 @@ const ChattingView = () => {
     const Navigator = () => (
         <div className="form__nav">
             <div className={cx("form__nav__inner", step)}>
-                <span className="typo t22 w500">{labelOfStep[step].nav}</span>
+                <span className="typo t20 w500">{labelOfStep[step].nav}</span>
                 <span
                     className={cx("form__nav__item-icon", step)}
                     onClick={() => {

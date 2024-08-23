@@ -1,5 +1,4 @@
 import { Button, Selectbox } from "@components/form"
-import { FormLayout, SimpleLayout } from "./PopupLayout"
 import { languages } from "@resources/data"
 import { supabase } from "@utils/superbase"
 import { SetStateAction, useMemo, useState } from "react"
@@ -9,6 +8,7 @@ import cookie from "@utils/cookie"
 import { parsedCookie } from "@utils/common"
 import { useRecoilValue } from "recoil"
 import { ChatroomAtom } from "@atoms/Atom"
+import { Modal } from "@components/layout"
 
 const ModalByLanguage = ({
     setActive,
@@ -27,7 +27,7 @@ const ModalByLanguage = ({
 
     const contentModal: { [key: string]: React.ReactNode } = {
         checkLanguage: (
-            <SimpleLayout
+            <Modal.SimpleLayout
                 isActive={true}
                 text={
                     <>
@@ -63,7 +63,7 @@ const ModalByLanguage = ({
             />
         ),
         changeLanguage: (
-            <FormLayout
+            <Modal.FormLayout
                 isActive={true}
                 title="Change language settings"
                 formElement={

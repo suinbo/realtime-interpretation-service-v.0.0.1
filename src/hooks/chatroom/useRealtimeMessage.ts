@@ -18,9 +18,13 @@ const useRealtimeMessage = ({ roomId }: { roomId: string }) => {
         // 채널 생성
         const channel = supabase
             .channel("realtime:messages")
-            .on("postgres_changes", { event: "*", schema: "public", table: "messages" }, payload => {
-                setMessages(prevMessages => [...prevMessages, payload.new as MessageProp])
-            })
+            .on(
+                "postgres_changes",
+                { event: "*", schema: "public", table: "messages", filter: `room_id=eq.${roomId}` },
+                payload => {
+                    setMessages(prevMessages => [...prevMessages, payload.new as MessageProp])
+                }
+            )
             .subscribe()
 
         // 초기 데이터 로드

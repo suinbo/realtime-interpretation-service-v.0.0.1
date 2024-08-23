@@ -1,6 +1,8 @@
+import { isMobileDevice } from "@utils/common"
+
 export const FLAG = { Y: "Y", N: "N" }
 
-export const MIN_BLOB_SIZE = 3000
+export const MIN_BLOB_SIZE = isMobileDevice() ? 1500 : 3000
 
 export const VIEW = {
     LANGUAGE: "language" as const,
@@ -25,3 +27,7 @@ export const API = {
 
 export const COOKIE_DOMAIN =
     typeof window !== "undefined" ? window.location.hostname.replace("www.", "") : "default.domain.com"
+
+export const TRANS_MESSAGE = {
+    EMPTY: "empty_record" as const,
+}

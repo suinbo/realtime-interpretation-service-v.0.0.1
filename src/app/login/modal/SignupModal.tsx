@@ -1,10 +1,9 @@
 import { Button, Input } from "@components/form"
-import Popup from "@components/Popup"
-import { SetStateAction, useEffect, useMemo, useRef, useState } from "react"
+import { SetStateAction, useMemo, useRef, useState } from "react"
 import { LoginProp } from "../../setting/types"
 import { supabase } from "@utils/superbase"
-import { SimpleLayout } from "../../chat/_component/modal/PopupLayout"
 import { focusOnEmpty } from "@utils/common"
+import { FormItem, Modal } from "@components/layout"
 
 /** 회원 가입 모달 */
 const SignupModal = ({ setActiveModal }: { setActiveModal: React.Dispatch<SetStateAction<string>> }) => {
@@ -15,8 +14,12 @@ const SignupModal = ({ setActiveModal }: { setActiveModal: React.Dispatch<SetSta
     })
     const isCorrect = useMemo(() => password == rePassword, [password, rePassword])
     const [activeMiniModal, setActiveMiniModal] = useState<boolean>(false)
-
-    //비밀번호 규칙 :영문, 숫자, 특수문자 중 3종류 이상을 조합하여 최소 8자리 이상
+    const [message, setMessage] = useState<string | React.ReactNode>(
+        <>
+            <b>Check your password.</b>
+            <span className="typo t14">※ You should enter a word of at least 6 characters.</span>
+        </>
+    )
 
     const refs = {
         email: useRef<HTMLInputElement>(null),
@@ -41,7 +44,8 @@ const SignupModal = ({ setActiveModal }: { setActiveModal: React.Dispatch<SetSta
                 },
             })
             if (error) {
-                console.error(error.message)
+                setActiveMiniModal(true)
+                setMessage(error.message)
             } else {
                 setActiveModal("")
             }
@@ -66,23 +70,27 @@ const SignupModal = ({ setActiveModal }: { setActiveModal: React.Dispatch<SetSta
 
     return (
         <>
-            <Popup title="Sign-up Form" onClose={() => setActiveModal("")} style={{ width: 800 }}>
-                <div className="popup__content">
-                    <div className="popup__content--form">
-                        <div className="form__item">
-                            <p className="form__item-label typo t16 w500">Email</p>
-                            <Input
-                                refs={refs.email}
-                                type="text"
-                                classname="typo t15"
-                                value={email}
-                                placeholder="ex. test@gmail.com"
-                                onChange={email => setFormItem(prev => ({ ...prev, email }))}
-                            />
-                        </div>
-                        <div className="form__item">
-                            <p className="form__item-label typo t16 w500">Password</p>
-                            <div>
+            <Modal.FormLayout
+                title="Sign up"
+                isActive={false}
+                formElement={
+                    <>
+                        <FormItem
+                            title="Email"
+                            element={
+                                <Input
+                                    refs={refs.email}
+                                    type="text"
+                                    classname="typo t15"
+                                    value={email}
+                                    placeholder="ex. test@gmail.com"
+                                    onChange={email => setFormItem(prev => ({ ...prev, email }))}
+                                />
+                            }
+                        />
+                        <FormItem
+                            title="Password"
+                            element={
                                 <Input
                                     refs={refs.password}
                                     type="password"
@@ -91,38 +99,34 @@ const SignupModal = ({ setActiveModal }: { setActiveModal: React.Dispatch<SetSta
                                     placeholder="ex. Asdf12345*"
                                     onChange={password => setFormItem(prev => ({ ...prev, password }))}
                                 />
-                            </div>
-                        </div>
-                        <div className="form__item">
-                            <p className="form__item-label typo t16 w500">Verify Password</p>
-                            <div className="form__item-wrapper">
-                                <Input
-                                    refs={refs.rePassword}
-                                    type="password"
-                                    classname="typo t15"
-                                    value={rePassword}
-                                    placeholder="Please check your password."
-                                    onChange={rePassword => setFormItem(prev => ({ ...prev, rePassword }))}
-                                />
-                                {password && isCorrect && <div className="re-check" />}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="popup__content--btn--login">
-                        <Button text="Submit" onClick={onSignUp} classname="lined--1 typo t14" />
-                        <Button text="Cancel" onClick={() => setActiveModal("")} classname="secondary typo t14" />
-                    </div>
-                </div>
-            </Popup>
+                            }
+                        />
+                        <FormItem
+                            title="Verify Password"
+                            element={
+                                <div className="form__item-wrapper">
+                                    <Input
+                                        refs={refs.rePassword}
+                                        type="password"
+                                        classname="typo t15"
+                                        value={rePassword}
+                                        placeholder="Please check your password."
+                                        onChange={rePassword => setFormItem(prev => ({ ...prev, rePassword }))}
+                                    />
+                                    {password && isCorrect && <div className="re-check" />}
+                                </div>
+                            }
+                        />
+                    </>
+                }
+                onSave={onSignUp}
+                onClose={() => setActiveModal("")}
+            />
+
             {activeMiniModal && (
-                <SimpleLayout
+                <Modal.SimpleLayout
                     isActive={activeMiniModal}
-                    text={
-                        <>
-                            <b>Check your password.</b>
-                            <span className="typo t14">※ You should enter a word of at least 6 characters.</span>
-                        </>
-                    }
+                    text={message}
                     controller={
                         <div className="popup__content--btn">
                             <Button text="Ok" onClick={() => setActiveMiniModal(false)} classname="lined--1 typo t14" />

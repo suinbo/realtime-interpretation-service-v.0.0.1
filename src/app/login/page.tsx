@@ -11,10 +11,11 @@ import { User } from "@supabase/supabase-js"
 import { focusOnEmpty } from "@utils/common"
 import SignupModal from "./modal/SignupModal"
 import ResetPasswordModal from "./modal/ResetPasswordModal"
-import CheckEmailModal from "./modal/CheckEmailModal"
 import { LoginProp } from "@app/setting/types"
 import "@assets/styles/common.scss"
 import "./style.scss"
+import { Modal } from "@components/layout"
+import EmailInput from "@app/chat/_component/EmailInput"
 
 /**
  * 로그인 화면
@@ -75,7 +76,14 @@ const Login = () => {
     const contentModal: { [key: string]: React.ReactNode } = {
         signup: <SignupModal setActiveModal={setActiveModal} />,
         resetPassword: <ResetPasswordModal setActiveModal={setActiveModal} />,
-        emailInput: <CheckEmailModal activeModal={activeModal} setActiveModal={setActiveModal} />,
+        emailInput: (
+            <Modal.InputCheckLayout
+                title="Please enter the Email"
+                isActive={activeModal == "emailInput"}
+                formElement={<EmailInput setActiveModal={setActiveModal} />}
+                onClose={() => setActiveModal("")}
+            />
+        ),
     }
 
     return (

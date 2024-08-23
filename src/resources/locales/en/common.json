@@ -50,5 +50,6 @@
     "listening": "Listening",
     "translating": "Translating",
     "logout": "Would you like to log out?",
-    "permission_denied": "Microphone access is required. \nPlease allow microphone access in the [Site Settings]."
+    "permission_denied": "Microphone access is required. \nPlease allow microphone access in the [Site Settings].",
+    "empty_record": "Failed to recognize the voice."
 }

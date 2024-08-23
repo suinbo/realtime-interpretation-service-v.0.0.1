@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Button } from "@components/form"
 import { useQueryParams } from "@hooks/useQueryParams"
 import { useRecoilValue, useSetRecoilState } from "recoil"
@@ -17,6 +17,7 @@ import { useTranslation } from "next-i18next"
 import { useView } from "./_hook/useView"
 import { useAudioDevices } from "@hooks/audioSetting/useAudioDevices"
 import { useFontClass } from "@hooks/useInitFontClass"
+import ToastPopup from "@components/ToastPopup"
 import cx from "classnames"
 import "@assets/styles/common.scss"
 import "./style.scss"
@@ -48,6 +49,21 @@ const Chat = () => {
 
     /** 오디오 장치 리스트(권한 검사) */
     const audioDevices = useAudioDevices()
+
+    /**토스트 팝업 노출 여부 */
+    const [activeToast, setActiveToast] = useState<boolean>(false)
+    const toastStatus = useMemo(() => {
+        return {
+            message: recordStatus.message || transcriptions.message,
+            onHide: recordStatus.message ? recordStatus.setMessage : transcriptions.setMessage,
+        }
+    }, [recordStatus.message, transcriptions.message])
+
+    useEffect(() => {
+        if (toastStatus.message) {
+            setActiveToast(true)
+        }
+    }, [recordStatus.message, transcriptions.message])
 
     useEffect(() => {
         if (chatroom) {
@@ -94,7 +110,7 @@ const Chat = () => {
                                         .select("*")
                                 }
                             }}
-                            classname="typo t38 w500"
+                            classname="typo t32 w500"
                             theme="lined--2"
                         />
                     </div>
@@ -125,6 +141,15 @@ const Chat = () => {
                     view={view}
                     setView={setView}
                     setIsPassed={setIsPassed}
+                />
+            )}
+            {/* 음성 미인식 */}
+            {activeToast && (
+                <ToastPopup
+                    text={t(toastStatus.message)}
+                    activeToast={activeToast}
+                    setActiveToast={setActiveToast}
+                    onHide={() => toastStatus.onHide("")}
                 />
             )}
         </div>

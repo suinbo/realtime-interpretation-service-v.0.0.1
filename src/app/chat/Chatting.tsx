@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react"
+import React, { useMemo, useRef } from "react"
 import { useTranslation } from "next-i18next"
 import { useRecoilValue } from "recoil"
 import { UserAtom } from "@atoms/Atom"

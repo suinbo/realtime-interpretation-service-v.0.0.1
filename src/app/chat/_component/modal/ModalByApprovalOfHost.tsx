@@ -1,10 +1,10 @@
 import { Button } from "@components/form"
 import { supabase } from "@utils/superbase"
-import { SimpleLayout } from "./PopupLayout"
 import { useRouter } from "next/navigation"
 import { useTranslation } from "next-i18next"
 import { ModalByApprovalProp, ModalBySettingProp } from "@app/chat/types"
 import cookie from "@utils/cookie"
+import { Modal } from "@components/layout"
 
 const ModalByApprovalOfHost = ({ chatroom, roomId, view, setView }: ModalByApprovalProp & ModalBySettingProp) => {
     const router = useRouter()
@@ -12,15 +12,10 @@ const ModalByApprovalOfHost = ({ chatroom, roomId, view, setView }: ModalByAppro
 
     const contentModal: { [key: string]: React.ReactNode } = {
         approvalResponse: (
-            <SimpleLayout
+            <Modal.SimpleLayout
                 isActive={view == "approvalResponse"}
                 hasTopIcon={true}
-                text={
-                    <>
-                        {/* <span className="typo w500">{chatroom?.member_email}</span> 님이 승인을 요청 합니다. */}
-                        {t("user_requests", { val: chatroom?.member_email })}
-                    </>
-                }
+                text={t("user_requests", { val: chatroom?.member_email })}
                 controller={
                     <div className="popup__content--btn">
                         <Button
@@ -56,7 +51,7 @@ const ModalByApprovalOfHost = ({ chatroom, roomId, view, setView }: ModalByAppro
             />
         ),
         invalidRoom: (
-            <SimpleLayout
+            <Modal.SimpleLayout
                 isActive={true}
                 text={t("invalid_url")}
                 controller={

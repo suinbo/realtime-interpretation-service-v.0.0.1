@@ -46,15 +46,14 @@ export const useView = (chatroom?: ChatroomProp | null, userId?: string) => {
             /* 채팅방 만료 */
             const isExpired = !!expired_at || (userId !== creator_id && room_option == 1)
 
-            if (room_option == 2) {
-                if (isRequestPassword) setView("passwordRequest")
-                else if (isRequestApproval) setView("approvalRequest")
-                else if (isPendingApproval) setView("pendingApproval")
-                else if (isApprovalResponse) setView("approvalResponse")
-                else setView("")
-            }
+            /** 채팅방 디스플레이 옵션 2 */
+            const isSingleDisplay = room_option == 2
 
-            if (isExpired) setView("invalidRoom")
+            if (isSingleDisplay && isRequestPassword) setView("passwordRequest")
+            else if (isSingleDisplay && isRequestApproval) setView("approvalRequest")
+            else if (isSingleDisplay && isPendingApproval) setView("pendingApproval")
+            else if (isSingleDisplay && isApprovalResponse) setView("approvalResponse")
+            else if (isExpired) setView("invalidRoom")
             else setView("")
 
             setIsPassed(getCookiePassedStatus as string)

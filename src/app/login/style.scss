@@ -1,7 +1,14 @@
 @mixin buttonIcon($url) {
     width: 72px;
     height: 72px;
-    background: url($url) no-repeat;
+    background: url($url) no-repeat center;
+    background-size: 100%;
+
+    @media (max-width: 1024px) {
+        width: calc(72px * 0.85);
+        height: calc(72px * 0.85);
+        background-size: 85%;
+    }
 }
 
 .login {
@@ -10,7 +17,11 @@
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    width: 540px;
+    width: 500px;
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
 
     &__inner {
         margin: 16px;
@@ -73,23 +84,7 @@
                     cursor: pointer;
                     display: flex;
                     align-items: center;
-
-                    // 회원가입 텍스트 레이아웃으로 변경 시
-                    // &:nth-child(2) {
-                    //     cursor: default;
-                    //     content: "";
-                    //     margin: 0 12px;
-                    //     position: relative;
-                    //     top: 12px;
-                    //     width: 2px;
-                    //     height: 2px;
-                    //     border-radius: 4px;
-                    //     background-color: #bbbbbb;
-                    // }
-
-                    // &:last-child {
-                    //     color: #bbbbbb;
-                    // }
+                    color: #bbbbbb;
                 }
             }
         }
@@ -141,7 +136,7 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                gap: 12px;
+                justify-content: space-between;
 
                 .btn-naver {
                     @include buttonIcon("../../assets/images/naver.png");

@@ -4,6 +4,7 @@ import { Selectbox } from "@components/form"
 import { VolumeTester } from "@app/setting/_component"
 import { useControlVolume } from "@hooks/audioSetting/useControlVolume"
 import { useTranslation } from "next-i18next"
+import { FormItem } from "@components/layout"
 
 const SingleAudioForm = () => {
     const { t } = useTranslation()
@@ -18,16 +19,19 @@ const SingleAudioForm = () => {
 
     return (
         <div className="form__content">
-            <div className="form__item--microphone">
-                <span className="typo t17 w500">{t("mic")}</span>
-                <div>
-                    <Selectbox
-                        items={audioDevices}
-                        selectedId={selectedItem?.id}
-                        onSelect={selectedItem => setSelectedItem(selectedItem)}
-                    />
-                </div>
-            </div>
+            <FormItem
+                id="microphone"
+                title={t("mic")}
+                element={
+                    <div>
+                        <Selectbox
+                            items={audioDevices}
+                            selectedId={selectedItem?.id}
+                            onSelect={selectedItem => setSelectedItem(selectedItem)}
+                        />
+                    </div>
+                }
+            />
             <div className="form__item--tester">
                 <VolumeTester {...data} disabled={!audioDevices.length} />
             </div>

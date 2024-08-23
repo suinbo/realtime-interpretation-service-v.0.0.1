@@ -24,15 +24,6 @@ export const OptionAtom = atom({
 /** 채팅방 설정 */
 export const ChatroomAtom = atom({
     key: "ChatroomAtom",
-    // default: {
-    //     chat_id: "",
-    //     chat_nm: "",
-    //     chat_lang: [""],
-    //     has_chat_pw: false,
-    //     chat_pw: null,
-    //     host_auth: 0,
-    //     room_option: 0,
-    // } as FormItemProp,
     default: {} as ChatroomProp,
 })
 

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 /** 상태 관리 훅 */
 export const useMultiRecording = () => {
@@ -9,6 +9,9 @@ export const useMultiRecording = () => {
     // isLoading 상태
     const [isMyLoading, setIsMyLoading] = useState<boolean>(false)
     const [isYourLoading, setIsYourLoading] = useState<boolean>(false)
+
+    // 메시지
+    const [message, setMessage] = useState<string>("")
 
     const recordStatus = {
         my: {
@@ -23,6 +26,8 @@ export const useMultiRecording = () => {
             isLoading: isYourLoading,
             setIsLoading: setIsYourLoading,
         },
+        message,
+        setMessage,
     }
 
     // MediaRecorder reference

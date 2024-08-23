@@ -1,6 +1,6 @@
-import { notoSansKr } from "@app/Provider"
 import { ButtonList, Navigation } from "@app/setting/_component"
 import { languages } from "@resources/data"
+import { notoSansKr } from "@utils/font"
 import cx from "classnames"
 
 const LanguageView = () => {

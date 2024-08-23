@@ -5,17 +5,19 @@ const ToastPopup = ({
     text,
     activeToast,
     setActiveToast,
+    onHide,
 }: {
     text: string
     activeToast: boolean
     setActiveToast: React.Dispatch<SetStateAction<boolean>>
+    onHide?: () => void
 }) => {
     useEffect(() => {
         if (activeToast) {
             const timerId = setTimeout(() => {
                 setActiveToast(false)
+                onHide && onHide()
             }, 1000)
-
             return () => clearTimeout(timerId)
         }
     }, [activeToast, setActiveToast])
