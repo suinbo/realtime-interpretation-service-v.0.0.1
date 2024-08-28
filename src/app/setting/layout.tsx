@@ -1,6 +1,5 @@
 "use client"
 
-import { useSession } from "@hooks/useSession"
 import { supabase } from "@utils/superbase"
 import cookie from "@utils/cookie"
 import { useState } from "react"
@@ -11,9 +10,10 @@ import { useRouter } from "next/navigation"
 import { isEmptyObject } from "@utils/common"
 import { useFontClass } from "@hooks/useInitFontClass"
 import { notoSansKr } from "@utils/font"
+import { Modal } from "@components/layout"
+import { useAuth } from "@hooks/useAuth"
 import "@assets/styles/common.scss"
 import "./style.scss"
-import { Modal } from "@components/layout"
 
 const Layout = ({
     children,
@@ -23,7 +23,7 @@ const Layout = ({
     const { t } = useTranslation()
     const router = useRouter()
     const [activeModal, setActiveModal] = useState<boolean>(false)
-    const { user } = useSession()
+    const { user } = useAuth()
     const fontClass = useFontClass()
 
     return (
@@ -64,7 +64,7 @@ const Layout = ({
                                             .update({
                                                 is_logged: 0,
                                             })
-                                            .eq("id", user.id)
+                                            .eq("email", user.email)
                                             .select("*")
 
                                         if (data) {

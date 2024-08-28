@@ -1,8 +1,8 @@
 "use client"
 
-import { useSession } from "@hooks/useSession"
 import HeaderToolbar from "./HeaderToolbar"
 import { isEmptyObject } from "@utils/common"
+import { useAuth } from "@hooks/useAuth"
 import "./style.scss"
 
 const Layout = ({
@@ -10,7 +10,7 @@ const Layout = ({
 }: Readonly<{
     children: React.ReactNode
 }>) => {
-    const { user } = useSession()
+    const { user } = useAuth()
 
     if (isEmptyObject(user)) return
 

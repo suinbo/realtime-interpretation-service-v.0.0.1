@@ -1,6 +1,7 @@
 "use client"
 
 import { Metadata } from "next"
+import { SessionProvider } from "next-auth/react"
 import React, { Suspense } from "react"
 import { RecoilRoot } from "recoil"
 
@@ -12,7 +13,9 @@ export const metadata: Metadata = {
 export default function Provider({ children }: { children: React.ReactNode }) {
     return (
         <Suspense>
-            <RecoilRoot>{children}</RecoilRoot>
+            <SessionProvider>
+                <RecoilRoot>{children}</RecoilRoot>
+            </SessionProvider>
         </Suspense>
     )
 }

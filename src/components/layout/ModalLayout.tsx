@@ -1,6 +1,7 @@
 import { ModalCustomProp, ModalFormProp, ModalInputCheckProp, ModalNoticeProp, ModalSimpleProp } from "@app/chat/types"
 import { Button } from "@components/form"
 import Popup from "@components/Popup"
+import { useInitLanguage } from "@hooks/useInitLanguage"
 import cx from "classnames"
 import { useTranslation } from "next-i18next"
 
@@ -27,7 +28,8 @@ const FormLayout = ({
     onClose,
     onSave,
 }: ModalFormProp) => {
-    const { t } = useTranslation()
+    const { i18n } = useTranslation()
+    const { t } = useInitLanguage(i18n.language)
 
     return (
         <Popup
