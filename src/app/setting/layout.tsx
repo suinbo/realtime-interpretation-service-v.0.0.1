@@ -12,7 +12,6 @@ import { useFontClass } from "@hooks/useInitFontClass"
 import { notoSansKr } from "@utils/font"
 import { Modal } from "@components/layout"
 import { useAuth } from "@hooks/useAuth"
-import "@assets/styles/common.scss"
 import "./style.scss"
 
 const Layout = ({
@@ -64,7 +63,7 @@ const Layout = ({
                                             .update({
                                                 is_logged: 0,
                                             })
-                                            .eq("email", user.email)
+                                            .eq("id", user.id)
                                             .select("*")
 
                                         if (data) {

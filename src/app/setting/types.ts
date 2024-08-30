@@ -1,13 +1,9 @@
 import { NAV, STEP, VIEW } from "@resources/constant"
-import { User } from "@supabase/supabase-js"
 import { RefObject } from "react"
 
 export type StepProp = (typeof STEP)[keyof typeof STEP]
 export type NavProp = (typeof NAV)[keyof typeof NAV]
 export type ViewProp = (typeof VIEW)[keyof typeof VIEW]
-
-/** 유저 타입 */
-export type UserProp = User | { email: string; name: string; image: string }
 
 /** 설정 옵션 */
 export type OptionProp = {

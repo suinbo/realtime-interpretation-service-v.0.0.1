@@ -1,6 +1,7 @@
 import { atom } from "recoil"
 import { VIEW } from "../resources/constant"
-import { OptionProp, UserProp } from "src/app/setting/types"
+import { OptionProp } from "src/app/setting/types"
+import { User } from "@supabase/supabase-js"
 import { ChatroomProp } from "@hooks/chatroom/useRealtimeChatroom"
 
 /** 화면 옵션 */
@@ -29,5 +30,5 @@ export const ChatroomAtom = atom({
 /** 유저 */
 export const UserAtom = atom({
     key: "UserAtom",
-    default: {} as UserProp,
+    default: {} as User,
 })

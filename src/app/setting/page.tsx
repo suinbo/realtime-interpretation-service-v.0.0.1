@@ -4,7 +4,6 @@ import React from "react"
 import { OptionAtom } from "@atoms/Atom"
 import { useRecoilValue } from "recoil"
 import { Language, Display, Chatting } from "./_view"
-import "@assets/styles/common.scss"
 import "./style.scss"
 
 const SettingView = () => {

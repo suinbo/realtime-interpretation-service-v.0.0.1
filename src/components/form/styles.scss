@@ -73,6 +73,11 @@
             &--#{$i} {
                 border: #{$i}px solid #000;
             }
+            &--y#{$i} {
+                border: #{$i}px solid #ffd84f;
+                background-color: #fff;
+                color: #ffd84f;
+            }
         }
     }
 

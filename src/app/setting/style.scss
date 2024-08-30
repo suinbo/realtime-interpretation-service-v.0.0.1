@@ -10,6 +10,12 @@
     }
 }
 
+@mixin contentStyle {
+    height: calc(100% - 40px);
+    align-items: center;
+    display: grid;
+}
+
 .dashboard {
     height: 100vh;
 
@@ -18,7 +24,7 @@
         padding: 20px 56px;
 
         @media (max-width: 768px) {
-            padding: 20px 24px;
+            padding: 20px 32px;
         }
 
         .header {
@@ -35,7 +41,7 @@
             &__profile-image {
                 width: 40px;
                 height: 40px;
-                background: url("../../assets/images/profile.png") no-repeat #ffd12b;
+                background: url("../../assets/images/profile.png") no-repeat #ffeba5;
                 background-position: center 45%;
                 border-radius: 50%;
             }
@@ -50,39 +56,22 @@
         }
 
         .content {
-            align-items: center;
-            height: calc(100% - 40px);
-            text-align: center;
-
-            display: grid;
+            @include contentStyle;
             grid-template-columns: 1fr 5fr 1fr;
             grid-template-rows: auto;
 
             @media (max-width: 768px) {
-                grid-template-columns: 1fr;
-                grid-template-rows: 3fr;
-                padding-bottom: 50px;
-
-                &__wrapper {
-                    order: 1;
-                }
-
-                &__wrapper-nav {
-                    order: 2;
-                }
-
-                &__wrapper,
-                &__wrapper-nav {
-                    display: flex;
-                    flex-direction: column;
-                }
+                @include contentStyle;
+                grid-template-columns: auto;
             }
 
             &__wrapper {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                justify-content: center;
                 gap: 60px;
+                height: 516px;
 
                 &-nav {
                     display: flex;
@@ -91,6 +80,7 @@
 
                     &:last-child {
                         justify-content: flex-end;
+                        gap: 16px;
                     }
                 }
             }

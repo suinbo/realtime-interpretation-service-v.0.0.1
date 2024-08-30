@@ -17,10 +17,10 @@ const normalizeToInteger = (volume: number, min: number, max: number) => {
  * @returns
  */
 export const useVolumeMeter = () => {
-    const volumeBarsRef = useRef(Array.from({ length: 30 }, () => React.createRef<HTMLDivElement>()))
+    const volumeBarsRef = useRef(Array.from({ length: 20 }, () => React.createRef<HTMLDivElement>()))
 
     const colorVolumeMeter = (volume: number) => {
-        const VOL_METER_MAX = 30
+        const VOL_METER_MAX = 20
 
         volumeBarsRef.current.forEach(ref => {
             if (ref.current) {
@@ -29,7 +29,7 @@ export const useVolumeMeter = () => {
         })
 
         const numberOfChildToColor = normalizeToInteger(volume, 0, VOL_METER_MAX)
-        const coloredChild = volumeBarsRef.current.slice(0, numberOfChildToColor) // 0 ~ 30
+        const coloredChild = volumeBarsRef.current.slice(0, numberOfChildToColor) // 0 ~ 20
 
         coloredChild.forEach(ref => {
             if (ref.current) {

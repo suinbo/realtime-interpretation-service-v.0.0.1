@@ -1,4 +1,3 @@
-import "@assets/styles/common.scss"
 import Image from "next/image"
 import SocialLogin from "./layout/SocialLogin"
 

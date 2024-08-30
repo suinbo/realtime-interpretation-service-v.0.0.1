@@ -25,6 +25,11 @@ export const API = {
     TRANSLATION_API: "https://api.openai.com/v1/chat/completions",
 }
 
+export const REDIRECT_URL = {
+    GOOGLE: "https://kznbsxjbhmrmoiflpupl.supabase.co/auth/v1/callback",
+    NAVER: "http://localhost:3000/api/auth/callback/naver",
+}
+
 export const COOKIE_DOMAIN =
     typeof window !== "undefined" ? window.location.hostname.replace("www.", "") : "default.domain.com"
 

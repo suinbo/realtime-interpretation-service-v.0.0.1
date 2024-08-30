@@ -44,7 +44,6 @@ const useRealtimeChatroom = (roomId: string, user?: User) => {
             }
             return data.length ? data[0] : null
         } catch (error) {
-            console.error("Unexpected error:", error)
             return null
         }
     }

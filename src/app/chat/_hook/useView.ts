@@ -53,8 +53,9 @@ export const useView = (chatroom?: ChatroomProp | null, userId?: string) => {
             else if (isSingleDisplay && isRequestApproval) setView("approvalRequest")
             else if (isSingleDisplay && isPendingApproval) setView("pendingApproval")
             else if (isSingleDisplay && isApprovalResponse) setView("approvalResponse")
-            else if (isExpired) setView("invalidRoom")
             else setView("")
+
+            if (isExpired) setView("invalidRoom")
 
             setIsPassed(getCookiePassedStatus as string)
         }

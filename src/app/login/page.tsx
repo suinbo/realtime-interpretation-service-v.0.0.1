@@ -6,13 +6,13 @@ import { supabase } from "@utils/superbase"
 import { useRef, useState } from "react"
 import { useSetRecoilState } from "recoil"
 import { UserAtom } from "@atoms/Atom"
+import { User } from "@supabase/supabase-js"
 import { focusOnEmpty } from "@utils/common"
 import SignupModal from "./modal/SignupModal"
 import ResetPasswordModal from "./modal/ResetPasswordModal"
-import { LoginProp, UserProp } from "@app/setting/types"
+import { LoginProp } from "@app/setting/types"
 import { Modal } from "@components/layout"
 import EmailInput from "@app/chat/_component/EmailInput"
-import "@assets/styles/common.scss"
 import "./style.scss"
 
 /**
@@ -20,7 +20,7 @@ import "./style.scss"
  */
 const Login = () => {
     const router = useRouter()
-    const setUser = useSetRecoilState<UserProp>(UserAtom)
+    const setUser = useSetRecoilState<User>(UserAtom)
     const [{ email, password }, setInput] = useState<LoginProp>({ email: "", password: "" })
     const [errorMessage, setErrorMessage] = useState<string>("")
     const [activeModal, setActiveModal] = useState<string>("")

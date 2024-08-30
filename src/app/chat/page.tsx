@@ -19,7 +19,6 @@ import { useAudioDevices } from "@hooks/audioSetting/useAudioDevices"
 import { useFontClass } from "@hooks/useInitFontClass"
 import ToastPopup from "@components/ToastPopup"
 import cx from "classnames"
-import "@assets/styles/common.scss"
 import "./style.scss"
 
 const Chat = () => {
