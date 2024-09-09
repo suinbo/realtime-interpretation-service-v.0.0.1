@@ -23,6 +23,8 @@ export const STEP = {
 export const API = {
     WHISPER_API: "https://api.openai.com/v1/audio/transcriptions",
     TRANSLATION_API: "https://api.openai.com/v1/chat/completions",
+    POST_TOKEN: "https://nid.naver.com/oauth2.0/token",
+    GET_USER: "https://openapi.naver.com/v1/nid/me",
 }
 
 export const REDIRECT_URL = {
